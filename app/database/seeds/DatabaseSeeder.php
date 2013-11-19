@@ -11,7 +11,18 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
-		// $this->call('UserTableSeeder');
+		// Create root account
+		$this->call('TenantTableSeeder');
+		$this->command->info('Root Tenant Seeded...');
+
+		// Create root user
+		$this->call('UserTableSeeder');
+		$this->command->info('Root User Seeded...');
+
+		// Create Model UP Tenant
+		$this->call('ModelUpSeeder');
+		$this->command->info('Model UP! Tenant Seeded...');
+
 	}
 
 }
