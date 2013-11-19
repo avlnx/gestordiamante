@@ -49,4 +49,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->email;
 	}
 
+	public function tenant()
+	{
+		return $this->belongsTo('Tenant');
+	}
+
+	/** Overload methods to account for tenants **/
+
+	public static function all()
+	{
+		return parent::where('tenant_id', '=', Auth::user()->tenant_id)->where('is_alive','=',true)->get();
+	}
+
 }

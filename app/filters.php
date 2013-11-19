@@ -35,7 +35,9 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	//if (Auth::guest()) return Redirect::guest('login');
+	if (Auth::guest()) return Redirect::route('account.login')
+		->with('notice', 'Você precisa fazer login para visualizar essa página');
 });
 
 
@@ -77,4 +79,52 @@ Route::filter('csrf', function()
 	{
 		throw new Illuminate\Session\TokenMismatchException;
 	}
+});
+
+
+/* 
+|--------------------------------------------------------------------------
+| My filters
+|--------------------------------------------------------------------------
+|
+*/
+Route::filter('check_tenant', function($model)
+{
+	$tenant_id = Auth::user()->tenant_id;
+
+	// Get $id from URI
+	$segments = explode('/', URI::current());
+	$id = $segments[count($segments)-1];
+
+	// Check if id belongs to this tenant
+	$item = $model::find($id);
+	if ($item == NULL) 
+	{
+		return Response::error('404');
+	}
+
+	if($item->tenant_id != $tenant_id)
+	{
+		return 'Não autorizado';
+	}
+
+});
+Route::filter('root_only', function()
+{
+	if (!Auth::user()->is_root)
+	{
+		return Redirect::route('home.index')
+		->with('error', 'Você não tem privilégios de superusuário.');
+	}
+
+});
+
+Route::filter('admins_only', function()
+{
+	if (!Auth::user()->is_admin)
+	{
+		return Redirect::route('home.index')
+		->with('error', 'Você não tem privilégios suficientes para visualizar essa página');
+	}
+
 });
