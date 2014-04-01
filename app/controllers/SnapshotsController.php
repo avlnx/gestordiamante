@@ -78,6 +78,7 @@ class SnapshotsController extends BaseController
 		));
 
 		$parts = array();
+		$snapshot_id = $snapshot->id;
 
 		foreach($inputs as $id_type => $quantity)
 		{
@@ -104,6 +105,7 @@ class SnapshotsController extends BaseController
 				} else {
 					$parts[$product->id] = array(
 						'tenant_id'		=>	Auth::user()->tenant_id,
+						'snapshot_id'	=>	$snapshot_id,
 						'product_id'	=>	$product->id,
 						'current_price'	=>	$product->price,
 						'quantity'		=>	$total_quantity,
@@ -113,16 +115,10 @@ class SnapshotsController extends BaseController
 			}
 			
 		}
-
 		// turn array to actual part models before adding
-		$model_parts = array();
-		foreach ($parts as $product_id => $attr_array) {
-			array_push($model_parts, new Part($attr_array));
+		foreach ($parts as $part_item_array) {
+			Part::create($part_item_array);
 		}
-		#DEBUG
-		print_r($model_parts);
-
-		//$snapshot->parts()->save($model_parts);
 
 		$notice = '';
 		switch ($type) {

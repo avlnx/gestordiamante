@@ -2,7 +2,7 @@
 
 class Snapshot extends Eloquent
 {
-	protected $fillable = array('tenant_id');
+	protected $guarded = array('id');
 	
 	public function tenant()
 	{
