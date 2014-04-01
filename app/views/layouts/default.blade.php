@@ -113,10 +113,14 @@
 								    <b class="caret"></b>
 							    </a>
 							    <ul class="dropdown-menu" role="menu" aria-labelledby="admins">
-							    	<li>{{ HTML::linkRoute('snapshots.index','Alterações no Estoque') }}</li>
+							    	<li>{{ HTML::linkRoute('snapshots.index','Histórico de Atividades do Estoque') }}</li>
+								    <li>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry')) }}</li>
+								   	<!--
 								    <li>{{ HTML::linkRoute('snapshots.new','Nova Fotografia do Estoque') }}</li>
-								    <li>{{ HTML::linkRoute('snapshots.new','Novo Pedido de Reposição', array('entry')) }}</li>
+
 								    <li>{{ HTML::linkRoute('snapshots.new','Nova Baixa do Estoque', array('baixa')) }}</li>
+								-->
+
 							    </ul>
 						    </li>
 
