@@ -145,4 +145,5 @@ class SnapshotsController extends BaseController
 		$view->parts = $parts;
 		return $view;
 	}
+
 }

@@ -96,6 +96,7 @@
 					    </ul>
 				    </li>
 					    @if (Auth::user()->is_admin)
+					    <!--
 						    <li class="dropdown">
 							    <a class="dropdown-toggle" id="admins" role="button" data-toggle="dropdown" href="#">
 								    <i class='icon-cog'></i> Administração
@@ -106,7 +107,7 @@
 							    	<li><a href="#">Configurações e Opções</a></li>
 							    </ul>
 						    </li>
-
+						-->
 						    <li class="dropdown">
 							    <a class="dropdown-toggle" id="admins" role="button" data-toggle="dropdown" href="#">
 								    <i class='icon-inbox'></i> Estoque

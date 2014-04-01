@@ -5,7 +5,7 @@
 		<div class='span9'>
 
 		@if(isset($entry_snapshot))
-			<h1><small>Adicionar </small>Pedido recebido para repor estoque do CD</h1>
+			<h1><small>Lançar pedido de </small>Reposição do estoque</h1>
 		@elseif(isset($baixa_snapshot))
 			<h1><small>Adicionar nova </small>Baixa do Estoque</h1>
 		@else
