@@ -14,13 +14,13 @@
 			<p class='lead'>Dados Pessoais</p>
 			<p>
 				{{ Form::label('name', 'Nome:') }}
-				{{ $messages()->has('name') ? $messages()->first('name', '<p class="text-error">:message</p>') : '' }}
+				{{ $errors->has('name') ? $errors->first('name', '<p class="text-error">:message</p>') : '' }}
 			    
 			    {{ Form::text('name') }}
 		    </p>
 		    <p>
 		    	{{ Form::label('email', 'Email:') }}
-		    	{{ $messages()->has('email') ? $messages()->first('email', '<p class="text-error">:message</p>') : '' }}
+		    	{{ $errors->has('email') ? $errors->first('email', '<p class="text-error">:message</p>') : '' }}
 		    	{{ Form::text('email') }}
 		    </p>
 
@@ -30,7 +30,7 @@
 			<p class='lead'>Segurança</p>
 			<p>
 		    	{{ Form::label('password', 'Senha:') }}
-		    	{{ $messages()->has('password') ? $messages()->first('password', '<p class="text-error">:message</p>') : '' }}
+		    	{{ $errors->has('password') ? $errors->first('password', '<p class="text-error">:message</p>') : '' }}
 		    	{{ Form::text('password') }}
 		    </p>
 		    <p>

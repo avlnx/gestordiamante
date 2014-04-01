@@ -88,16 +88,16 @@ Route::filter('csrf', function()
 |--------------------------------------------------------------------------
 |
 */
-Route::filter('check_tenant', function($model)
+Route::filter('check_tenant', function($route, $request, $value)
 {
 	$tenant_id = Auth::user()->tenant_id;
 
 	// Get $id from URI
-	$segments = explode('/', URI::current());
+	$segments = explode('/', Request::path());
 	$id = $segments[count($segments)-1];
 
 	// Check if id belongs to this tenant
-	$item = $model::find($id);
+	$item = $value::find($id);
 	if ($item == NULL) 
 	{
 		return Response::error('404');
@@ -107,8 +107,9 @@ Route::filter('check_tenant', function($model)
 	{
 		return 'Não autorizado';
 	}
-
+	
 });
+
 Route::filter('root_only', function()
 {
 	if (!Auth::user()->is_root)

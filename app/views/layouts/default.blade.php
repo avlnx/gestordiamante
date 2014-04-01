@@ -29,11 +29,11 @@
 			<p class='pull-right' style='margin-top: 5px'>
 				@if (Auth::check())
 					<small>Olá <strong>{{ Auth::user()->email }}</strong>
-					{{ HTML::link_to_route('account.logout', 'Sair?', array(), array('class'=>'btn btn-danger btn-mini')) }}
+					{{ HTML::linkRoute('account.logout', 'Sair?', array(), array('class'=>'btn btn-danger btn-mini')) }}
 					</small>
 				@else
 					<small>
-						{{ HTML::link_to_route('account.login', 'Entrar', array(), array('class'=>'btn btn-primary btn-mini')) }}
+						{{ HTML::linkRoute('account.login', 'Entrar', array(), array('class'=>'btn btn-primary btn-mini')) }}
 					</small>
 				@endif
 			</p>
@@ -67,7 +67,7 @@
 			@if (Auth::check())
 				<ul class="nav nav-tabs nav-stacked sb-fixed" style='width: inherit'>
 					
-					<li>{{ HTML::link_to_route('home.index', 'Início') }}</li>
+					<li>{{ HTML::linkRoute('home.index', 'Início') }}</li>
 					<li class="dropdown">
 					    <a class="dropdown-toggle" id="vendas" role="button" data-toggle="dropdown" href="#">
 						    <i class='icon-shopping-cart'></i> Vendas
@@ -75,8 +75,8 @@
 					    </a>
 					    <ul class="dropdown-menu" role="menu" aria-labelledby="vendas">
 
-					    	<li>{{ HTML::link_to_route('sales.new','Nova venda') }}</li>
-					    	<li>{{ HTML::link_to_route('sales.index','Últimas vendas') }}</li>
+					    	<li>{{ HTML::linkRoute('sales.new','Nova venda') }}</li>
+					    	<li>{{ HTML::linkRoute('sales.index','Últimas vendas') }}</li>
 					    </ul>
 				    </li>
 				    <li class="dropdown">
@@ -85,13 +85,13 @@
 						    <b class="caret"></b>
 					    </a>
 					    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-					    	<li>{{ HTML::link_to_route('products.index','Lista de Produtos') }}</li>
+					    	<li>{{ HTML::linkRoute('products.index','Lista de Produtos') }}</li>
 					    	@if(Auth::user()->is_admin)
-								<li>{{ HTML::link_to_route('products.new','Novo Produto') }}</li>
+								<li>{{ HTML::linkRoute('products.new','Novo Produto') }}</li>
 							@endif
-							<li>{{ HTML::link_to_route('categories.index','Lista de Categorias') }}</li>
+							<li>{{ HTML::linkRoute('categories.index','Lista de Categorias') }}</li>
 							@if(Auth::user()->is_admin)
-								<li>{{ HTML::link_to_route('categories.new','Nova Categoria') }}</li>
+								<li>{{ HTML::linkRoute('categories.new','Nova Categoria') }}</li>
 							@endif
 					    </ul>
 				    </li>
@@ -102,7 +102,7 @@
 								    <b class="caret"></b>
 							    </a>
 							    <ul class="dropdown-menu" role="menu" aria-labelledby="admins">
-							    	<li>{{ HTML::link_to_route('users.index','Usuários', array(), array('role' => 'menuitem')) }}</li>
+							    	<li>{{ HTML::linkRoute('users.index','Usuários', array(), array('role' => 'menuitem')) }}</li>
 							    	<li><a href="#">Configurações e Opções</a></li>
 							    </ul>
 						    </li>
@@ -113,10 +113,10 @@
 								    <b class="caret"></b>
 							    </a>
 							    <ul class="dropdown-menu" role="menu" aria-labelledby="admins">
-							    	<li>{{ HTML::link_to_route('snapshots.index','Alterações no Estoque') }}</li>
-								    <li>{{ HTML::link_to_route('snapshots.new','Nova Fotografia do Estoque') }}</li>
-								    <li>{{ HTML::link_to_route('snapshots.new','Novo Pedido de Reposição', array('entry')) }}</li>
-								    <li>{{ HTML::link_to_route('snapshots.new','Nova Baixa do Estoque', array('baixa')) }}</li>
+							    	<li>{{ HTML::linkRoute('snapshots.index','Alterações no Estoque') }}</li>
+								    <li>{{ HTML::linkRoute('snapshots.new','Nova Fotografia do Estoque') }}</li>
+								    <li>{{ HTML::linkRoute('snapshots.new','Novo Pedido de Reposição', array('entry')) }}</li>
+								    <li>{{ HTML::linkRoute('snapshots.new','Nova Baixa do Estoque', array('baixa')) }}</li>
 							    </ul>
 						    </li>
 
@@ -126,7 +126,7 @@
 								    <b class="caret"></b>
 							    </a>
 							    <ul class="dropdown-menu" role="menu" aria-labelledby="admins">
-							    	<li>{{ HTML::link_to_route('snapshots.index','Gerar Balanço') }}</li>
+							    	<li>{{ HTML::linkRoute('snapshots.index','Gerar Balanço') }}</li>
 							    </ul>
 						    </li>
 					    @endif
@@ -138,8 +138,8 @@
 								    <b class="caret"></b>
 							    </a>
 							    <ul class="dropdown-menu" role="menu" aria-labelledby="admins">
-							    	<li>{{ HTML::link_to_route('tenants.index','Tenants') }}</li>
-							    	<li>{{ HTML::link_to_route('tenants.new','New Tenant') }}</li>
+							    	<li>{{ HTML::linkRoute('tenants.index','Tenants') }}</li>
+							    	<li>{{ HTML::linkRoute('tenants.new','New Tenant') }}</li>
 							    </ul>
 						    </li>
 					    @endif
@@ -155,7 +155,8 @@
 
 
 </div>
-	{{ HTML::script('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js') }}
+	{{-- HTML::script('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js') --}}
+	{{ HTML::script('js/jquery.min.js') }}
 	{{ HTML::script('js/bootstrap.min.js') }}
 
 	<script type='text/javascript'>

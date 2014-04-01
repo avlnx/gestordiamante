@@ -15,14 +15,14 @@
 			<p class='lead'>Informações gerais</p>
 			<p>
 				{{ Form::label('name', 'Nome:') }}
-				{{ $messages()->has('name') ? $messages()->first('name', '<p class="text-error">:message</p>') : '' }}
+				{{ $errors->has('name') ? $errors->first('name', '<p class="text-error">:message</p>') : '' }}
 			    
 			    {{ Form::text('name', $product->name) }}
 		    </p>
 
 		    <p>
 		    	{{ Form::label('description', 'Breve Descrição:') }}
-		    	{{ $messages()->has('description') ? $messages()->first('description', '<p class="text-error">:message</p>') : '' }}
+		    	{{ $errors->has('description') ? $errors->first('description', '<p class="text-error">:message</p>') : '' }}
 		    	{{ Form::textarea('description', $product->description) }}
 		    </p>
 		</div>
@@ -38,25 +38,25 @@
 			    	<p class='text-warning'>Nenhuma categoria cadastrada</p>
 			    @endif
 			    <br/>
-			    <small>{{ HTML::link_to_route('categories.new', 'Nova Categoria &rarr;', array(), array('class'=>''))}}</small>
+			    <small>{{ HTML::linkRoute('categories.new', 'Nova Categoria &rarr;', array(), array('class'=>''))}}</small>
 		    </p>
 
 	    	<p class='lead'>Informações financeiras</p>
 	    	<p>
 			    {{ Form::label('price', 'Preço:') }}
-			    {{ $messages()->has('price') ? $messages()->first('price', '<p class="text-error">:message</p>') : '' }}
+			    {{ $errors->has('price') ? $errors->first('price', '<p class="text-error">:message</p>') : '' }}
 			    {{ Form::text('price', $product->price) }}
 		    </p>
 
 		    <p>
 			    {{ Form::label('margin', 'Margem de lucro:') }}
-			    {{ $messages()->has('margin') ? $messages()->first('margin', '<p class="text-error">:message</p>') : '' }}
+			    {{ $errors->has('margin') ? $errors->first('margin', '<p class="text-error">:message</p>') : '' }}
 			    {{ Form::text('margin', $product->margin) }}
 		    </p>
 
 		    <p>
 			    {{ Form::label('box', 'Quantidade em uma caixa:') }}
-			    {{ $messages()->has('box') ? $messages()->first('box', '<p class="text-error">:message</p>') : '' }}
+			    {{ $errors->has('box') ? $errors->first('box', '<p class="text-error">:message</p>') : '' }}
 			    {{ Form::text('box', $product->box) }}
 		    </p>
     	</div>
@@ -65,7 +65,7 @@
 		    	{{ Form::submit('Atualizar Produto &rarr;', array('class' => 'btn btn-primary btn-large btn-block')) }}
 		    </p>
 		    <p>
-		    	{{ HTML::link_to_route('products.index', 'Cancelar &times;', array(), array('class' => 'btn'))}}
+		    	{{ HTML::linkRoute('products.index', 'Cancelar &times;', array(), array('class' => 'btn'))}}
 
 		    {{ Form::close() }}
     	</div>

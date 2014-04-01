@@ -5,14 +5,32 @@ class ModelUpSeeder extends Seeder
 	public function run()
 	{
 		// Seed model UP
-		$tenant_id = DB::table('tenants')->insertGetId(array(
-			'email'			=>	NULL,
-			'created_at'	=> 	date('Y-m-d H:m:s'),
-			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true,
-			'company'		=>	'up',
-			'is_model'		=>	true
-		));
+		$tenant_id = DB::table('tenants')
+			->where('company', 'up')
+			->where('is_model', true)
+			->pluck('id');	
+
+		if ($tenant_id == NULL) {
+			// Model doesn't exist yet, create it
+			$tenant_id = DB::table('tenants')->insertGetId(array(
+				'email'			=>	NULL,
+				'created_at'	=> 	date('Y-m-d H:m:s'),
+				'updated_at'	=> 	date('Y-m-d H:m:s'),
+				'is_alive'		=>	true,
+				'company'		=>	'up',
+				'is_model'		=>	true
+			));
+		} else {
+			// Model exists, delete all its products and categories so we can update them
+			// without duplicates
+			DB::table('products')
+				->where('tenant_id', $tenant_id)
+				->delete();
+			DB::table('categories')
+				->where('tenant_id', $tenant_id)
+				->delete();
+		}
+		
 		
 		// CATEGORIAS
 		$categories = array(
@@ -25,7 +43,7 @@ class ModelUpSeeder extends Seeder
 			'Cremes'					=>	'Cremes',
 			'Linha Bucal'				=>	'Linha Bucal',
 			'Linha UP Hair'				=>	'Linha UP Hair',
-			'Kits e Upgrades'			=>	'Kits (concessões) Oficiais e Upgrades UP!',
+			'Kits'			=>	'Kits (concessões) Oficiais e Upgrades UP!',
 			'Acessórios para Kits UP!'	=>	'Acessórios para Kits UP!',
 			'Acessórios em Geral'		=>	'Acessórios gerais',
 			'Amostras'					=>	'Amostras'
@@ -33,7 +51,7 @@ class ModelUpSeeder extends Seeder
 
 		$cats_ids = array();
 		foreach ($categories as $name => $description) {
-			$id_cat = DB::table('categories')->insert_get_id(array(
+			$id_cat = DB::table('categories')->insertGetId(array(
 				'tenant_id'		=>	$tenant_id,
 				'name'			=>	$name,
 				'slug'			=> 	Str::slug($name),
@@ -275,6 +293,7 @@ class ModelUpSeeder extends Seeder
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
 			'is_alive'		=>	true
 		));
+		
 		// Kits
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,

@@ -13,7 +13,7 @@
 		<div class='span3'>
 			<p>
 				{{ Form::label('name', 'Nome:') }}
-				{{ $messages()->has('name') ? $messages()->first('name', '<p class="text-error">:message</p>') : '' }}
+				{{ $errors->has('name') ? $errors->first('name', '<p class="text-error">:message</p>') : '' }}
 			    
 			    {{ Form::text('name') }}
 		    </p>
@@ -24,7 +24,7 @@
 
 		    <p>
 		    	{{ Form::label('description', 'Breve Descrição:') }}
-		    	{{ $messages()->has('description') ? $messages()->first('description', '<p class="text-error">:message</p>') : '' }}
+		    	{{ $errors->has('description') ? $errors->first('description', '<p class="text-error">:message</p>') : '' }}
 		    	{{ Form::textarea('description') }}
 		    </p>
 		</div>

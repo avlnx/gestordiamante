@@ -2,6 +2,8 @@
 
 class Sale extends Eloquent
 {
+	protected $guarded = array('id');
+
 	public function tenant()
 	{
 		return $this->belongsTo('Tenant');
@@ -12,10 +14,10 @@ class Sale extends Eloquent
 		return $this->hasMany('Item');
 	}
 
-	public static function all()
+	public static function all($columns = array('*'))
 	{
 		return parent::where('tenant_id', '=', Auth::user()->tenant_id)->where('is_alive','=',true)
-			->order_by('created_at', 'desc')
+			->orderBy('created_at', 'desc')
 			->take(10)
 			->get();
 	}

@@ -5,7 +5,7 @@
 
 	<h2>Categorias <small>Categorias cadastradas</small></h2>
 	@if(Auth::user()->is_admin)
-	<p>{{ HTML::link_to_route('categories.new', "Nova Categoria" ,'', array('title' => 'Criar nova categoria', 'class' => 'btn btn-primary')) }}</p>
+	<p>{{ HTML::linkRoute('categories.new', "Nova Categoria" , [], array('title' => 'Criar nova categoria', 'class' => 'btn btn-primary')) }}</p>
 	@endif
 	<hr/>
 
@@ -23,14 +23,14 @@
 				<tr>
 					<td>
 						<span class='badge badge-info'>{{ $category->num_products() }}</span>
-						{{ HTML::link_to_route('categories.focus', $category->name , $category->id , array('title' => $category->description)) }}
+						{{ HTML::linkRoute('categories.focus', $category->name , $category->id , array('title' => $category->description)) }}
 						
 					</td>
 					<td>{{ $category->description }}</td>
 					<td>
 						@if(Auth::user()->is_admin)
-							{{ HTML::link_to_route('categories.edit', 'Editar', $category->id , array('class' => 'btn btn-mini')) }}
-							{{ HTML::link_to_route('categories.delete', 'Deletar!', $category->id , array('class' => 'btn btn-mini btn-danger')) }}
+							{{ HTML::linkRoute('categories.edit', 'Editar', $category->id , array('class' => 'btn btn-mini')) }}
+							{{ HTML::linkRoute('categories.delete', 'Deletar!', $category->id , array('class' => 'btn btn-mini btn-danger')) }}
 						@endif
 					</td>
 				</tr>

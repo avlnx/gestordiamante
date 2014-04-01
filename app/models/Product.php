@@ -20,9 +20,13 @@ class Product extends Eloquent
 
 	/** Overload methods to account for tenants **/
 
-	public static function all()
+	public static function all($columns = array('*'))
 	{
-		return parent::where('tenant_id', '=', Auth::user()->tenant_id)->where('is_alive','=',true)->order_by('category_id')->get();
+		return parent::where('tenant_id', '=', Auth::user()->tenant_id)
+		->where('is_alive','=',true)
+		->orderBy('category_id')
+		->orderBy('name')
+		->get();
 	}
 	
 }

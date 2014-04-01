@@ -5,7 +5,7 @@
 
 	<h2>Produtos <small>Produtos cadastrados</small></h2>
 	@if(Auth::user()->is_admin)
-	{{ HTML::link_to_route('products.new', "Novo Produto" ,'', array('title' => 'Criar novo produto', 'class' => 'btn btn-large btn-primary')) }}
+	{{ HTML::linkRoute('products.new', "Novo Produto" ,[], array('title' => 'Criar novo produto', 'class' => 'btn btn-large btn-primary')) }}
 	@endif
 	<hr/>
 
@@ -29,7 +29,7 @@
 						<?php $found = True ?>
 						<tr>
 							<td>
-								{{ HTML::link_to_route('products.focus', $product->name , array($product->id), array('title' => $product->description)) }}
+								{{ HTML::linkRoute('products.focus', $product->name , array($product->id), array('title' => $product->description)) }}
 							</td>
 							<td>
 								{{ $product->description }}
@@ -39,8 +39,8 @@
 							</td>	
 							<td>
 								@if(Auth::user()->is_admin)
-									{{ HTML::link_to_route('products.edit', 'Editar', array($product->id), array('class' => 'btn btn-mini'))}}
-									{{ HTML::link_to_route('products.delete', 'Deletar!', array($product->id), array('class' => 'btn btn-mini btn-danger'))}}
+									{{ HTML::linkRoute('products.edit', 'Editar', array($product->id), array('class' => 'btn btn-mini'))}}
+									{{ HTML::linkRoute('products.delete', 'Deletar!', array($product->id), array('class' => 'btn btn-mini btn-danger'))}}
 								@endif
 							</td>
 						</tr>
@@ -55,7 +55,7 @@
 
 	@endforeach
 	@if(count($categories)==0)
-		<p>Nenhum produto cadastrado</p>
+		<p>Nenhuma categoria cadastrada</p>
 	@endif
 
 @stop

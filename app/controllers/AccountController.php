@@ -9,7 +9,7 @@ class AccountController extends BaseController
 		if (Auth::check())
 		{
 			// user is already logged in
-			return Redirect::route('root.index')
+			return Redirect::route('home.index')
 				->with('notice', 'Você já está logado!');
 		}
 		else
@@ -22,7 +22,7 @@ class AccountController extends BaseController
 	{
 		// get POST data
 		$userdata = array(
-			'username' => Input::get('email'),
+			'email' => Input::get('email'),
 			'password' => Input::get('password')
 		);
 

@@ -3,7 +3,7 @@
 @section('content')
 
 	<h2>Últimas Vendas</h2>
-	{{-- HTML::link_to_route('sales.new', "Nova Venda" ,'', array('title' => 'Criar nova venda', 'class' => 'btn btn-large btn-primary')) --}}
+	{{ HTML::linkRoute('sales.new', "Nova Venda" ,[], array('title' => 'Criar nova venda', 'class' => 'btn btn-large btn-primary')) }}
 
 
 	<table class='table table-hover table-condensed'>
@@ -17,7 +17,7 @@
 		<tbody>
 	@foreach($sales as $sale)
 		<tr>
-			<td>{{ HTML::link_to_route('sales.focus', '#'.$sale->order_number, array($sale->id), array('class'=>'')) }}</td>
+			<td>{{ HTML::linkRoute('sales.focus', '#'.$sale->order_number, array($sale->id), array('class'=>'')) }}</td>
 			<td>há <em>{{ Ago::agolize($sale->created_at) }}</em></td>
 			<td><strong>R${{ $sale->total_value() }}</strong></td>
 		</tr>

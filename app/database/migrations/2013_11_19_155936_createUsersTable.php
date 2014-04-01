@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration {
 			$table->integer('tenant_id');
 			$table->string('email', 128);
 			$table->string('password', 64);
+			//$table->string('username', 64)->nullable();
 			$table->boolean('is_admin');
 			$table->boolean('is_root');
 			$table->string('name');

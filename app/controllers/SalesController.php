@@ -46,6 +46,8 @@ class SalesController extends BaseController
 					// numero do pedido obrigatorio
 					$rules[$field] = 'required';
 					break;
+				case '_token':
+					break;
 				default:
 					// Quantidades de produtos
 					$rules[$field] = 'integer';
@@ -76,6 +78,9 @@ class SalesController extends BaseController
 
 		$items = array();
 
+		//print_r($products);
+
+		
 		foreach($products as $id_type => $quantity)
 		{
 			list($id, $type) = explode('-', $id_type);
@@ -123,9 +128,14 @@ class SalesController extends BaseController
 		}
 
 		// Save sale and its items and redirect
-		$sale->items()->save($items);
-		return Redirect::route('sales.index')->with('notice', 'Venda gerada com sucesso.');
 
+		//$sale->items()->save($items);
+		foreach ($items as $item_array) {
+			$item = new Item($item_array);
+			$sale->items()->save($item);
+		}
+		return Redirect::route('sales.index')->with('notice', 'Venda gerada com sucesso.');
+		
 	}
 
 	public function getFocus($id)

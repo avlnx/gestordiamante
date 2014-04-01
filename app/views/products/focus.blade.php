@@ -6,7 +6,7 @@
 	<p class='lead'>{{ $product->description }}</p>
 	<p>
 		Cadastrado em
-		{{ HTML::link_to_route('categories.focus', $product->category->name, array($product->category->id)) }}
+		{{ HTML::linkRoute('categories.focus', $product->category->name, array($product->category->id)) }}
 		Há <small>{{ Ago::agolize($product->created_at)}}</small>
 	</p>
 	<table class='table'>
@@ -28,7 +28,7 @@
 	<p><small><em>Última alteração há {{ Ago::agolize($product->updated_at)}}</em></small></p>
 
 	<p>
-		{{ HTML::link_to_route('products.edit', 'Editar', array($product->id), array('class' => 'btn btn-primary') )}}
-		{{ HTML::link_to_route('products.delete', 'Deletar!', array($product->id), array('class' => 'btn btn-danger btn-small') )}}
+		{{ HTML::linkRoute('products.edit', 'Editar', array($product->id), array('class' => 'btn btn-primary') )}}
+		{{ HTML::linkRoute('products.delete', 'Deletar!', array($product->id), array('class' => 'btn btn-danger btn-small') )}}
 	</p>
 @stop

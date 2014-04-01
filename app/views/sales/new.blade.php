@@ -1,15 +1,13 @@
 @extends('layouts.default')
 
 @section('content')
-
-	
-
 	<div class='row'>
 
 		<div class='span6'>
 			<h1>Nova venda</h1>
 
 			{{ Form::open(array('url' => 'sales/new')) }}
+			<form>
 			<hr/>
 
 			<div class="input-prepend">
@@ -28,7 +26,7 @@
     			<hr/>
 
 				<h4>Formas de pagamento</h4>
-				{{--<p class='lead'><small>Insira em cada caixa o valor correspondente à forma de pagamento indicada.</small></p>
+				{{--<p class='lead'><small>Insira em cada caixa o valor correspondente à forma de pagamento indicada.</small></p>--}}
 				<table class='table table-condensed table-hover'>
 					<tr>
 						<td>Débito</td>

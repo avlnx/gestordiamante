@@ -2,7 +2,7 @@
 
 @section('content')
 	<h1>Hello Thyago <small>these are the tenants:</small></h1>
-	{{ HTML::link_to_route('tenants.new', 'Novo Tenant', array(), array('class'  => 'btn btn-primary'))}}
+	{{ HTML::linkRoute('tenants.new', 'Novo Tenant', [], array('class'  => 'btn btn-primary'))}}
 	<hr/>
 	<table class='table table-condensed table-hover'>
 		<thead>
@@ -18,7 +18,7 @@
 		<tbody>
 			@foreach ($tenants as $tenant)
 				<tr>
-					<td>{{ HTML::link_to_route('tenants.focus', $tenant->email, array($tenant->id)) }}</td>
+					<td>{{ HTML::linkRoute('tenants.focus', $tenant->email, array($tenant->id)) }}</td>
 					<td>{{ Ago::agolize($tenant->created_at) }}</td>
 					<td>{{ Str::title($tenant->company) }}</td>
 					<td><span class='badge badge-info'>{{ $tenant->products()->count() }}</span></td>

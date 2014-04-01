@@ -2,7 +2,7 @@
 
 class TenantsController extends BaseController
 {
-	public $restful = true;
+	public $restful = false;
 
 	public function getIndex()
 	{

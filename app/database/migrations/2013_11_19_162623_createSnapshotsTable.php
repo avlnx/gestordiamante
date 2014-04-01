@@ -23,15 +23,6 @@ class CreateSnapshotsTable extends Migration {
 			$table->string('type')->default('snapshot');	// snapshot, entry, baixas
 			$table->timestamps();
 		});
-	}
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
 		/* 	A 'part' belongs to a snapshot
 			A 'part' holds information regarding one product and it's quantity on this lot
 		*/
@@ -46,6 +37,18 @@ class CreateSnapshotsTable extends Migration {
 			$table->boolean('is_alive')->default(true);
 			$table->timestamps();
 		});
+	}
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		// Drop snapshots table
+		Schema::drop('snapshots');
+		Schema::drop('parts');
 	}
 
 }

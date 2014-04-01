@@ -3,7 +3,7 @@
 @section('content')
 
 	<h2>Usuários <small>Usuários cadastrados</small></h2>
-	{{ HTML::link_to_route('users.new', "Novo Usuário" ,'', array('title' => 'Criar novo usuário', 'class' => 'btn btn-large btn-primary')) }}
+	{{ HTML::linkRoute('users.new', "Novo Usuário" ,[], array('title' => 'Criar novo usuário', 'class' => 'btn btn-large btn-primary')) }}
 	<hr/>
 
 	<table class='table table-condensed table-hover'>
@@ -27,8 +27,8 @@
 			</td>
 			<td>
 				<p>
-					{{ HTML::link_to_route('users.edit','Editar', array($user->id), array('class' => 'btn btn-mini'))}}
-					{{ HTML::link_to_route('users.delete', 'Deletar!', array($user->id), array('class' => 'btn btn-mini btn-danger'))}}
+					{{ HTML::linkRoute('users.edit','Editar', array($user->id), array('class' => 'btn btn-mini'))}}
+					{{ HTML::linkRoute('users.delete', 'Deletar!', array($user->id), array('class' => 'btn btn-mini btn-danger'))}}
 				</p>
 			</td>
 

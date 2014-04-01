@@ -30,8 +30,8 @@ class Snapshot extends Eloquent
 
 	/** Overload methods to account for tenants **/
 
-	public static function all()
+	public static function all($columns = array('*'))
 	{
-		return parent::where('tenant_id', '=', Auth::user()->tenant_id)->where('is_alive','=',true)->order_by('created_at', 'desc')->get();
+		return parent::where('tenant_id', '=', Auth::user()->tenant_id)->where('is_alive','=',true)->orderBy('created_at', 'desc')->get();
 	}
 }

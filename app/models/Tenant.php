@@ -27,13 +27,15 @@ class Tenant extends Eloquent
 		foreach ($model_categories as $category) {
 			$products_for_this_cat = $category->products()->get();
 
-			$category->purge('id');
+			//$category->purge('id');
+			$category->id = NULL;
 			$category->tenant_id = $this->id;
 			$category->exists = false;
 			$category->save();
 
 			foreach ($products_for_this_cat as $product) {
-				$product->purge('id');
+				// $product->purge('id');
+				$product->id = NULL;
 				$product->tenant_id = $this->id;
 				$product->category_id = $category->id;
 				$product->exists = false;
@@ -65,7 +67,7 @@ class Tenant extends Eloquent
 
 	/** Overload methods to account for tenants **/
 
-	public static function all()
+	public static function all($columns = array('*'))
 	{
 		return parent::where('is_alive','=',true)->get();
 	}

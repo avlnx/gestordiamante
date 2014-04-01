@@ -1,6 +1,6 @@
-		<h3>Produtos</h3>
+ 		<h3>Produtos</h3>
 
-		<?php //print_r($products) ?>
+		<?php //print_r($products->toJson()) ?>
 
 			<?php $found = False ?>
 			@foreach($categories as $category)
@@ -46,7 +46,7 @@
 			@endforeach
 			@if(count($categories)==0)
 				<p class='text-info'>Nenhuma categoria cadastrada</p>
-			@endforelse
+			@endif
 
 @section('script_functions')
 	function run_calculations()
@@ -55,15 +55,13 @@
 		var 	unidades = 0;
 		var 	box = 0;
 		var 	preco = 0;
-		var 	products = {{ json_encode($products) }};
+		var 	products = {{ $products->toJson() }} {{-- json_encode($products) --}};
 		var 	total = 0;
 		var 	id = 0;
 
 		$.each(products, function(index, product){
-			id = product.attributes.id;
-			//alert(id);
+			id = product.id;
 			preco = parseFloat($('#preco-'+id).html());
-			//alert(preco);
 			// Caixas
 			var caixas = parseFloat($('#qtd-caixas-'+id).val());
 			var box = parseFloat($('#box-'+id).html());
@@ -76,7 +74,10 @@
 			var unidades = parseFloat($('#qtd-unidades-'+id).val());
 			total += parseFloat(unidades*preco);
 		});
-		//alert(total);
+		// DEBUG
+		//console.log(products);
+		//console.log(total);
+
 		$('#total').html(total);
 		update_forms_total();
 	}

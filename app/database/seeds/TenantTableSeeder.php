@@ -4,24 +4,23 @@ class TenantTableSeeder extends Seeder
 {
 	public function run()
 	{
-		DB::table('tenants')->delete();
+		// Does the root tenant exist?
+		$rootTenant = DB::table('tenants')
+			->where('company', 'root')
+			->first();
 
-		// Seed root's tenant
-		DB::table('tenants')->insert(array(
-			'email'			=>	NULL,
-			'created_at'	=>	date('Y-m-d H:m:s'),
-			'updated_at'	=>	date('Y-m-d H:m:s'),
-			'company'		=> 	'root'
-		));
+		if ($rootTenant == NULL) {
+			// Seed root's tenant, it doesn't exist yet
+			DB::table('tenants')->insert(array(
+				'email'			=>	NULL,
+				'created_at'	=>	date('Y-m-d H:m:s'),
+				'updated_at'	=>	date('Y-m-d H:m:s'),
+				'company'		=> 	'root'
+			));
+		}
 
-		// Seed models
-		// UP
-		DB::table('tenants')->insert(array(
-			'email'			=>	NULL,
-			'created_at'	=>	date('Y-m-d H:m:s'),
-			'updated_at'	=>	date('Y-m-d H:m:s'),
-			'company'		=> 	'up',
-			'is_model'		=>	true
-		));
+		
+
+
 	}
 }

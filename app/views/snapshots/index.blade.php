@@ -4,9 +4,9 @@
 
 	<h2>Alterações do Estoque</h2>
 	<p>
-		{{ HTML::link_to_route('snapshots.new', "Nova Fotografia do Estoque" ,'', array('title' => 'Criar nova fotografia', 'class' => 'btn btn-primary')) }} 
-		{{ HTML::link_to_route('snapshots.new', "Novo Pedido de Reposição" ,'entry', array('title' => 'Criar novo pedido de reposição do estoque do CD', 'class' => 'btn btn-primary')) }}
-		{{ HTML::link_to_route('snapshots.new', "Baixa do Estoque" ,'baixa', array('title' => 'Dar baixa em produtos do estoque do CD', 'class' => 'btn btn-primary')) }}
+		{{ HTML::linkRoute('snapshots.new', "Nova Fotografia do Estoque" ,'', array('title' => 'Criar nova fotografia', 'class' => 'btn btn-primary')) }} 
+		{{ HTML::linkRoute('snapshots.new', "Novo Pedido de Reposição" ,'entry', array('title' => 'Criar novo pedido de reposição do estoque do CD', 'class' => 'btn btn-primary')) }}
+		{{ HTML::linkRoute('snapshots.new', "Baixa do Estoque" ,'baixa', array('title' => 'Dar baixa em produtos do estoque do CD', 'class' => 'btn btn-primary')) }}
 	</p>
 
 	<table class='table table-hover table-condensed'>
@@ -38,7 +38,7 @@
 				<p class='lead'>R$ {{ $snapshot->total_value() }}</p>
 			</td>
 			<td>
-				{{ HTML::link_to_route('snapshots.focus', 'Visualizar detalhes', array($snapshot->id), array('class'=>'btn btn-small'))}}
+				{{ HTML::linkRoute('snapshots.focus', 'Visualizar detalhes', array($snapshot->id), array('class'=>'btn btn-small'))}}
 			</td>
 		</tr>
 
