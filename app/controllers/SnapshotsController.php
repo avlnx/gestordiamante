@@ -113,8 +113,16 @@ class SnapshotsController extends BaseController
 			}
 			
 		}
-		
-		$snapshot->parts()->save($parts);
+
+		// turn array to actual part models before adding
+		$model_parts = array();
+		foreach ($parts as $product_id => $attr_array) {
+			array_push($model_parts, new Part($attr_array));
+		}
+		#DEBUG
+		print_r($model_parts);
+
+		//$snapshot->parts()->save($model_parts);
 
 		$notice = '';
 		switch ($type) {
