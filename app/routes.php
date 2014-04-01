@@ -64,7 +64,7 @@ Route::post('snapshots/new/{type?}', array('before' => 'auth|admins_only', 'uses
 //Route::get('snapshots/entry/new/{id}', array('before' => 'auth|admins_only|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getnew_entry', 'as' => 'snapshots.new_entry'));
 //Route::post('snapshots/entry/new/{id}', array('before' => 'auth|admins_only|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getnew_entry', 'as' => 'snapshots.new_entry'));
 Route::get('snapshots/{id}', array('before' => 'auth|admins_only|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getFocus', 'as' => 'snapshots.focus'));
-Route::get('snapshots/static', array('before', => 'auth|admins_only', 'uses' => 'SnapshotsController@getStaticStock', 'as' => 'snapshots.static'));
+
 
 // Sales routes
 Route::get('sales', array('before' => 'auth', 'uses' => 'SalesController@getIndex', 'as' => 'sales.index'));
