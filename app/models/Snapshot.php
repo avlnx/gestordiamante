@@ -2,6 +2,8 @@
 
 class Snapshot extends Eloquent
 {
+	protected $fillable = array('tenant_id');
+	
 	public function tenant()
 	{
 		return $this->belongsTo('Tenant');

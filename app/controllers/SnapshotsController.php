@@ -44,7 +44,9 @@ class SnapshotsController extends BaseController
 		$inputs = Input::all();
 		foreach($inputs as $product => $quantity)
 		{
-			$rules[$product] = 'integer';
+			if ($product != '_token') {
+				$rules[$product] = 'integer';	
+			}
 		}
 		$validation = Validator::make($inputs, $rules);
 
@@ -79,6 +81,8 @@ class SnapshotsController extends BaseController
 
 		foreach($inputs as $id_type => $quantity)
 		{
+			if ($id_type == '_token') { continue; }
+
 			$list = explode('-', $id_type);
 			
 			$id = $list[0]; $type = $list[1];
@@ -109,6 +113,7 @@ class SnapshotsController extends BaseController
 			}
 			
 		}
+		
 		$snapshot->parts()->save($parts);
 
 		$notice = '';
