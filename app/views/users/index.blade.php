@@ -3,7 +3,7 @@
 @section('content')
 
 	<h2>Usuários <small>Usuários cadastrados</small></h2>
-	{{ HTML::linkRoute('users.new', "Novo Usuário" ,[], array('title' => 'Criar novo usuário', 'class' => 'btn btn-large btn-primary')) }}
+	{{ HTML::linkRoute('users.new', "Novo Usuário" ,[], array('title' => 'Criar novo usuário', 'class' => 'btn')) }}
 	<hr/>
 
 	<table class='table table-condensed table-hover'>

@@ -3,7 +3,7 @@
 @section('content')
 
 	<h2>Últimas Vendas</h2>
-	{{ HTML::linkRoute('sales.new', "Nova Venda" ,[], array('title' => 'Criar nova venda', 'class' => 'btn btn-large btn-primary')) }}
+	{{ HTML::linkRoute('sales.new', "Nova Venda" ,[], array('title' => 'Lançar nova venda', 'class' => 'btn')) }}
 
 
 	<table class='table table-hover table-condensed'>

@@ -1,9 +1,17 @@
 @extends('layouts.default')
 
 @section('content')
+		<div class="row">
+			<div class="span6">
+				<h2 class='text-left'>Este é o seu estoque atual</h2>
+				<h5 class='text-left'>Produtos com estoque zerado não aparecem neste relatório.</h5>
+			</div>
+			<div class="span3">
+				<h2 class="text-left">R$ 39.993,02</h2>
+			</div>
+		</div>
 
-		<h2 class='text-right'>Este é o seu estoque atual</h2>
-		<h5 class='text-right'>Produtos com estoque zerado não aparecem neste relatório.</h5>
+		
 		<hr>
 
 		<?php $cats = $product_list_in_stock ?>
@@ -34,10 +42,10 @@
 						<?php $total_value += $product->price  * $product->quantity_in_stock ?>
 					@endforeach
 					<tr>
-						<td><strong>TOTAIS</strong></td>
-						<td><strong>{{ $total_quantity }}</strong></td>
+						<td><h4>TOTAIS</h4></td>
+						<td><h4>{{ $total_quantity }}</h4></td>
 						<td>---</td>
-						<td><strong>R$ {{ $total_value }}</strong></td>
+						<td><h4>R$ {{ $total_value }}</h4></td>
 					</tr>
 				</tbody>
 

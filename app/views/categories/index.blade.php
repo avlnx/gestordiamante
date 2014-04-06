@@ -5,7 +5,7 @@
 
 	<h2>Categorias <small>Categorias cadastradas</small></h2>
 	@if(Auth::user()->is_admin)
-	<p>{{ HTML::linkRoute('categories.new', "Nova Categoria" , [], array('title' => 'Criar nova categoria', 'class' => 'btn btn-primary')) }}</p>
+	<p>{{ HTML::linkRoute('categories.new', "Nova Categoria" , [], array('title' => 'Criar nova categoria', 'class' => 'btn')) }}</p>
 	@endif
 	<hr/>
 

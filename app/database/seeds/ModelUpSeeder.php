@@ -10,6 +10,8 @@ class ModelUpSeeder extends Seeder
 			->where('is_model', true)
 			->pluck('id');	
 
+		$margem_padrao = 0.15;
+
 		if ($tenant_id == NULL) {
 			// Model doesn't exist yet, create it
 			$tenant_id = DB::table('tenants')->insertGetId(array(
@@ -46,7 +48,8 @@ class ModelUpSeeder extends Seeder
 			'Kits'			=>	'Kits (concessões) Oficiais e Upgrades UP!',
 			'Acessórios para Kits UP!'	=>	'Acessórios para Kits UP!',
 			'Acessórios em Geral'		=>	'Acessórios gerais',
-			'Amostras'					=>	'Amostras'
+			'Amostras'					=>	'Amostras',
+			'Livros'					=>	'Livros'
 		);
 
 		$cats_ids = array();
@@ -112,7 +115,16 @@ class ModelUpSeeder extends Seeder
 			'UP! 25'	=>	'UP! 25 - CK One',
 			'UP! 27'	=>	'UP! 27 - CK Be',
 			'UP! 29'	=>	'UP! 29 - CK Cool Water',
+			'UP! Monaco'=>	'UP! Monaco'
 		);
+
+		if($name == "UP! Monaco" || $name == "UP! 44")
+		{
+			$perfume_price = 48;
+		} else {
+			$perfume_price = 39.5;
+		}
+
 		// Perfumes Masculinos
 		foreach ($essencias_masc as $name => $description) {
 			DB::table('products')->insert(array(
@@ -121,8 +133,8 @@ class ModelUpSeeder extends Seeder
 				'name'			=>	'Perfume '.$name,
 				'slug'			=>	'perfume-'.Str::slug($name),
 				'description'	=>	'Perfume '.$description,
-				'price'			=>	39.5,
-				'margin'		=>	0.2,
+				'price'			=>	$perfume_price,
+				'margin'		=>	$margem_padrao,
 				'box'			=>	20,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -135,7 +147,7 @@ class ModelUpSeeder extends Seeder
 				'slug'			=>	'flaconete-'.Str::slug($name),
 				'description'	=>	'Flaconete '.$description,
 				'price'			=>	3,
-				'margin'		=>	0.2,
+				'margin'		=>	$margem_padrao,
 				'box'			=>	500,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -150,8 +162,8 @@ class ModelUpSeeder extends Seeder
 				'name'			=>	'Perfume '.$name,
 				'slug'			=>	'perfume-'.Str::slug($name),
 				'description'	=>	'Perfume '.$description,
-				'price'			=>	39.5,
-				'margin'		=>	0.2,
+				'price'			=>	$perfume_price,
+				'margin'		=>	$margem_padrao,
 				'box'			=>	20,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -164,7 +176,7 @@ class ModelUpSeeder extends Seeder
 				'slug'			=>	'flaconete-'.Str::slug($name),
 				'description'	=>	'Flaconete '.$description,
 				'price'			=>	3,
-				'margin'		=>	0.2,
+				'margin'		=>	$margem_padrao,
 				'box'			=>	500,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -172,6 +184,7 @@ class ModelUpSeeder extends Seeder
 			));
 		}
 		// Perfumes Unisex
+
 		foreach ($essencias_uni as $name => $description) {
 			DB::table('products')->insert(array(
 				'tenant_id'		=>	$tenant_id,
@@ -179,8 +192,8 @@ class ModelUpSeeder extends Seeder
 				'name'			=>	'Perfume '.$name,
 				'slug'			=>	'perfume-'.Str::slug($name),
 				'description'	=>	'Perfume '.$description,
-				'price'			=>	39.5,
-				'margin'		=>	0.2,
+				'price'			=>	$perfume_price,
+				'margin'		=>	$margem_padrao,
 				'box'			=>	20,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -193,7 +206,7 @@ class ModelUpSeeder extends Seeder
 				'slug'			=>	'flaconete-'.Str::slug($name),
 				'description'	=>	'Flaconete '.$description,
 				'price'			=>	3,
-				'margin'		=>	0.2,
+				'margin'		=>	$margem_padrao,
 				'box'			=>	500,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -219,7 +232,7 @@ class ModelUpSeeder extends Seeder
 				'slug'			=>	'creme-hidratante-'.Str::slug($name),
 				'description'	=>	'Creme Hidratante '.$description,
 				'price'			=>	16,
-				'margin'		=>	0.2,
+				'margin'		=>	$margem_padrao,
 				'box'			=>	12,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -233,7 +246,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'creme-d-soft',
 			'description'	=>	'Creme D-Soft',
 			'price'			=>	13.5,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	30,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -246,7 +259,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'creme-activida',
 			'description'	=>	'Creme Activida',
 			'price'			=>	17,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	30,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -261,7 +274,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'gel-dental',
 			'description'	=>	'Gel Dental',
 			'price'			=>	5.6,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	77,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -274,7 +287,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'antisseptico',
 			'description'	=>	'Antisséptico',
 			'price'			=>	7.4,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	12,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -287,7 +300,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'necessaire',
 			'description'	=>	'Necessaire',
 			'price'			=>	13,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -302,7 +315,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'kit-profissional-vendedor',
 			'description'	=>	'Kit Profissional Vendedor',
 			'price'			=>	180,
-			'margin'		=>	0.20,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -394,7 +407,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'Shampoo-wup-cabelos-normais',
 			'description'	=>	'Shampoo W/UP! Cabelos Normais',
 			'price'			=>	29.80,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	12,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -407,7 +420,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'Shampoo-wup-cabelos-secos',
 			'description'	=>	'Shampoo W/UP! Cabelos Secos',
 			'price'			=>	29.80,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	12,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -420,7 +433,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'Shampoo-wup-cabelos-oleosos',
 			'description'	=>	'Shampoo W/UP! Cabelos Oleosos',
 			'price'			=>	29.80,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	12,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -433,7 +446,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'Condicionador-wup-cabelos-normais',
 			'description'	=>	'Condicionador W/UP! Cabelos Normais',
 			'price'			=>	29.80,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	12,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -446,7 +459,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'Condicionador-wup-cabelos-secos',
 			'description'	=>	'Condicionador W/UP! Cabelos Secos',
 			'price'			=>	29.80,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	12,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -461,7 +474,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'bandeira-para-carro-laranja',
 			'description'	=>	'Bandeira para Carro Laranja',
 			'price'			=>	8,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -474,7 +487,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'bandeira-para-carro-branca',
 			'description'	=>	'Bandeira para Carro Branca',
 			'price'			=>	8,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -487,7 +500,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'flamula-oficial-up-by-car-branca',
 			'description'	=>	'Flamula Oficial UP! By Car Branca',
 			'price'			=>	8,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -500,7 +513,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'flamula-oficial-up-by-car-laranja',
 			'description'	=>	'Flamula Oficial UP! By Car Laranja',
 			'price'			=>	8,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -513,7 +526,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'flamula-oficial-up-laranja',
 			'description'	=>	'Flamula Oficial UP! Laranja',
 			'price'			=>	5,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -526,7 +539,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'flamula-oficial-up-branca',
 			'description'	=>	'Flamula Oficial UP! Branca',
 			'price'			=>	5,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -578,7 +591,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'catalogo-up',
 			'description'	=>	'Catálogo UP!',
 			'price'			=>	3,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	100,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -629,7 +642,7 @@ class ModelUpSeeder extends Seeder
 			'name'			=>	'Encarte Oficial W/UP!',
 			'slug'			=>	'encarte-oficial-wup',
 			'description'	=>	'Encarte Oficial W/UP!',
-			'price'			=>	0.2,
+			'price'			=>	$margem_padrao,
 			'margin'		=>	0,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
@@ -669,7 +682,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'estojo-demonstrador-vip',
 			'description'	=>	'Estojo Demonstrador VIP',
 			'price'			=>	79,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -682,7 +695,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'estojo-demonstrador-vip-vazio',
 			'description'	=>	'Estojo Demonstrador VIP-vazio',
 			'price'			=>	20,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -709,7 +722,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'manual-de-negocios-up',
 			'description'	=>	'Manual de Negócios UP!',
 			'price'			=>	7,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	100,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -736,7 +749,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'ficha-de-pedidos',
 			'description'	=>	'Ficha de Pedidos',
 			'price'			=>	4,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -775,7 +788,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'bolsa-vip-up',
 			'description'	=>	'Bolsa VIP UP!',
 			'price'			=>	50,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -788,7 +801,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'bolsa-pequena-up',
 			'description'	=>	'Bolsa Pequena UP!',
 			'price'			=>	22.60,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -802,7 +815,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'dvd-apresentacao-negocios-up',
 			'description'	=>	'DVD Apresentação de Negócios UP!',
 			'price'			=>	3,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	100,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -855,7 +868,7 @@ class ModelUpSeeder extends Seeder
 			'slug'			=>	'mousepad',
 			'description'	=>	'Mousepad',
 			'price'			=>	5.5,
-			'margin'		=>	0.2,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -911,7 +924,7 @@ class ModelUpSeeder extends Seeder
 				'slug'			=>	'amostra-'.Str::slug($name),
 				'description'	=>	'Amostra '.$description. ' (10 Unidades)',
 				'price'			=>	7,
-				'margin'		=>	0.2,
+				'margin'		=>	$margem_padrao,
 				'box'			=>	NULL,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
@@ -942,6 +955,21 @@ class ModelUpSeeder extends Seeder
 			'description'	=>	'Display Demonstrador',
 			'price'			=>	600,
 			'margin'		=>	0,
+			'box'			=>	NULL,
+			'created_at'	=> 	date('Y-m-d H:m:s'),
+			'updated_at'	=> 	date('Y-m-d H:m:s'),
+			'is_alive'		=>	true
+		));
+
+		// Livros
+		DB::table('products')->insert(array(
+			'tenant_id'		=>	$tenant_id,
+			'category_id'	=>	$cats_ids['Livros'],
+			'name'			=>	"Livro: Da Feira `à UP! - Clarel Lopes e Eugenio Bergamo",
+			'slug'			=>	'livro-da-feira-a-up',
+			'description'	=>	'Livro "Da Feira à UP!',
+			'price'			=>	48,
+			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),

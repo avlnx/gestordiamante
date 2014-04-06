@@ -2,7 +2,7 @@
 
 @section('content')
 	<h1>Hello Thyago <small>these are the tenants:</small></h1>
-	{{ HTML::linkRoute('tenants.new', 'Novo Tenant', [], array('class'  => 'btn btn-primary'))}}
+	{{ HTML::linkRoute('tenants.new', 'Novo Tenant', [], array('class'  => 'btn'))}}
 	<hr/>
 	<table class='table table-condensed table-hover'>
 		<thead>

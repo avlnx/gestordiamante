@@ -4,7 +4,7 @@
 
 	<h2>Histórico de Alterações do Estoque</h2>
 	<p>
-		{{ HTML::linkRoute('snapshots.new', "Lançar Novo Pedido de Reposição" ,'entry', array('title' => 'Criar novo pedido de reposição do estoque do CD', 'class' => 'btn btn-primary')) }}
+		{{ HTML::linkRoute('snapshots.new', "Lançar Novo Pedido de Reposição" ,'entry', array('title' => 'Criar novo pedido de reposição do estoque do CD', 'class' => 'btn')) }}
 	</p>
 
 	<table class='table table-hover table-condensed'>
@@ -21,7 +21,7 @@
 		<tr>
 			<td>
 
-				Fotografia tirada há <em>{{ Ago::agolize($snapshot->created_at) }}</em>
+				Lançamento realizado há <em>{{ Ago::agolize($snapshot->created_at) }}</em>
 			</td>
 			<td>
 				@if($snapshot->type == 'entry')

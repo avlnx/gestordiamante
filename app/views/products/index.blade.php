@@ -5,7 +5,7 @@
 
 	<h2>Produtos <small>Produtos cadastrados</small></h2>
 	@if(Auth::user()->is_admin)
-	{{ HTML::linkRoute('products.new', "Novo Produto" ,[], array('title' => 'Criar novo produto', 'class' => 'btn btn-large btn-primary')) }}
+	{{ HTML::linkRoute('products.new', "Novo Produto" ,[], array('title' => 'Criar novo produto', 'class' => 'btn')) }}
 	@endif
 	<hr/>
 
