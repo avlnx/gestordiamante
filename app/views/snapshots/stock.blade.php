@@ -2,12 +2,15 @@
 
 @section('content')
 
-		<h2>Este é o seu estoque atual</h2>
+		<h2 class='text-right'>Este é o seu estoque atual
+		<small>{{ $total_stock or 0 }}</small></h2>
+		<hr>
+		<?php print_r($product_list) ?>
 
 		@foreach ($categories as $category)
 			<p class='lead'>{{ $category->name }}</p>
 
-			<table class='table table-hover table-condensed'>
+			<table class='table table-hover table-condensed table-striped table-bordered'>
 				<thead>
 					<tr>
 						<th>Produto</th>
@@ -21,7 +24,7 @@
 					<?php $total_value = 0; ?>
 					@foreach ($category->products as $product)
 
-						<tr>
+						<tr @if ($product->quantity_in_stock <= 0) {{ "class='error'" }}@endif>
 							<td>{{ $product->name }}</td>
 							<td>{{ $product->quantity_in_stock }}</td>
 							<td>R$ {{ $product->price }}</td>
@@ -32,9 +35,9 @@
 
 					@endforeach
 					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
+						<td><strong>TOTAIS</strong></td>
 						<td>{{ $total_quantity }}</td>
+						<td>---</td>
 						<td>{{ $total_value }}</td>
 					</tr>
 				</tbody>

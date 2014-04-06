@@ -17,6 +17,15 @@ class SnapshotsController extends BaseController
 		$categories = Category::all();
 		$view = View::make('snapshots.stock');
 		$view->categories = $categories;
+
+		$product_list = [];
+
+		foreach ($categories as $category) {
+			array_push($product_list, [
+				$category->name => $category->products
+			]);
+		}
+		$view->product_list = $product_list;
 		return $view;
 	}
 

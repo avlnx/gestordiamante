@@ -4,7 +4,7 @@
 	<title>Gestor Diamante</title>
 	<link rel="shortcut icon" href="img/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	{{ HTML::style('css/bootstrap.css') }}
+	{{ HTML::style('css/bootstrap.min.css') }}
 	{{ HTML::style('css/bootstrap-responsive.min.css') }}
 
 </head>
