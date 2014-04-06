@@ -57,14 +57,11 @@ Route::post('users/new', array('before' => 'auth|admins_only', 'uses' => 'UsersC
 
 // Snapshots/Pedidos/Estoque routes
 Route::get('snapshots', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@getIndex', 'as' => 'snapshots.index'));
-//Route::get('snapshots/new', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@getnew', 'as' => 'snapshots.new'));
-//Route::post('snapshots/new', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@getnew', 'as' => 'snapshots.new'));
 Route::get('snapshots/new/{type?}', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@getNew', 'as' => 'snapshots.new'));
 Route::post('snapshots/new/{type?}', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@postNew', 'as' => 'snapshots.postNew'));
-//Route::get('snapshots/entry/new/{id}', array('before' => 'auth|admins_only|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getnew_entry', 'as' => 'snapshots.new_entry'));
-//Route::post('snapshots/entry/new/{id}', array('before' => 'auth|admins_only|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getnew_entry', 'as' => 'snapshots.new_entry'));
 Route::get('snapshots/{id}', array('before' => 'auth|admins_only|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getFocus', 'as' => 'snapshots.focus'));
-
+// Stock routes
+Route::get('stock', array('before' => 'auth|admins_only', 'uses' => 'StaticStocksController@getIndex', 'as' => 'staticstocks.index'));
 
 // Sales routes
 Route::get('sales', array('before' => 'auth', 'uses' => 'SalesController@getIndex', 'as' => 'sales.index'));

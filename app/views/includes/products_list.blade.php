@@ -15,7 +15,8 @@
 								<td>{{ $product->name }}</td>
 								<td>
 
-									@if($product->box)
+									@if(False)
+									{{-- if($produtc->box) --}}
 									<div class='input-append'>
 										{{ Form::text($product->id.'-box', 0, array('class'=>'input-small reset-input qtdd','id'=>"qtd-caixas-$product->id",'onClick'=>'this.select()')) }} 
 										<span class='add-on'>caixas</span>
@@ -64,7 +65,7 @@
 			preco = parseFloat($('#preco-'+id).html());
 			// Caixas
 			var caixas = parseFloat($('#qtd-caixas-'+id).val());
-			var box = parseFloat($('#box-'+id).html());
+			//var box = parseFloat($('#box-'+id).html());
 			if(box)
 			{
 				total += parseFloat(box*caixas*preco);

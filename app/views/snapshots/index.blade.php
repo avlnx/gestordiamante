@@ -4,9 +4,9 @@
 
 	<h2>Alterações do Estoque</h2>
 	<p>
-		{{ HTML::linkRoute('snapshots.new', "Nova Fotografia do Estoque" ,'', array('title' => 'Criar nova fotografia', 'class' => 'btn btn-primary')) }} 
+		
 		{{ HTML::linkRoute('snapshots.new', "Novo Pedido de Reposição" ,'entry', array('title' => 'Criar novo pedido de reposição do estoque do CD', 'class' => 'btn btn-primary')) }}
-		{{ HTML::linkRoute('snapshots.new', "Baixa do Estoque" ,'baixa', array('title' => 'Dar baixa em produtos do estoque do CD', 'class' => 'btn btn-primary')) }}
+		
 	</p>
 
 	<table class='table table-hover table-condensed'>
