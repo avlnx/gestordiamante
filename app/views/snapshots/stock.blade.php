@@ -3,6 +3,7 @@
 @section('content')
 
 		<h2 class='text-right'>Este é o seu estoque atual</h2>
+		<h5 class='text-right'>Produtos com estoque zerado não aparecem neste relatório.</h5>
 		<hr>
 
 		<?php $cats = $product_list_in_stock ?>
@@ -34,7 +35,7 @@
 					@endforeach
 					<tr>
 						<td><strong>TOTAIS</strong></td>
-						<td>{{ $total_quantity }}</td>
+						<td><strong>{{ $total_quantity }}</strong></td>
 						<td>---</td>
 						<td><strong>R$ {{ $total_value }}</strong></td>
 					</tr>

@@ -25,24 +25,21 @@ class SnapshotsController extends BaseController
 		foreach ($categories as $category) {
 			$cat_products = $category->products;
 
-			$category_has_at_least_one_product = false;
 			$cat_products_in_stock = $category->products->filter(function($product){
 				if($product->quantity_in_stock > 0)
 				{
-					//$category_has_at_least_one_product = true;
 					return $product;
 				}
 			});
 
 			$full_product_list[$category->name] = $cat_products;
 
-			if($category_has_at_least_one_product)
+			if(count($cat_products_in_stock) > 0)
 			{
 				$product_list_in_stock[$category->name] = $cat_products_in_stock;
 			} else {
 				$product_list_out_of_stock[$category->name] = $cat_products;
 			}
-			$category_has_at_least_one_product = false;
 			
 		}
 		$view->product_list = $full_product_list;

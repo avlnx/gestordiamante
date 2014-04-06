@@ -74,13 +74,13 @@ class SalesController extends BaseController
 			'deposit'		=>	Input::get('deposit'),
 			'order_number'	=>	Input::get('order_number')
 		));
-		// TODO: generate all sale items and link to this sale
 
 		$items = array();
 
 		//print_r($products);
 
-		
+		$quantities_to_update = [];
+
 		foreach($products as $id_type => $quantity)
 		{
 			list($id, $type) = explode('-', $id_type);
@@ -99,6 +99,7 @@ class SalesController extends BaseController
 				{
 					// a part for this product already exists, sum the quantities
 					$items[$product->id]['quantity'] += $total_quantity;
+					$quantities_to_update[$product->id] += $total_quantity;
 
 				} else {
 					$items[$product->id] = array(
@@ -109,6 +110,7 @@ class SalesController extends BaseController
 						'quantity'		=>	$total_quantity,
 						'is_alive'		=>	True
 					);
+					$quantities_to_update[$product->id] = $total_quantity;
 				}
 			}
 		}
@@ -127,13 +129,21 @@ class SalesController extends BaseController
 				->with('error', 'Os valores das formas de pagamento não batem com o valor total do pedido! Cheque os valores e tente novamente.');
 		}
 
-		// Save sale and its items and redirect
+		// Save sale and its items
 
 		//$sale->items()->save($items);
 		foreach ($items as $item_array) {
 			$item = new Item($item_array);
 			$sale->items()->save($item);
 		}
+
+		// Update quantities, everything was succesfull, redirect
+		foreach ($quantities_to_update as $product_id => $quantity) {
+			$product = Product::find($product_id);
+			$product->quantity_in_stock -= $quantity;
+			$product->save();
+		}
+
 		return Redirect::route('sales.index')->with('notice', 'Venda gerada com sucesso.');
 		
 	}
