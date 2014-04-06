@@ -114,6 +114,7 @@
 								    <b class="caret"></b>
 							    </a>
 							    <ul class="dropdown-menu" role="menu" aria-labelledby="admins">
+							    	<li>{{ HTML::linkRoute('snapshots.stock','Visualizar Estoque Atual') }}</li>
 							    	<li>{{ HTML::linkRoute('snapshots.index','Histórico de Atividades do Estoque') }}</li>
 								    <li>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry')) }}</li>
 								   	<!--

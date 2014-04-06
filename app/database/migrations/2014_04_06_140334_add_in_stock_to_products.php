@@ -12,6 +12,10 @@ class AddInStockToProducts extends Migration {
 	public function up()
 	{
 		//
+		Schema::table('products', function($table)
+		{
+		    $table->integer('quantity_in_stock')->default(0);
+		});
 	}
 
 	/**
@@ -22,6 +26,10 @@ class AddInStockToProducts extends Migration {
 	public function down()
 	{
 		//
+		Schema::table('products', function($table)
+		{
+		    $table->dropColumn('quantity_in_stock');
+		});
 	}
 
 }

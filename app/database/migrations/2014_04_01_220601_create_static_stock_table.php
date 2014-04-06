@@ -36,6 +36,10 @@ class CreateStaticStockTable extends Migration {
 	{
 		//
 		Schema::drop('static_stocks');
+		Schema::table('parts', function($table)
+		{
+		    $table->dropColumn('static_stock_id');
+		});
 	}
 
 }
