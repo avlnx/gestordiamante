@@ -18,14 +18,37 @@ class SnapshotsController extends BaseController
 		$view = View::make('snapshots.stock');
 		$view->categories = $categories;
 
-		$product_list = [];
+		$full_product_list = [];
+		$product_list_in_stock = [];
+		$product_list_out_of_stock = [];
 
 		foreach ($categories as $category) {
-			array_push($product_list, [
-				$category->name => $category->products
-			]);
+			$cat_products = $category->products;
+
+			$category_has_at_least_one_product = false;
+			$cat_products_in_stock = $category->products->filter(function($product){
+				if($product->quantity_in_stock > 0)
+				{
+					//$category_has_at_least_one_product = true;
+					return $product;
+				}
+			});
+
+			$full_product_list[$category->name] = $cat_products;
+
+			if($category_has_at_least_one_product)
+			{
+				$product_list_in_stock[$category->name] = $cat_products_in_stock;
+			} else {
+				$product_list_out_of_stock[$category->name] = $cat_products;
+			}
+			$category_has_at_least_one_product = false;
+			
 		}
-		$view->product_list = $product_list;
+		$view->product_list = $full_product_list;
+		$view->product_list_in_stock = $product_list_in_stock;
+		$view->product_list_out_of_stock = $product_list_out_of_stock;
+
 		return $view;
 	}
 
