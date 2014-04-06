@@ -2,11 +2,9 @@
 
 @section('content')
 
-	<h2>Alterações do Estoque</h2>
+	<h2>Histórico de Alterações do Estoque</h2>
 	<p>
-		
-		{{ HTML::linkRoute('snapshots.new', "Novo Pedido de Reposição" ,'entry', array('title' => 'Criar novo pedido de reposição do estoque do CD', 'class' => 'btn btn-primary')) }}
-		
+		{{ HTML::linkRoute('snapshots.new', "Lançar Novo Pedido de Reposição" ,'entry', array('title' => 'Criar novo pedido de reposição do estoque do CD', 'class' => 'btn btn-primary')) }}
 	</p>
 
 	<table class='table table-hover table-condensed'>

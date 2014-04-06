@@ -12,6 +12,11 @@ class SnapshotsController extends BaseController
 		return $view;
 	}
 
+	public function getStock()
+	{
+
+	}
+
 	public function getNew($type='snapshot')
 	{
 		$products = Product::all();
@@ -98,6 +103,9 @@ class SnapshotsController extends BaseController
 
 			if($total_quantity != 0)
 			{
+				// Add total quantity to current stock
+				// $product->in_stock += $total_quantity;
+				// $product->save();
 				if(array_key_exists($product->id, $parts))
 				{
 					// a part for this product already exists, sum the quantities
