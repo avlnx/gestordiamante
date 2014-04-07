@@ -22,6 +22,7 @@
 			<td>
 
 				Lançamento realizado há <em>{{ Ago::agolize($snapshot->created_at) }}</em>
+				<small>por {{ $snapshot->user()->first()->name }} </small>
 			</td>
 			<td>
 				@if($snapshot->type == 'entry')

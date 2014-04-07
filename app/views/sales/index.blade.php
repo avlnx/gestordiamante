@@ -40,7 +40,7 @@
 		<thead>
 			<tr>
 				<th>Pedido</th>
-				<th>Quando</th>
+				<th>Meta</th>
 				<th>Valor</th>
 			</tr>
 		</thead>
@@ -49,7 +49,9 @@
 			@foreach($sales as $sale)
 				<tr>
 					<td>{{ HTML::linkRoute('sales.focus', '#'.$sale->order_number, array($sale->id), array('class'=>'')) }}</td>
-					<td>há <em>{{ Ago::agolize($sale->created_at) }}</em> - <small>em <em>{{ $sale->created_at->formatLocalized('%d de %B de %Y') }}</small></em></td>
+					<td>há <em>{{ Ago::agolize($sale->created_at) }}</em> - <small>em <em>{{ $sale->created_at->formatLocalized('%d de %B de %Y') }}</small></em>
+						<small>por {{ $sale->user()->first()->name }} </small>
+					</td>
 					<td>R${{ $sale->total_value() }}</td>
 				</tr>
 				<?php $total += $sale->total_value(); ?>

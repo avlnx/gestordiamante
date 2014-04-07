@@ -9,6 +9,11 @@ class Sale extends Eloquent
 		return $this->belongsTo('Tenant');
 	}
 
+	public function user()
+	{
+		return $this->belongsTo('User');
+	}
+
 	public function items()
 	{
 		return $this->hasMany('Item');

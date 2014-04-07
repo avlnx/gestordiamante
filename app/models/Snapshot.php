@@ -9,6 +9,11 @@ class Snapshot extends Eloquent
 		return $this->belongsTo('Tenant');
 	}
 
+	public function user()
+	{
+		return $this->belongsTo('User');
+	}
+
 	public function parts()
 	{
 		return $this->hasMany('Part');
