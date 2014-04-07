@@ -56,17 +56,17 @@ Route::get('users/delete/{id}', array('before' => 'auth|admins_only|check_tenant
 Route::post('users/new', array('before' => 'auth|admins_only', 'uses' => 'UsersController@postNew', 'as' => 'users.postNew'));
 
 // Snapshots/Pedidos/Estoque routes
-Route::get('snapshots', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@getIndex', 'as' => 'snapshots.index'));
+Route::get('snapshots', array('before' => 'auth', 'uses' => 'SnapshotsController@getIndex', 'as' => 'snapshots.index'));
 Route::get('snapshots/new/{type?}', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@getNew', 'as' => 'snapshots.new'));
 Route::post('snapshots/new/{type?}', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@postNew', 'as' => 'snapshots.postNew'));
-Route::get('snapshots/{id}', array('before' => 'auth|admins_only|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getFocus', 'as' => 'snapshots.focus'));
+Route::get('snapshots/{id}', array('before' => 'auth|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getFocus', 'as' => 'snapshots.focus'));
 // Stock routes
-Route::get('stock', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@getStock', 'as' => 'snapshots.stock'));
+Route::get('stock', array('before' => 'auth', 'uses' => 'SnapshotsController@getStock', 'as' => 'snapshots.stock'));
 
 // Sales routes
-Route::get('sales', array('before' => 'auth', 'uses' => 'SalesController@getIndex', 'as' => 'sales.index'));
+//Route::get('sales', array('before' => 'auth', 'uses' => 'SalesController@getIndex', 'as' => 'sales.index'));
+Route::any('sales/filter/{filter?}', array('before' => 'auth', 'uses' => 'SalesController@getIndex', 'as' => 'sales.index'));
 Route::post('sales/new', array('before' => 'auth', 'uses' => 'SalesController@postNew', 'as' => 'sales.postNew'));
 Route::get('sales/new', array('before' => 'auth', 'uses' => 'SalesController@getNew', 'as' => 'sales.new'));
-
 Route::get('sales/{id}', array('before' => 'auth|check_tenant:Sale', 'uses' => 'SalesController@getFocus', 'as' => 'sales.focus'));
 

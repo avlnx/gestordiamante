@@ -21,9 +21,14 @@ class SnapshotsController extends BaseController
 		$full_product_list = [];
 		$product_list_in_stock = [];
 		$product_list_out_of_stock = [];
+		$total_stock_value = 0;
 
 		foreach ($categories as $category) {
 			$cat_products = $category->products;
+
+			foreach ($category->products as $product) {
+				$total_stock_value += $product->quantity_in_stock * $product->price;
+			}
 
 			$cat_products_in_stock = $category->products->filter(function($product){
 				if($product->quantity_in_stock > 0)
@@ -45,6 +50,8 @@ class SnapshotsController extends BaseController
 		$view->product_list = $full_product_list;
 		$view->product_list_in_stock = $product_list_in_stock;
 		$view->product_list_out_of_stock = $product_list_out_of_stock;
+
+		$view->total_stock_value = $total_stock_value;
 
 		return $view;
 	}

@@ -4,9 +4,81 @@ class SalesController extends BaseController
 {
 	public $restful = True;
 
-	public function getIndex()
+	public function getIndex($filter)
 	{
-		$sales = Sale::all();
+		$sales = Sale::all()->take(50);
+
+		if ($filter == 'specific_date') {
+			$start_date = Input::get('start_date');
+			$end_date = Input::get('end_date');
+			if ($start_date == null || $end_date == null) {
+				return Redirect::route('sales.index','latest')
+				->with('error', 'Escolha um período para as vendas');
+		
+			}
+			$same_dates = false;
+			if ($start_date == $end_date) {
+				$same_dates = true;
+			}
+
+			#DEBUG / Format day/month/year
+			//$start_date = "12/12/2013";
+			//$end_date = "31/12/2013";
+
+			list($start_day,$start_month,$start_year) = explode('/', $start_date);
+			list($end_day,$end_month,$end_year) = explode('/', $end_date);
+
+
+
+			foreach ($sales as $key => $sale) {
+				if ($same_dates) {
+					if ($sale->created_at->diffInDays(Carbon::createFromDate($start_year,$start_month,$start_day)) == 0)
+					{
+						continue;
+					} else {
+						$sales->forget($key);
+					}
+				} else {
+					if ($sale->created_at->startOfDay() >= Carbon::createFromDate($start_year,$start_month,$start_day) 
+						&& $sale->created_at->startOfDay() <= Carbon::createFromDate($end_year,$end_month,$end_day)) {
+						continue;
+					} else {
+						$sales->forget($key);
+					}
+				}
+			}
+
+		} else {
+
+			switch ($filter) {
+				case 'latest':
+					break;
+				case 'today':
+					$sales = $sales->filter(function($sale){
+						if($sale->created_at->diffInDays(Carbon::today()) == 0) {
+							return $sale;
+						}
+					});
+					break;
+				case 'yesterday':
+					$sales = $sales->filter(function($sale){
+						if($sale->created_at->diffInDays(Carbon::today()) == 1) {
+						//if($sale->created_at > Carbon::yesterday() && $sale->created_at < Carbon::today()) {
+							return $sale;
+						}
+					});
+					break;
+				case 'month':
+					$sales = $sales->filter(function($sale){
+						if($sale->created_at->startOfMonth()->diffInMonths(Carbon::today()->startOfMonth()) == 0) {
+						//if($sale->created_at->difInMonths(Carbon::today()) == 0) {
+						//if($sale->created_at->month == Carbon::today()->month && $sale->created_at->year == Carbon::today()->year) {
+							return $sale;
+						}
+					});
+					break;
+			}
+		}
 
 		$view = View::make('sales.index');
 		$view->sales = $sales;
@@ -144,7 +216,7 @@ class SalesController extends BaseController
 			$product->save();
 		}
 
-		return Redirect::route('sales.index')->with('notice', 'Venda gerada com sucesso.');
+		return Redirect::route('sales.index', ['latest'])->with('notice', 'Venda gerada com sucesso.');
 		
 	}
 

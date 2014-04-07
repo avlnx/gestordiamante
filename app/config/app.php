@@ -177,7 +177,8 @@ return array(
 		'Str'             => 'Illuminate\Support\Str',
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
-		'View'            => 'Illuminate\Support\Facades\View'
+		'View'            => 'Illuminate\Support\Facades\View',
+		'Carbon'		  => 'Carbon\Carbon'
 
 	),
 

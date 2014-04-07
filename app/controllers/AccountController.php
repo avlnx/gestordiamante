@@ -9,11 +9,14 @@ class AccountController extends BaseController
 		if (Auth::check())
 		{
 			// user is already logged in
-			return Redirect::route('home.index')
-				->with('notice', 'Você já está logado!');
-		}
-		else
-		{
+			if (Auth::user()->is_admin) {
+				return Redirect::route('snapshots.stock')
+					->with('notice', 'Você já está logado!');
+			} else {
+				return Redirect::route('sales.new')
+					->with('notice', 'Você já está logado!');
+			}
+		} else {
 			return View::make('account.login');
 		}
 	}
@@ -30,9 +33,11 @@ class AccountController extends BaseController
 		{
 			//ok
 			if (Auth::user()->is_root) {
-				return Redirect::route('home.index');
+				return Redirect::route('tenants.index');
+			} else if (Auth::user()->is_admin) {
+				return Redirect::route('snapshots.stock');
 			} else {
-				return Redirect::route('home.index');
+				return Redirect::route('sales.new');
 			}
 			
 		} 

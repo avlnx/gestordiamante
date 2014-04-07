@@ -12,7 +12,7 @@
 
 			<div class="input-prepend">
 				<span class="add-on">Número do Pedido</span>
-				<input class="span2" id="prependedInput" type="text" name="order_number">
+				<input class="span2" id="order_number" type="text" name="order_number">
 			</div>
 
 			@include('includes.products_list')
@@ -101,5 +101,13 @@
 	$('#deposit').on('change', function(){update_forms_total()});
 	$('#bonus').on('change', function(){update_forms_total()});
 	$('#cash').on('change', function(){update_forms_total()});
+
+	$('form').on('submit', function(event){
+		if(!$('#order_number').val())
+		{
+			alert('Por favor, preencha o número do pedido');
+			event.preventDefault();
+		}
+	});
 	
 @stop
