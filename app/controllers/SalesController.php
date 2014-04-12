@@ -138,6 +138,7 @@ class SalesController extends BaseController
 
 		$sale = Sale::create(array(
 			'tenant_id'	=>  Auth::user()->tenant_id,
+			'user_id'	=>	Auth::user()->id,
 			'is_alive'	=>	True,
 			'debit'		=>	Input::get('debit'),
 			'credit'		=>	Input::get('credit'),
