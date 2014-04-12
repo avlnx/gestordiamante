@@ -6,7 +6,7 @@ class SalesController extends BaseController
 
 	public function getIndex($filter)
 	{
-		$sales = Sale::all()->take(50);
+		$sales = Sale::all()->take(50);	//TODO: are we gonna cap the results? implement a "show more" button
 
 		if ($filter == 'specific_date') {
 			$start_date = Input::get('start_date');
@@ -14,33 +14,39 @@ class SalesController extends BaseController
 			if ($start_date == null || $end_date == null) {
 				return Redirect::route('sales.index','latest')
 				->with('error', 'Escolha um período para as vendas');
-		
 			}
+			// Build carbon object
+			list($start_day,$start_month,$start_year) = explode('/', $start_date);
+			list($end_day,$end_month,$end_year) = explode('/', $end_date);
+			$start_date_obj = Carbon::createFromDate($start_year,$start_month,$start_day);
+			$end_date_obj = Carbon::createFromDate($end_year,$end_month,$end_day);
+
+
+			// check if end_date < start_date
+			if ($end_date_obj->format('Y-m-d') < $start_date_obj->format('Y-m-d')) {
+				return Redirect::route('sales.index','latest')
+				->with('error', 'A data final deve ser maior que a data inicial.');
+			}
+
 			$same_dates = false;
 			if ($start_date == $end_date) {
 				$same_dates = true;
 			}
 
-			#DEBUG / Format day/month/year
-			//$start_date = "12/12/2013";
-			//$end_date = "31/12/2013";
-
 			list($start_day,$start_month,$start_year) = explode('/', $start_date);
 			list($end_day,$end_month,$end_year) = explode('/', $end_date);
 
-
-
 			foreach ($sales as $key => $sale) {
 				if ($same_dates) {
-					if ($sale->created_at->diffInDays(Carbon::createFromDate($start_year,$start_month,$start_day)) == 0)
+					if ($end_date_obj->format('Y-m-d') == $sale->created_at->format('Y-m-d'))
 					{
 						continue;
 					} else {
 						$sales->forget($key);
 					}
 				} else {
-					if ($sale->created_at->startOfDay() >= Carbon::createFromDate($start_year,$start_month,$start_day) 
-						&& $sale->created_at->startOfDay() <= Carbon::createFromDate($end_year,$end_month,$end_day)) {
+					if ($sale->created_at->format('Y-m-d') >= $start_date_obj->format('Y-m-d') 
+						&& $sale->created_at->format('Y-m-d') <= $end_date_obj->format('Y-m-d')) {
 						continue;
 					} else {
 						$sales->forget($key);
@@ -55,24 +61,21 @@ class SalesController extends BaseController
 					break;
 				case 'today':
 					$sales = $sales->filter(function($sale){
-						if($sale->created_at->diffInDays(Carbon::today()) == 0) {
+						if ($sale->created_at->format('Y-m-d') == Carbon::today()->format('Y-m-d')) {
 							return $sale;
 						}
 					});
 					break;
 				case 'yesterday':
 					$sales = $sales->filter(function($sale){
-						if($sale->created_at->diffInDays(Carbon::today()) == 1) {
-						//if($sale->created_at > Carbon::yesterday() && $sale->created_at < Carbon::today()) {
+						if ($sale->created_at->format('Y-m-d') == Carbon::yesterday()->format('Y-m-d')) {
 							return $sale;
 						}
 					});
 					break;
 				case 'month':
 					$sales = $sales->filter(function($sale){
-						if($sale->created_at->startOfMonth()->diffInMonths(Carbon::today()->startOfMonth()) == 0) {
-						//if($sale->created_at->difInMonths(Carbon::today()) == 0) {
-						//if($sale->created_at->month == Carbon::today()->month && $sale->created_at->year == Carbon::today()->year) {
+						if ($sale->created_at->format('Y-m') == Carbon::today()->format('Y-m')) {
 							return $sale;
 						}
 					});
@@ -82,6 +85,29 @@ class SalesController extends BaseController
 
 		$view = View::make('sales.index');
 		$view->sales = $sales;
+
+		switch ($filter) {
+			case 'latest':
+				$filter_message = "(50 últimas)";
+				break;
+			case 'specific_date':
+				$filter_message = "no período de $start_date a $end_date";
+				break;
+			case 'today':
+				$filter_message = "de Hoje";
+				break;
+			case 'yesterday':
+				$filter_message = "de Ontem";
+				break;
+			case 'month':
+				$filter_message = "desse Mês";
+				break;
+			default:
+				$filter_message = "";
+				break;
+		}
+
+		$view->filter_message = $filter_message;
 
 		return $view;
 	}

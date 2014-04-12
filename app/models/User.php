@@ -70,7 +70,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $users;
 		*/
 		return parent::where('tenant_id', '=', Auth::user()->tenant_id)->where('is_alive','=',true)->get();
-		
 	}
 
 }

@@ -45,7 +45,7 @@ class AccountController extends BaseController
 		{
 			// not found
 			return Redirect::route('account.login')
-				->with('login_errors', true);
+				->with('login_errors', true)->withInput(Input::except('password'));
 		}
 	}
 

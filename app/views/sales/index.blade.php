@@ -4,16 +4,14 @@
 
 	<?php setlocale(LC_TIME, 'pt_BR'); ?>
 
-	<h2>Vendas</h2>
-
-	<h4>Visualizando as últimas vendas</h4>
+	<h2>Vendas <span class='label label-primary'>{{ $filter_message }}</span></h2>
 
 	<!--{{ HTML::linkRoute('sales.new', "Nova Venda" ,[], array('title' => 'Lançar nova venda', 'class' => 'btn')) }}-->
 	<hr/>
 
 	<p>
 		Visualizar somente vendas realizadas:<br/>
-		{{ HTML::linkRoute('sales.index', "Mais recentes" ,['latest'], array('title' => 'Visualizar últimas vendas', 'class' => 'btn btn-small')) }}
+		{{ HTML::linkRoute('sales.index', "Últimas Vendas" ,['latest'], array('title' => 'Visualizar últimas vendas', 'class' => 'btn btn-small')) }}
 		{{ HTML::linkRoute('sales.index', "Hoje" ,['today'], array('title' => 'Visualizar vendas de hoje', 'class' => 'btn btn-small')) }}
 		{{ HTML::linkRoute('sales.index', "Ontem" ,['yesterday'], array('title' => 'Visualizar vendas de ontem', 'class' => 'btn btn-small')) }}
 		{{ HTML::linkRoute('sales.index', "Este Mês" ,['month'], array('title' => 'Visualizar vendas deste mês', 'class' => 'btn btn-small')) }}

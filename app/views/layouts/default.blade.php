@@ -21,7 +21,7 @@
 	</style>
 	
 <div class='container'>
-
+	@if (Auth::check())
 	<div class="navbar">
 		<div class="navbar-inner navbar-fixed">
 			<ul class="nav">
@@ -36,7 +36,7 @@
 			</ul>
 		</div>
 	</div>
-	
+	@endif
 
 	<div class='row'>
 		<div class='span12'>
