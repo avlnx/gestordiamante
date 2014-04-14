@@ -142,7 +142,7 @@ class SalesController extends BaseController
 					break;
 				case 'order_number':
 					// numero do pedido obrigatorio
-					$rules[$field] = 'required';
+					$rules[$field] = 'required|unique:sales';
 					break;
 				case '_token':
 					break;
@@ -159,7 +159,8 @@ class SalesController extends BaseController
 		{
 			//return print_r($validation->errors);
 			return Redirect::route('sales.new')
-				->with('error', 'Utilize apenas números inteiros para as quantidades e números para as formas de pagamento. O número do pedido é obrigatório.');
+				->with('error', 'Utilize apenas números inteiros para as quantidades e números para as formas de pagamento. O número do pedido é obrigatório e deve ser único.')
+				->withInput();
 		}
 
 		$sale = Sale::create(array(
@@ -225,7 +226,8 @@ class SalesController extends BaseController
 			// error in calculation! blow up!
 			$sale->delete();
 			return Redirect::route('sales.new')
-				->with('error', 'Os valores das formas de pagamento não batem com o valor total do pedido! Cheque os valores e tente novamente.');
+				->with('error', 'Os valores das formas de pagamento não batem com o valor total do pedido! Cheque os valores e tente novamente.')
+				->withInput();
 		}
 
 		// Save sale and its items

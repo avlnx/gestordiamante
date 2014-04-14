@@ -4,9 +4,8 @@
 
 	<?php setlocale(LC_TIME, 'pt_BR'); ?>
 
-	<h2>Vendas <span class='label label-primary'>{{ $filter_message }}</span></h2>
+	<h2>Vendas <span class='label label-info'>{{ $filter_message }}</span></h2>
 
-	<!--{{ HTML::linkRoute('sales.new', "Nova Venda" ,[], array('title' => 'Lançar nova venda', 'class' => 'btn')) }}-->
 	<hr/>
 
 	<p>

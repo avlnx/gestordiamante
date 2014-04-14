@@ -23,7 +23,7 @@ class Sale extends Eloquent
 	{
 		return parent::where('tenant_id', '=', Auth::user()->tenant_id)->where('is_alive','=',true)
 			->orderBy('created_at', 'desc')
-			->take(10)
+			//->take(10)
 			->get();
 	}
 
