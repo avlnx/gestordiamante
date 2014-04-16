@@ -79,8 +79,10 @@
 				<br class='clearfix'/><br/>
 			
 
-				@if (Auth::check() & !(Auth::user()->is_root))
+				@if (Auth::check())
 					<ul class="nav nav-tabs nav-stacked sb-fixed" style='width: inherit'>
+					@if (!Auth::user()->is_root)
+					
 						<li class="dropdown">
 						    <a class="dropdown-toggle" id="vendas" role="button" data-toggle="dropdown" href="#">
 							    <i class='icon-list'></i> Relatórios
@@ -114,19 +116,19 @@
 					    </li>
 					    @endif
 
-					    @if (Auth::user()->is_root)
-					     	<li class="dropdown">
-							    <a class="dropdown-toggle" id="admins" role="button" data-toggle="dropdown" href="#">
-								    Super User
-								    <b class="caret"></b>
-							    </a>
-							    <ul class="dropdown-menu" role="menu" aria-labelledby="admins">
-							    	<li>{{ HTML::linkRoute('tenants.index','Tenants') }}</li>
-							    	<li>{{ HTML::linkRoute('tenants.new','New Tenant') }}</li>
-							    </ul>
-						    </li>
-					    @endif
 					</ul>
+					@else
+						<li class="dropdown">
+						    <a class="dropdown-toggle" id="admins" role="button" data-toggle="dropdown" href="#">
+							    Super User
+							    <b class="caret"></b>
+						    </a>
+						    <ul class="dropdown-menu" role="menu" aria-labelledby="admins">
+						    	<li>{{ HTML::linkRoute('tenants.index','Tenants') }}</li>
+						    	<li>{{ HTML::linkRoute('tenants.new','New Tenant') }}</li>
+						    </ul>
+					    </li>
+					@endif
 				@endif
 			</div>
 			

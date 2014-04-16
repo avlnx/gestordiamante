@@ -25,10 +25,10 @@ $app->redirectIfTrailingSlash();
 | given environment, then we will automatically detect it for you.
 |
 */
-
+//59.57.148.177
 $env = $app->detectEnvironment(array(
 
-	'local' => array('Thyagos-MacBook-Air.local'),
+	'local' => array('Thyagos-MacBook-Air.local','59.57.148.177.isp.timbrasil.com.b'),
 	'production'	=>	array('avlnx')
 ));
 
