@@ -1,7 +1,7 @@
-/bootstrap/compiled.php
-composer.phar
-composer.lock
-composer.json
+#/bootstrap/compiled.php
+#composer.phar
+#composer.lock
+#composer.json
 .DS_Store
 Thumbs.db
 
