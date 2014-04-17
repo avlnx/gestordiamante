@@ -2,6 +2,7 @@
 #composer.phar
 #composer.lock
 #composer.json
+vendor
 .DS_Store
 Thumbs.db
 
