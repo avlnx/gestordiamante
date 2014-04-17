@@ -37,7 +37,7 @@
 					<li class='divider-vertical'></li>
 					<li>
 						<p class='navbar-text'>
-							<span class='label label-info'>Logado como <strong>{{ Auth::user()->tenant->account_name }}</strong></span> 
+							<span class='label label-inverse'>Logado como <strong>{{ Auth::user()->tenant->account_name }}</strong></span> 
 							<small>{{ HTML::linkRoute('superadmin.choose','Alterar') }}</small>
 						</p>
 						</li>
