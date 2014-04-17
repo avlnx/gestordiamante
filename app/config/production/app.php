@@ -2,7 +2,7 @@
 
 return array(
 
-	'debug'		=>	false,
+	'debug'		=>	true,
 	'timezone'	=>	'America/Sao_Paulo',
 	'url' => 'http://app.gestordiamante.com.br'
 
