@@ -13,10 +13,12 @@
 			<td><p class='lead'>{{ $user->name }}</p></td>
 			<td><p>{{ $user->email }}</p></td>
 			<td>
+
 				@if($user->is_root)
 					<span class="label label-inverse">ROOT</span>
-				@endif
-				@if($user->is_admin)
+				@elseif ($user->is_superadmin)
+					<span class="label label-important">SuperAdmin</span>
+				@elseif($user->is_admin)
 					<span class="label label-warning">Admin</span>
 				@else
 					<span class="label">Usuário comum</span>

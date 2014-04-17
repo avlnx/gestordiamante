@@ -25,11 +25,12 @@ class UsersController extends BaseController
 
 		$rules = array(
 			'name'	=>	'required',
-			'email'	=>	'required|email',
+			'email'	=>	'required|email|unique:users',
 			'password' => 'required'
 		);
 
 		$messages = array(
+			'unique'	=>	'Este :attribute já foi utilizado'
 		);
 
 		$validation = Validator::make(Input::all(), $rules, $messages);

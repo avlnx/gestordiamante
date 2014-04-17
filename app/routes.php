@@ -70,3 +70,14 @@ Route::post('sales/new', array('before' => 'auth', 'uses' => 'SalesController@po
 Route::get('sales/new', array('before' => 'auth', 'uses' => 'SalesController@getNew', 'as' => 'sales.new'));
 Route::get('sales/{id}', array('before' => 'auth|check_tenant:Sale', 'uses' => 'SalesController@getFocus', 'as' => 'sales.focus'));
 
+// Superadmin routes
+Route::get('superadmin/choose', array('before' => 'auth', 'uses' => 'SuperadminController@getChooseProfile', 'as' => 'superadmin.choose'));
+Route::get('superadmin/choose/{id}', array('before' => 'auth', 'uses' => 'SuperadminController@getSwitchProfile', 'as' => 'superadmin.switch'));
+
+
+
+
+
+
+
+

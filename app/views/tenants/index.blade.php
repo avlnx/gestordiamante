@@ -7,7 +7,8 @@
 	<table class='table table-condensed table-hover'>
 		<thead>
 			<tr>
-				<th>Email</th>
+				<th>Nome</th>
+				<th>Superadmin</th>
 				<th>Membro há</th>
 				<th>Empresa</th>
 				<th>Produtos</th>
@@ -18,6 +19,7 @@
 		<tbody>
 			@foreach ($tenants as $tenant)
 				<tr>
+					<td><span class="label label-info">{{ $tenant->account_name }}</span></td>
 					<td>{{ HTML::linkRoute('tenants.focus', $tenant->email, array($tenant->id)) }}</td>
 					<td>{{ Ago::agolize($tenant->created_at) }}</td>
 					<td>{{ Str::title($tenant->company) }}</td>

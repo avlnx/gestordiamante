@@ -33,6 +33,15 @@
 				<li class='divider-vertical'></li>
 				<li>{{ HTML::linkRoute('snapshots.stock','Visualizar Estoque Atual') }}</li>
 				<li>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry')) }}</li>
+				@if (Auth::user()->is_superadmin)
+					<li class='divider-vertical'></li>
+					<li>
+						<p class='navbar-text'>
+							<span class='label label-info'>Logado como <strong>{{ Auth::user()->tenant->account_name }}</strong></span> 
+							<small>{{ HTML::linkRoute('superadmin.choose','Alterar') }}</small>
+						</p>
+						</li>
+				@endif
 			</ul>
 		</div>
 	</div>

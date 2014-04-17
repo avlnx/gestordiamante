@@ -15,7 +15,8 @@ class TenantTableSeeder extends Seeder
 				'email'			=>	NULL,
 				'created_at'	=>	date('Y-m-d H:m:s'),
 				'updated_at'	=>	date('Y-m-d H:m:s'),
-				'company'		=> 	'root'
+				'company'		=> 	'root',
+				'account_name'	=>	'Root'
 			));
 		}
 

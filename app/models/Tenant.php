@@ -57,6 +57,7 @@ class Tenant extends Eloquent
 		$user->email = Input::get('email');
 		$user->password = Hash::make($password);
 		$user->is_root = False;
+		$user->is_superadmin = True;
 		$user->is_admin = True;
 		$user->is_alive = True;
 

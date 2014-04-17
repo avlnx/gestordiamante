@@ -9,7 +9,10 @@ class AccountController extends BaseController
 		if (Auth::check())
 		{
 			// user is already logged in
-			if (Auth::user()->is_admin) {
+			if (Auth::user()->is_superadmin) {
+				return Redirect::route('superadmin.choose')
+					->with('notice', 'Olá, escolha um dos seus CDs.');
+			} else if (Auth::user()->is_admin) {
 				return Redirect::route('snapshots.stock')
 					->with('notice', 'Você já está logado!');
 			} else {
@@ -34,6 +37,8 @@ class AccountController extends BaseController
 			//ok
 			if (Auth::user()->is_root) {
 				return Redirect::route('tenants.index');
+			} else if (Auth::user()->is_superadmin) {
+				return Redirect::route('superadmin.choose');
 			} else if (Auth::user()->is_admin) {
 				return Redirect::route('snapshots.stock');
 			} else {

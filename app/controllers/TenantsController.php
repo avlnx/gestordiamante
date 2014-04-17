@@ -17,19 +17,37 @@ class TenantsController extends BaseController
 	public function getNew()
 	{
 		$view = View::make('tenants.new');
-
+		$superadmins = User::where('is_superadmin', '=', true)->get();
+		$superadmins_array = [NULL];
+		foreach ($superadmins as $superadmin) {
+			$superadmins_array[$superadmin->id] = $superadmin->name;
+		}
+		$view->superadmins_array = $superadmins_array;
 		return $view;
 	}
 
 	public function postNew()
 	{
 		// Process post of new categoria in MODEL
+		$superadmin_id = Input::get('superadmin_id');
 
-		$rules = array(
-			'email'		=>	'required|email',
-			'password'	=>	'required',
-			'company'	=>	'required'
-		);
+		if ($superadmin_id) {
+			// Existing superadmin
+			$rules = array(
+			'company'	=>	'required',
+			'superadmin_id' => 'required',
+			'account_name' => 'required'
+			);
+		} else {
+			// New superadmin
+			$rules = array(
+			'company'	=>	'required',
+			'account_name' => 'required',
+			'email'	=>	'required|email',
+			'password'	=>	'required'
+			);
+			
+		}
 
 		$messages = array(
 		);
@@ -41,8 +59,19 @@ class TenantsController extends BaseController
 	        return Redirect::route('tenants.new')->withErrors($validation);
 	    }
 
+	    // 
+
 		$tenant = new Tenant;
-		$tenant->email = Input::get('email');
+		$generate_new_admin = false;
+		if ($superadmin_id) {
+			$superadmin_user = User::find($superadmin_id);
+			$tenant->email = $superadmin_user->email;
+		} else {
+			$generate_new_admin = true;
+			$tenant->email = Input::get('email');
+		}
+
+		$tenant->account_name = Input::get('account_name');
 		$tenant->company = Input::get('company');
 		if(!Input::get('is_model')) { $is_model = False; } else { $is_model = True; }
 		$tenant->is_model = $is_model;
@@ -51,10 +80,12 @@ class TenantsController extends BaseController
 
 		if (!$tenant->is_model) {
 			$tenant->generate_default_products();
+		}
+		if ($generate_new_admin) {
 			$tenant->generate_admin_account(Input::get('password'));
 		}
 
-		// TODO: email tenant
+		// TODO: email superadmin
 
 		return Redirect::route('tenants.index', array())
 				->with('notice', 'Tenant criado com sucesso');
