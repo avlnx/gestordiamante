@@ -24,7 +24,7 @@ class Sale extends Eloquent
 	{
 		return parent::where('tenant_id', '=', Auth::user()->tenant_id)
 			//->where('is_alive','=',true)
-			->orderBy('updated_at', 'desc')
+			->orderBy('created_at', 'desc')
 			//->take(10)
 			->get();
 	}
@@ -81,7 +81,7 @@ class Sale extends Eloquent
 	{
 		if (!$this->is_alive) {
 			$deleter = User::find($this->deleted_by)->name;
-			$meta = "<span class='label label-important'>Deletado</span> por <strong>" . $deleter . "</strong>";
+			$meta = "<span class='deleted-item'></span> <span class='label label-important'>Deletado</span> por <strong>" . $deleter . "</strong>";
 		} else {
 			$meta = "Registrado por <strong>" . $this->user->name . "</strong>";
 		}

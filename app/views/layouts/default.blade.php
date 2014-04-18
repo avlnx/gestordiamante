@@ -29,7 +29,7 @@
 					<a href="{{ route('sales.new') }}"><strong><i class='icon icon-shopping-cart'></i> Nova Venda</strong></a>
 
 				</li>
-				<li>{{ HTML::linkRoute('sales.index','Últimas vendas', array('latest')) }}</li>
+				<li>{{ HTML::linkRoute('sales.asindex','Últimas vendas') }}</li>
 				<li class='divider-vertical'></li>
 				<li>{{ HTML::linkRoute('snapshots.stock','Visualizar Estoque Atual') }}</li>
 				<li>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry')) }}</li>

@@ -3,6 +3,7 @@
 class SalesController extends BaseController
 {
 	public $restful = True;
+	public $comparing_date = null;
 
 	public function getIndex($filter)
 	{
@@ -114,51 +115,62 @@ class SalesController extends BaseController
 
 	public function getASIndex()
 	{
-		$sales = Sale::all()->take(50);
-		$view = View::make('sales.asindex');
-		$view->sales = $sales;
-		return $view;
+		return View::make('sales.asindex');
 	}
 
 	public function getASSales($date, $payment_type)
 	{
+		$sales = Sale::all();
+
+		$this->comparing_date = $date;
+
 		// filter by date
 		switch ($date) {
 			case 'latest':
-				$sales = Sale::all()->take(200);
+				$sales = $sales->take(200);
 				break;
 			case 'today':
-				$sales = Sale::all()->filter(function($sale){
+				$sales = $sales->filter(function($sale){
 							if ($sale->created_at->format('Y-m-d') == Carbon::today()->format('Y-m-d')) {
 								return $sale;
 							}
 						});
 				break;
 			case 'yesterday':
-				$sales = Sale::all()->filter(function($sale){
+				$sales = $sales->filter(function($sale){
 							if ($sale->created_at->format('Y-m-d') == Carbon::yesterday()->format('Y-m-d')) {
 								return $sale;
 							}
 						});
 				break;
 			case 'month':
-				$sales = Sale::all()->filter(function($sale){
+				$sales = $sales->filter(function($sale){
 							if ($sale->created_at->format('Y-m') == Carbon::today()->format('Y-m')) {
 								return $sale;
 							}
 						});
 				break;
 			case 'year':
-				$sales = Sale::all()->filter(function($sale){
+				$sales = $sales->filter(function($sale){
 							if ($sale->created_at->format('Y') == Carbon::today()->format('Y')) {
 								return $sale;
 							}
 						});
 				break;
+			default:
+				// A date like 03/04/1986
+				$sales = $sales->filter(function($sale) {
+					list($start_day,$start_month,$start_year) = explode('-', $this->comparing_date);
+					$start_date_obj = Carbon::createFromDate($start_year,$start_month,$start_day);
+					if($sale->created_at->format('Y-m-d') == $start_date_obj->format('Y-m-d')) {
+						return $sale;
+					}
+				});
+				break;
 		}
 		// continue filtering by user if not alreay empty
 		// continue filtering by kits if not already empty
-		
+
 		// continue filtering by payment_type
 		switch ($payment_type) {
 			case 'debit':
@@ -358,7 +370,7 @@ class SalesController extends BaseController
 			$product->save();
 		}
 
-		return Redirect::route('sales.index', ['latest'])->with('notice', 'Venda gerada com sucesso.');
+		return Redirect::route('sales.asindex')->with('notice', 'Venda gerada com sucesso.');
 		
 	}
 

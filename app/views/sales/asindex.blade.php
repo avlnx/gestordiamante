@@ -12,7 +12,12 @@
 		<a href="#" id='today' class='btn'>Hoje</a>
 		<a href="#" id='yesterday' class='btn'>Ontem</a>
 		<a href="#" id='month' class='btn'>Este mês</a>
-		<a href="#" id='year' class='btn'>Este ano</a>
+		<a href="#" id='year' class='btn'>Este ano</a><br/><br/>
+		<div class="input-append">
+			<!--<span class="add-on">Data Específica</span>-->
+			<input class="span2" id="specific-date-input" type="text" placeholder="Ex. 14/04/2014" readonly>
+			<button class="btn" type="button" id="specific-date">Data Específica</button>
+		</div>
 	</div>
 
 	<h6>FILTRAR POR FORMA DE PAGAMENTO</h6>
@@ -24,6 +29,12 @@
 		<a href="#" id='deposit' class='btn'>Depósito</a>
 		<a href="#" id='bonus' class='btn'>Bônus e Transferência de Crédito UP!</a>
 	</div>
+
+	<p></p>
+
+	<a href="#" id='show_deleted' class='btn btn-mini'>Mostrar vendas deletadas</a>
+
+
 	<p></p>
 
 	<!-- results -->
@@ -38,20 +49,35 @@
 @section('scripts')
 	<?php @parent ?>
 
-	function get_from_server(route)
+	function get_from_server(route, payment_type)
 	{
 		$.getJSON( route,
 			function(data) {
-			//console.log(data);	
 			var sales = [];
 			var total = 0;
 			$.each(data, function(index, sale) {
-				//console.log(sale.order_number);
-				if (sale.is_alive == 1) {total += sale.total_value}
+				value = 0;
+
+				if (payment_type == 'all_payments') {
+					value = sale.pretty_total_value;
+				} else if (payment_type == 'cash') {
+					value = sale.cash;
+				} else if (payment_type == 'debit') {
+					value = sale.debit;
+				} else if (payment_type == 'credit') {
+					value = sale.credit;
+				} else if (payment_type == 'deposit') {
+					value = sale.deposit;
+				} else if (payment_type == 'bonus') {
+					value = sale.bonus;
+				}
+
+				if (sale.is_alive == 1) {total += parseFloat(value)}
+
 				sales.push(
 					"<tr><td>" + sale.pretty_order_number + 
 					"</td><td><small>" + sale.meta + " há " + sale.pretty_date + "</small>" +
-					"</td><td>R$ " + sale.pretty_total_value+
+					"</td><td>R$ " + value+
 					"</td><td>" + sale.delete_link + 
 					"</td></tr>"
 				);
@@ -64,13 +90,10 @@
 				$('#results-table').append('<tr class="info"><td>&nbsp;</td><td>&nbsp;</td><td><strong>R$ '+total+'</strong></td><td>&nbsp;</td></tr>');
 			}
 
-			
-			//console.log(sales);
 			$('#results-table tr').hover(function(event){
-				//console.log($(this).find('a.delete-link'));
-				//console.log(event.target.closest('a'));
 				$(this).find('a.delete-link').toggleClass('btn-danger disabled');
 			});
+			$('#results-table').find('span.deleted-item').closest('tr').hide();
 		});
 	}
 
@@ -85,6 +108,9 @@
 		} else if (filter_click == 'payment_type') {
 			payment_type = $(event.target).attr('id');
 			payment_type_done = true;
+		} else if (filter_click == 'specific-date') {
+			date = $('#specific-date-input').val();
+			date_done = true;
 		}
 
 		if (!date_done) {
@@ -93,24 +119,38 @@
 		if (!payment_type_done) {
 			payment_type = $('#payment-button-group').find('a.active').attr('id');
 		}
-
 		console.log('payment: ' + payment_type + ' date: ' + date);
 
-		//date = $('#date-button-group').find('a.active');
+		get_from_server('sales/ajax.json/date/'+date+'/payment_type/'+payment_type, payment_type);
+	}
 
-		get_from_server('sales/ajax.json/date/'+date+'/payment_type/'+payment_type);
+	function toggle_deleted_items()
+	{
+		$('#results-table').find('span.deleted-item').closest('tr').toggle();
 	}
 
 	$('#latest,#today,#yesterday,#month,#year').bind('click', function(event){
 		get_active_filters(event, 'date');
 		event.preventDefault();
 	});
+	$('#specific-date').bind('click', function(event){
+		get_active_filters(event, 'specific-date');
+		event.preventDefault();
+	});
 	$('#all_payments,#cash,#debit,#credit,#deposit,#bonus').bind('click', function(event){
 		get_active_filters(event, 'payment_type');
 		event.preventDefault();
 	});
+	$('#show_deleted').bind('click', function(event){
+		toggle_deleted_items();
+		event.preventDefault();
+	});
 	
 	$('#latest').trigger('click');
+
+	$('#specific-date-input').datepicker({
+		format: 'dd-mm-yyyy'
+	});
 
 @stop
 
