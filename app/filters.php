@@ -100,12 +100,14 @@ Route::filter('check_tenant', function($route, $request, $value)
 	$item = $value::find($id);
 	if ($item == NULL) 
 	{
-		return Response::error('404');
+		App::abort(404, 'Não encontrado.');
+		//return Response::error('404');
 	}
 
 	if($item->tenant_id != $tenant_id)
 	{
-		return 'Não autorizado';
+		App::abort(403, 'Ação não autorizada.');
+		//return 'Não autorizado';
 	}
 	
 });

@@ -83,7 +83,7 @@
 						</td>
 					</tr>
 				</table>
-				{{ Form::submit('Gerar venda &rarr;', array('class' => 'btn btn-primary btn-large'))}}
+				{{ Form::submit('Registrar venda &rarr;', array('class' => 'btn btn-primary btn-large'))}}
 			
 	   		 	{{ Form::close() }}
 	    	</div>

@@ -112,6 +112,28 @@ class SalesController extends BaseController
 		return $view;
 	}
 
+	public function getDeleteSale($id)
+	{
+		$sale = Sale::findOrFail($id);
+		$sale->is_alive = false;
+		$sale->order_number_before_delete = $sale->order_number;
+		$sale->order_number = NULL;
+		$sale->deleted_by = Auth::user()->id;
+		$sale->save();
+		// update the quantities again
+
+		$items = $sale->items()->get();
+		foreach ($items as $item) {
+			$product = $item->product;
+			$product->quantity_in_stock += $item->quantity;
+			$product->save();
+			$item->is_alive = False;
+			$item->save();
+		}
+
+		return Redirect::route('sales.index', ['latest'])->with('notice', 'Venda deletada com sucesso.');
+	}
+
 	public function getNew()
 	{
 		$view = View::make('sales.new');

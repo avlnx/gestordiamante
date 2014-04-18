@@ -31,7 +31,7 @@ class SnapshotsController extends BaseController
 			}
 
 			$cat_products_in_stock = $category->products->filter(function($product){
-				if($product->quantity_in_stock > 0)
+				if($product->quantity_in_stock != 0)
 				{
 					return $product;
 				}

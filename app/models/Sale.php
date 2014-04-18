@@ -21,7 +21,8 @@ class Sale extends Eloquent
 
 	public static function all($columns = array('*'))
 	{
-		return parent::where('tenant_id', '=', Auth::user()->tenant_id)->where('is_alive','=',true)
+		return parent::where('tenant_id', '=', Auth::user()->tenant_id)
+			//->where('is_alive','=',true)
 			->orderBy('created_at', 'desc')
 			//->take(10)
 			->get();
@@ -57,5 +58,11 @@ class Sale extends Eloquent
 		});
 
 		return $filtered_payments;
+	}
+
+	public function deleted_by_user()
+	{
+		return User::findOrFail($this->deleted_by);
+
 	}
 }

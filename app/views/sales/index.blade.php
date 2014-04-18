@@ -39,19 +39,42 @@
 				<th>Pedido</th>
 				<th>Meta</th>
 				<th>Valor</th>
+				<th>&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php $total = 0; ?>
 			@foreach($sales as $sale)
 				<tr>
-					<td>{{ HTML::linkRoute('sales.focus', '#'.$sale->order_number, array($sale->id), array('class'=>'')) }}</td>
-					<td>há <em>{{ Ago::agolize($sale->created_at) }}</em> - <small>em <em>{{ $sale->created_at->formatLocalized('%d de %B de %Y') }}</small></em>
+					@if (!$sale->is_alive) 
+					<td style='text-decoration: line-through'>
+					{{ HTML::linkRoute('sales.focus', '#'.$sale->order_number_before_delete, array($sale->id), array('class'=>'')) }}
+					</td>
+					@else
+					<td>
+					{{ HTML::linkRoute('sales.focus', '#'.$sale->order_number, array($sale->id), array('class'=>'')) }}
+					</td>
+					@endif
+					<td>
+						<!--há <em>{{ Ago::agolize($sale->created_at) }}</em> - -->
+						@if (!$sale->is_alive)
+							<span class="label label-important">Deletada por {{ $sale->deleted_by_user()->name }}</span><br/>
+						@endif
+						<small>Registrada em <em>{{ $sale->created_at->formatLocalized('%d de %B de %Y às %H:%M:%S') }}</small></em>
 						<small>por {{ $sale->user()->first()->name }} </small>
 					</td>
-					<td>R${{ $sale->total_value() }}</td>
+					<td @if(!$sale->is_alive) style='text-decoration: line-through' @endif >R${{ $sale->total_value() }}</td>
+					<td>
+						@if ($sale->is_alive)
+						{{ HTML::linkRoute('sales.delete', 'Deletar', array($sale->id), array('class'=>'btn btn-mini btn-danger btn-confirm')) }}
+						@endif
+					</td>
 				</tr>
-				<?php $total += $sale->total_value(); ?>
+				<?php 
+				if($sale->is_alive) {
+					$total += $sale->total_value(); 
+				}
+				?>
 			@endforeach
 			@if(count($sales)>0)
 				<tr>
@@ -62,6 +85,7 @@
 					<td>
 						<h4>R$ {{ $total }}</h4>
 					</td>
+					<td>&nbsp;</td>
 				</tr>
 			@else
 				<tr><td colspan='4'>Nenhuma venda foi encontrada.</td></tr>
