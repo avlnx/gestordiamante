@@ -81,3 +81,5 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+setlocale(LC_ALL, 'ptb'); 
