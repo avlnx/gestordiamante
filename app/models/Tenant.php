@@ -2,6 +2,8 @@
 
 class Tenant extends Eloquent
 {
+	protected $appends = array('label');
+
 	public function users()
 	{
 		return $this->hasMany('User');
@@ -64,6 +66,18 @@ class Tenant extends Eloquent
 		$user->save();
 
 		// TODO email admin
+	}
+
+	public function getLabelAttribute()
+	{
+		if ($this->is_model) {
+			$label = "label-warning";
+		} else if($this->company == 'root') {
+			$label = "label-important";
+		} else {
+			$label = "";
+		}
+		return $label;
 	}
 
 	/** Overload methods to account for tenants **/

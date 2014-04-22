@@ -19,7 +19,7 @@
 		<tbody>
 			@foreach ($tenants as $tenant)
 				<tr>
-					<td><span class="label label-info">{{ $tenant->account_name }}</span></td>
+					<td><span class="label {{$tenant->label}}">{{ $tenant->account_name }}</span></td>
 					<td>{{ HTML::linkRoute('tenants.focus', $tenant->email, array($tenant->id)) }}</td>
 					<td>{{ Ago::agolize($tenant->created_at) }}</td>
 					<td>{{ Str::title($tenant->company) }}</td>

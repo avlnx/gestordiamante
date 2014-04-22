@@ -20,7 +20,8 @@ class ModelUpSeeder extends Seeder
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
 				'is_alive'		=>	true,
 				'company'		=>	'up',
-				'is_model'		=>	true
+				'is_model'		=>	true,
+				'name'			=>	'UP! ~ MODEL'
 			));
 		} else {
 			// Model exists, delete all its products and categories so we can update them
@@ -936,10 +937,10 @@ class ModelUpSeeder extends Seeder
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
 			'category_id'	=>	$cats_ids['Acessórios em Geral'],
-			'name'			=>	'Crédito de Repasse',
-			'slug'			=>	'credito-de-repasse',
-			'description'	=>	'Crédito de Repasse',
-			'price'			=>	1,
+			'name'			=>	'Licença de Uso',
+			'slug'			=>	'licenca-de-uso',
+			'description'	=>	'Licença de Uso',
+			'price'			=>	39.5,
 			'margin'		=>	0,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),

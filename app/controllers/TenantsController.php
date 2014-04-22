@@ -6,7 +6,8 @@ class TenantsController extends BaseController
 
 	public function getIndex()
 	{
-		$tenants = Tenant::where('is_model','!=',true)->get();
+		//$tenants = Tenant::where('is_model','!=',true)->get();
+		$tenants = Tenant::all();
 
 		$view = View::make('tenants.index');
 		$view->tenants = $tenants;
