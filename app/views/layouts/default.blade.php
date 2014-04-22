@@ -98,7 +98,7 @@
 							    <b class="caret"></b>
 						    </a>
 						    <ul class="dropdown-menu" role="menu" aria-labelledby="vendas">
-						    	<li>{{ HTML::linkRoute('sales.index','Vendas',array('latest')) }}</li>
+						    	<li>{{ HTML::linkRoute('sales.asindex','Vendas') }}</li>
 						    	<li class='divider'></li>
 						    	<li>{{ HTML::linkRoute('snapshots.stock','Visualizar Estoque Atual') }}</li>
 						    	<li>{{ HTML::linkRoute('snapshots.index','Histórico de Lançamentos do Estoque') }}</li>

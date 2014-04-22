@@ -194,4 +194,25 @@ class SnapshotsController extends BaseController
 		return $view;
 	}
 
+	public function getDeleteSnapshot($id)
+	{
+		$snapshot = Snapshot::findOrFail($id);
+		$parts = $snapshot->parts()->get();
+
+		if ($snapshot->is_alive) {
+			foreach ($parts as $part) {
+				$product = $part->product;
+				$product->quantity_in_stock -= $part->quantity;
+				$product->save();
+			}
+		}
+
+		$snapshot->deleted_by = Auth::user()->id;
+		$snapshot->is_alive = False;
+		$snapshot->save();
+
+		return Redirect::route('snapshots.index')->with('notice', "Pedido deletado com sucesso");
+
+	}
+
 }

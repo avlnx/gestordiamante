@@ -60,6 +60,7 @@ Route::get('snapshots', array('before' => 'auth', 'uses' => 'SnapshotsController
 Route::get('snapshots/new/{type?}', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@getNew', 'as' => 'snapshots.new'));
 Route::post('snapshots/new/{type?}', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@postNew', 'as' => 'snapshots.postNew'));
 Route::get('snapshots/{id}', array('before' => 'auth|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getFocus', 'as' => 'snapshots.focus'));
+Route::get('snapshots/delete/{id}', array('before' => 'auth|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getDeleteSnapshot', 'as' => 'snapshots.delete'));
 // Stock routes
 Route::get('stock', array('before' => 'auth', 'uses' => 'SnapshotsController@getStock', 'as' => 'snapshots.stock'));
 

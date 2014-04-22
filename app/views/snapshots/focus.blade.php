@@ -4,17 +4,18 @@
 		@if ($snapshot->type == 'entry')
 			<h3>Pedido de Reposição de Estoque</h3>	
 			<p>Os produtos listados abaixo entraram no estoque do seu CD.</p>	
-			<p class='pull-right'><em>{{ Ago::agolize($snapshot->created_at) }}</em></p>
+			<p class='pull-right'><em>{{ $snapshot->pretty_date }}</em></p>
 		@elseif($snapshot->type == 'baixa')
 			<h3>Baixa de Produtos</h3>	
 			<p>Os produtos listados abaixo foram retirados do seu estoque.</p>	
-			<p class='pull-right'><em>{{ Ago::agolize($snapshot->created_at) }}</em></p>
+			<p class='pull-right'><em>{{ $snapshot->pretty_date }}</em></p>
 		@else
 			<h3>Fotografia do Estoque</h3>	
 			<p>Os produtos listados abaixo correspondem ao espelho do seu estoque no momento em que a fotografia foi gravada.</p>	
-			<p class='pull-right'><em>{{ Ago::agolize($snapshot->created_at) }}</em></p>
+			<p class='pull-right'><em>{{ $snapshot->pretty_date }}</em></p>
 		@endif
 		<p class='lead'><small>Valor total:</small> R${{ $snapshot->total_value() }}</p>
+		<p>{{ HTML::linkRoute('snapshots.delete', 'Deletar pedido', array($snapshot->id), array('class'=>'btn btn-small btn-danger'))}}</p>
 		<hr/>
 		<table class='table table-hover table-condensed'>
 			<thead>

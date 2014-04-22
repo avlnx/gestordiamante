@@ -21,7 +21,7 @@
 		<tr>
 			<td>
 
-				Lançamento realizado há <em>{{ Ago::agolize($snapshot->created_at) }}</em>
+				Lançamento realizado há <em>{{ $snapshot->pretty_date }}</em><br/>
 				<small>por {{ $snapshot->user()->first()->name }} </small>
 			</td>
 			<td>
@@ -37,14 +37,15 @@
 				<p class='lead'>R$ {{ $snapshot->total_value() }}</p>
 			</td>
 			<td>
-				{{ HTML::linkRoute('snapshots.focus', 'Visualizar detalhes', array($snapshot->id), array('class'=>'btn btn-small'))}}
+				{{ HTML::linkRoute('snapshots.focus', 'Visualizar detalhes', array($snapshot->id), array('class'=>'btn btn-mini'))}}
+				{{ HTML::linkRoute('snapshots.delete', 'Deletar pedido', array($snapshot->id), array('class'=>'btn btn-mini btn-danger'))}}
 			</td>
 		</tr>
 
 
 	@endforeach
 	@if(count($snapshots)==0)
-		<tr><td colspan='4'>Nenhuma fotografia por enquanto.</td></tr>
+		<tr><td colspan='4'>Nenhum lançamento por enquanto.</td></tr>
 	@endif
 		</tbody>
 	</table>

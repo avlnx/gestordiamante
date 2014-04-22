@@ -3,6 +3,7 @@
 class Snapshot extends Eloquent
 {
 	protected $guarded = array('id');
+	protected $appends = array('pretty_date');
 	
 	public function tenant()
 	{
@@ -33,6 +34,16 @@ class Snapshot extends Eloquent
 	public function num_of_products()
 	{
 		$parts = $this->parts()->get();
+	}
+
+	public function getPrettyDateAttribute()
+	{
+		if($this->is_alive) { $date = $this->created_at;} else { $date = $this->updated_at;}
+		$eng_date = $date->diffForHumans();
+		$eng = array("years", "year","months","month","days","day","hours","hour","minutes","minute","seconds","second","ago");
+		$pt = array("anos","ano","meses","mês","dias","dia","horas","hora","minutos","minuto","segundos","segundo","atrás");
+		$pt_date = str_replace($eng, $pt, $eng_date);
+		return $pt_date;
 	}
 
 	/** Overload methods to account for tenants **/
