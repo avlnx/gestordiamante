@@ -21,7 +21,7 @@ class ModelUpSeeder extends Seeder
 				'is_alive'		=>	true,
 				'company'		=>	'up',
 				'is_model'		=>	true,
-				'name'			=>	'UP! ~ MODEL'
+				'account_name'			=>	'UP! ~ MODEL'
 			));
 		} else {
 			// Model exists, delete all its products and categories so we can update them
@@ -33,7 +33,18 @@ class ModelUpSeeder extends Seeder
 				->where('tenant_id', $tenant_id)
 				->delete();
 		}
-		
+
+		// TODO: Create user to manipulate model tenants!
+		DB::table('users')->insert(array(
+				'email'			=>	'upmodel@gmail.com',
+				'tenant_id'		=>	$tenant_id,
+				'password'		=>	Hash::make('ntmesfecjo19'),
+				'is_admin'		=> 	true,
+				'is_root'		=>	false,
+				'name'			=> 	'UP! ~ Model',
+				'created_at'	=>	date('Y-m-d H:m:s'),
+				'updated_at'	=>	date('Y-m-d H:m:s')
+			));
 		
 		// CATEGORIAS
 		$categories = array(
