@@ -14,6 +14,7 @@
 				<th>Produtos</th>
 				<th>Categorias</th>
 				<th>Usuários</th>
+				<th>&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,6 +27,7 @@
 					<td><span class='badge badge-info'>{{ $tenant->products()->count() }}</span></td>
 					<td><span class='badge badge-info'>{{ $tenant->categories()->count() }}</span></td>
 					<td><span class='badge badge-info'>{{ $tenant->users()->count() }}</span></td>
+					<td>{{ HTML::linkRoute('tenants.delete', 'Deletar?', array($tenant->id)) }}</td>
 				</tr>
 			@endforeach
 		</tbody>

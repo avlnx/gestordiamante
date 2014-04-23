@@ -21,6 +21,7 @@ Route::post('tenants/new', array('before' => 'auth|root_only', 'uses' => 'Tenant
 Route::get('tenants/new', array('before' => 'auth|root_only', 'uses' => 'TenantsController@getNew', 'as' => 'tenants.new'));
 
 Route::get('tenants/{id}', array('before' => 'auth|root_only', 'uses' => 'TenantsController@getFocus', 'as' => 'tenants.focus'));
+Route::get('tenants/delete/{id}', array('before' => 'auth|root_only', 'uses' => 'TenantsController@getDelete', 'as' => 'tenants.delete'));
 
 // Account routes
 Route::get('account', array('uses' => 'AccountController@getLogin', 'as' => 'account.login'));

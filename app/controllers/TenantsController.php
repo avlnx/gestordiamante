@@ -15,6 +15,15 @@ class TenantsController extends BaseController
 		return $view;
 	}
 
+	public function getDelete($id)
+	{
+		$tenant = Tenant::findOrFail($id);
+		$tenant->delete();
+
+		return Redirect::route('tenants.index')
+				->with('notice', 'Tenant deletado com sucesso');
+	}
+
 	public function getNew()
 	{
 		$view = View::make('tenants.new');
