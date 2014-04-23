@@ -2,6 +2,7 @@
 
 class Product extends Eloquent
 {
+	protected $appends = array('category_slug');
 
 	public function tenant()
 	{
@@ -16,6 +17,11 @@ class Product extends Eloquent
 	public function pretty_margin()
 	{
 		return $this->margin * 100;
+	}
+
+	public function getCategorySlugAttribute()
+	{
+		return $this->category->slug;
 	}
 
 	/** Overload methods to account for tenants **/

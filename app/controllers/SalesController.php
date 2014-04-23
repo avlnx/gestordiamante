@@ -271,6 +271,9 @@ class SalesController extends BaseController
 					break;
 				case '_token':
 					break;
+				case 'ativacoes_input':
+					$rules[$field] = 'numeric|required';
+					break;
 				default:
 					// Quantidades de produtos
 					$rules[$field] = 'integer';

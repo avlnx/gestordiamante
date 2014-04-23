@@ -24,13 +24,14 @@
 									@endif
 
 									<div class='input-append'>
-										{{ Form::text($product->id.'-uni', 0, array('class'=>'input-small reset-input qtdd', 'id'=>"qtd-unidades-$product->id",'onClick'=>'this.select()')) }}
+										{{ Form::text($product->id.'-uni', 0, array('class'=>"input-small reset-input qtdd $product->category_slug", 'id'=>"qtd-unidades-$product->id",'onClick'=>'this.select()')) }}
 										<span class='add-on'>unidades</span>
 									</div>
 
 								</td>
 								<span id='preco-{{$product->id}}' style='display:none'>{{$product->price}}</span>
 								<span id='box-{{$product->id}}' style='display:none'>{{$product->box}}</span>
+								<span id='{{$product->slug}}' style='display:none'>{{$product->id}}</span>
 							</tr>
 						@endif
 					@endforeach

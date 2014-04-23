@@ -38,7 +38,7 @@
 					<li>
 						<p class='navbar-text'>
 							<span class='label label-inverse'>Logado como <strong>{{ Auth::user()->tenant->account_name }}</strong></span> 
-							<small>{{ HTML::linkRoute('superadmin.choose','Alterar') }}</small>
+							<small>{{ HTML::linkRoute('superadmin.choose','Alterar?') }}</small>
 						</p>
 						</li>
 				@endif
@@ -77,7 +77,7 @@
 				<p class='text-left' style='margin-top: 5px'>
 					@if (Auth::check())
 						<small>Olá <strong>{{ Auth::user()->email }}</strong>
-						{{ HTML::linkRoute('account.logout', 'Sair?', array(), array('class'=>'btn btn-danger btn-mini')) }}
+						{{ HTML::linkRoute('account.logout', 'Sair?', array(), array('class'=>'small')) }}
 						</small>
 					@else
 						<small>

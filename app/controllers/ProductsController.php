@@ -57,7 +57,7 @@ class ProductsController extends BaseController
 			'description'	=>	'required',
 			'price'			=>	'required|numeric',
 			'margin'		=>	'required|numeric',
-			'box'			=>	'required|numeric',
+			'box'			=>	'numeric',
 		);
 
 		$messages = array(
@@ -117,7 +117,7 @@ class ProductsController extends BaseController
 			'description'	=>	'required',
 			'price'			=>	'required|numeric',
 			'margin'		=>	'required|numeric',
-			'box'			=>	'required|numeric',
+			'box'			=>	'numeric',
 		);
 
 		$messages = array(
