@@ -18,6 +18,25 @@ class TenantsController extends BaseController
 	public function getDelete($id)
 	{
 		$tenant = Tenant::findOrFail($id);
+		
+		// Delete users that are not superadmins
+		$users = $tenant->users->filter(function($user){
+			if(!$user->is_superadmin) {
+				$user->delete();
+			}
+		});
+
+		// Delete superadmin?:
+		// Get this tenant's superadmin
+		$superadmin = User::where('email','=',$tenant->email)->first();
+		// is this the only tenant with this superadmin?
+		$count = Tenant::where('email','=',$tenant->email)->count();
+		// if yes, delete the superadmin
+		if ($count <= 1) {
+			// there are no other tenants, delete superadmin
+			$superadmin->delete();
+		}
+
 		$tenant->delete();
 
 		return Redirect::route('tenants.index')
