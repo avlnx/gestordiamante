@@ -2,7 +2,7 @@
 
 @section('content')
 	<div class='row'>
-		<div class='span9'>
+		<div class='span12'>
 
 		@if(isset($entry_snapshot))
 			<h1><small>Lançar pedido de </small>Reposição do estoque</h1>
@@ -12,12 +12,11 @@
 			<h1><small>Adicionar nova fotografia do </small>Estoque atual</h1>
 		@endif
 
-		<hr/>
 		</div>	
 	</div>
 
 	<div class='row'>
-		<div class='span6'>
+		<div class='span9'>
 
 			@if(isset($entry_snapshot))
 				{{ Form::open(array('url' => 'snapshots/new/entry')) }}

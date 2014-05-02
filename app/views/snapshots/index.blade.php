@@ -4,7 +4,7 @@
 
 	<h2>Histórico de Alterações do Estoque</h2>
 	<p>
-		{{ HTML::linkRoute('snapshots.new', "Lançar Novo Pedido de Reposição" ,'entry', array('title' => 'Criar novo pedido de reposição do estoque do CD', 'class' => 'btn')) }}
+		{{ HTML::linkRoute('snapshots.new', "Lançar Novo Pedido de Reposição" ,'entry', array('title' => 'Criar novo pedido de reposição do estoque do CD', 'class' => 'btn btn-primary')) }}
 	</p>
 
 	<table class='table table-hover table-condensed'>
@@ -22,7 +22,7 @@
 			<td>
 
 				Lançamento realizado há <em>{{ $snapshot->pretty_date }}</em><br/>
-				<small>por {{ $snapshot->user()->first()->name }} </small>
+				<small>por {{ $snapshot->creator }} </small>
 			</td>
 			<td>
 				@if($snapshot->type == 'entry')

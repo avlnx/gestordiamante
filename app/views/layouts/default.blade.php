@@ -9,22 +9,39 @@
 	{{ HTML::style('css/datepicker.css') }}
 
 </head>
-<body style='background: #fefefe;padding-top: 30px;'>
+<body style='padding-top: 23px;'>
 	<style type="text/css">
 		@media (min-width: 768px) { 
 		  .sb-fixed{
 		    position: fixed;
 		    width: inherit;
+		    z-index: 999;
 		    /*overflow-y: scroll;*/
 		  } 
 		}
 	</style>
 	
-<div class='container'>
-	@if (Auth::check())
-	<div class="navbar">
-		<div class="navbar-inner navbar-fixed-top">
+@if (Auth::check())
+<div class="navbar" style="background: white;">
+	<div class="navbar-inner navbar-fixed-top" style="background: white;">
+		<div class="container">
+			<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+	      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </a>
+	      <ul class="nav">
+	      	<li>
+	      		<p class='navbar-text' style='padding-left: 0px;'>
+	      			<span class='label label-inverse'> <i class='icon-certificate icon-white'></i> GESTOR DIAMANTE</strong></span>
+	      		</p>
+	      	</li>
+	      </ul>
+	      
+	      <div class="nav-collapse collapse">
 			<ul class="nav">
+				
 				<li>
 					<a href="{{ route('sales.new') }}"><strong><i class='icon icon-shopping-cart'></i> Nova Venda</strong></a>
 
@@ -32,23 +49,68 @@
 				<li>{{ HTML::linkRoute('sales.asindex','Últimas vendas') }}</li>
 				<li class='divider-vertical'></li>
 				<li>{{ HTML::linkRoute('snapshots.stock','Visualizar Estoque Atual') }}</li>
-				<li>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry')) }}</li>
+				<li>{{ HTML::linkRoute('snapshots.index','Histórico do Estoque') }}</li>
+				
+				
+				
+				</div>
+			</ul>
+		</div>
+	</div>
+</div>
+@endif
+
+
+
+	
+<div class='container'>
+	@if (Auth::check())
+	<div class="row sb-fixed">
+		<div class="span12" style="background-color: white;height: 40px;padding-top: 10px;border-bottom: 1px solid #eee;">
+			<ul class="inline">
+			  	<li>
+		  			<small>Olá <strong>{{ Auth::user()->email }}</strong>
+		  				{{ HTML::linkRoute('account.logout', 'Sair?', array(), array('class'=>'small')) }}
+		  			</small>
+			  	</li>
+				
 				@if (Auth::user()->is_superadmin)
-					<li class='divider-vertical'></li>
 					<li>
-						<p class='navbar-text'>
-							<span class='label label-inverse'>Logado como <strong>{{ Auth::user()->tenant->account_name }}</strong></span> 
-							<small>{{ HTML::linkRoute('superadmin.choose','Alterar?') }}</small>
-						</p>
-						</li>
+						<span class='label label-default'><strong>{{ Auth::user()->tenant->account_name }}</strong></span> 
+						<small>{{ HTML::linkRoute('superadmin.choose','Alterar?') }}</small>
+					</li>
+				@endif
+				
+				@if (Auth::user()->is_admin)
+					<li>
+						<div class="btn-group">
+						  <a class="btn dropdown-toggle btn-small" data-toggle="dropdown" href="#">
+						    <i class="icon-wrench"></i>
+						    <span class="caret"></span>
+						  </a>
+						  <ul class="dropdown-menu">
+						    @if(Auth::check() && Auth::user()->is_admin)
+							    <li>{{ HTML::linkRoute('products.new','Cadastrar Novo Produto') }}</li>
+							    <li>{{ HTML::linkRoute('categories.new','Cadastrar Nova Categoria') }}</li>
+							    <li class='divider'></li>
+							    <li>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry')) }}</li>
+							    <li class='divider'></li>
+							    <li>{{ HTML::linkRoute('users.index','Usuários', array(), array('role' => 'menuitem')) }}</li>
+						    @endif
+						    @if (Auth::check() && Auth::user()->is_root)
+						    	<li>{{ HTML::linkRoute('tenants.index','Clientes') }}</li>
+						    	<li>{{ HTML::linkRoute('tenants.new','Novo Cliente') }}</li>
+						    @endif
+						  </ul>
+						</div>
+					</li>
 				@endif
 			</ul>
 		</div>
 	</div>
 	@endif
 	
-
-	<div class='row'>
+	<div class='row' style="padding-top: 60px;">
 		<div class='span12'>
 			@if (Session::get('notice'))
 				<div class="alert alert-info">
@@ -67,83 +129,11 @@
 		</div>
 
 	</div>
-
-	<div class='row'>
-		<div class='span3 '>
-			<div class="header-container sb-fixed" style='margin-bottom: 0px;'>
-				{{ HTML::image('img/logo-tiny.png', 'Gestor Diamante', array('class' => '', 'style' => 'float:left'))}}
-				<h4 class='text-left' style=''>GESTOR DIAMANTE<br/>
-				<small>TOME O CONTROLE DO SEU CD</small></h4>
-				<p class='text-left' style='margin-top: 5px'>
-					@if (Auth::check())
-						<small>Olá <strong>{{ Auth::user()->email }}</strong>
-						{{ HTML::linkRoute('account.logout', 'Sair?', array(), array('class'=>'small')) }}
-						</small>
-					@else
-						<small>
-							{{ HTML::linkRoute('account.login', 'Entrar', array(), array('class'=>'btn btn-primary btn-mini')) }}
-						</small>
-					@endif
-				</p>
-				<br class='clearfix'/><br/>
-			
-
-				@if (Auth::check())
-					<ul class="nav nav-tabs nav-stacked sb-fixed" style='width: inherit'>
-					@if (!Auth::user()->is_root)
-					
-						<li class="dropdown">
-						    <a class="dropdown-toggle" id="vendas" role="button" data-toggle="dropdown" href="#">
-							    <i class='icon-list'></i> Relatórios
-							    <b class="caret"></b>
-						    </a>
-						    <ul class="dropdown-menu" role="menu" aria-labelledby="vendas">
-						    	<li>{{ HTML::linkRoute('sales.asindex','Vendas') }}</li>
-						    	<li class='divider'></li>
-						    	<li>{{ HTML::linkRoute('snapshots.stock','Visualizar Estoque Atual') }}</li>
-						    	<li>{{ HTML::linkRoute('snapshots.index','Histórico de Lançamentos do Estoque') }}</li>
-						    	<li class='divider'></li>
-						    	<li>{{ HTML::linkRoute('products.index','Produtos Cadastrados') }}</li>
-						    	<li>{{ HTML::linkRoute('categories.index','Categorias Cadastradas') }}</li>
-						    </ul>
-					    </li>
-
-					    @if(Auth::user()->is_admin)
-					    <li class="dropdown">
-						    <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" href="#">
-							    <i class='icon-wrench'></i> Administração
-							    <b class="caret"></b>
-						    </a>
-						    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-								<li>{{ HTML::linkRoute('products.new','Cadastrar Novo Produto') }}</li>
-								<li>{{ HTML::linkRoute('categories.new','Cadastrar Nova Categoria') }}</li>
-								<li class='divider'></li>
-								<li>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry')) }}</li>
-								<li class='divider'></li>
-								<li>{{ HTML::linkRoute('users.index','Usuários', array(), array('role' => 'menuitem')) }}</li>
-							</ul>
-					    </li>
-					    @endif
-
-					</ul>
-					@else
-						<li class="dropdown">
-						    <a class="dropdown-toggle" id="admins" role="button" data-toggle="dropdown" href="#">
-							    Super User
-							    <b class="caret"></b>
-						    </a>
-						    <ul class="dropdown-menu" role="menu" aria-labelledby="admins">
-						    	<li>{{ HTML::linkRoute('tenants.index','Tenants') }}</li>
-						    	<li>{{ HTML::linkRoute('tenants.new','New Tenant') }}</li>
-						    </ul>
-					    </li>
-					@endif
-				@endif
-			</div>
-			
-		</div>
-		<div class='span9'>
+	
+	<div class='row' style="padding-top: 20px;">
+		<div class="span12">
 			@yield('content')
+			</div>
 		</div>
 	</div>
 

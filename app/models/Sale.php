@@ -64,7 +64,14 @@ class Sale extends Eloquent
 	}
 	public function getCreatorAttribute()
 	{
-		return $this->user->name;
+		$user = User::find($this->user_id);
+      if($user)
+      {
+         $return = $user->name;
+      } else {
+         $return = "(Deletado)";
+      }
+      return $return;
 	}
 	public function getPrettyOrderNumberAttribute()
 	{
@@ -79,11 +86,22 @@ class Sale extends Eloquent
 	}
 	public function getMetaAttribute()
 	{
-		if (!$this->is_alive) {
-			$deleter = User::find($this->deleted_by)->name;
-			$meta = "<span class='deleted-item'></span> <span class='label label-important'>Deletado</span> por <strong>" . $deleter . "</strong>";
+		if (!$this->is_alive) { 
+			$user = User::find($this->user_id);
 		} else {
-			$meta = "Registrado por <strong>" . $this->user->name . "</strong>";
+			$user = User::find($this->deleted_by);
+		}
+      if($user)
+      {
+         $user_name = $user->name;
+      } else {
+         $user_name = "(Deletado)";
+      }
+
+		if (!$this->is_alive) {
+			$meta = "<span class='deleted-item'></span> <span class='label label-important'>Deletado</span> por <strong>" . $user_name . "</strong>";
+		} else {
+			$meta = "Registrado por <strong>" . $user_name . "</strong>";
 		}
 		return $meta;
 	}

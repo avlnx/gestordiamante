@@ -3,11 +3,10 @@
 @section('content')
 	<div class='row'>
 
-		<div class='span6'>
+		<div class='span9'>
 			<h1>Nova venda</h1>
 
 			{{ Form::open(array('url' => 'sales/new')) }}
-			<form><!--TODO: Whats up with this open form tag? -->
 			<hr/>
 
 			<div class="input-prepend">

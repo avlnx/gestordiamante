@@ -3,7 +3,7 @@
 class Snapshot extends Eloquent
 {
 	protected $guarded = array('id');
-	protected $appends = array('pretty_date');
+	protected $appends = array('pretty_date','creator');
 	
 	public function tenant()
 	{
@@ -45,6 +45,19 @@ class Snapshot extends Eloquent
 		$pt_date = str_replace($eng, $pt, $eng_date);
 		return $pt_date;
 	}
+
+   public function getCreatorAttribute()
+   {
+      $user = User::find($this->user_id);
+      if($user)
+      {
+         $return = $user->name;
+      } else {
+         $return = "(Deletado)";
+      }
+      return $return;
+   }
+
 
 	/** Overload methods to account for tenants **/
 

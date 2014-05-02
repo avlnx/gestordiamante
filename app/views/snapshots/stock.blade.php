@@ -5,7 +5,7 @@
 			<div class="span6">
 				<h2 class='text-left'>Este é o seu estoque atual</h2>
 				<h5 class='text-left'>Produtos com estoque zerado não aparecem neste relatório.</h5>
-				<p>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry'), array('class' => 'btn')) }}</p>
+				<p>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry'), array('class' => 'btn btn-primary')) }}</p>
 			</div>
 			<div class="span3">
 				<h2 class="text-left">R$ {{ $total_stock_value }}</h2>
