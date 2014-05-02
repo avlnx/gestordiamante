@@ -3,6 +3,7 @@
 #composer.lock
 #composer.json
 vendor
+.idea
 .DS_Store
 Thumbs.db
 

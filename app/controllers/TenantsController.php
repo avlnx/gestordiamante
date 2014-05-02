@@ -37,6 +37,12 @@ class TenantsController extends BaseController
 			$superadmin->delete();
 		}
 
+        Category::where('tenant_id',$tenant->id)->delete();
+        Product::where('tenant_id',$tenant->id)->delete();
+        Snapshot::where('tenant_id',$tenant->id)->delete();
+        Sale::where('tenant_id',$tenant->id)->delete();
+        Part::where('tenant_id',$tenant->id)->delete();
+
 		$tenant->delete();
 
 		return Redirect::route('tenants.index')

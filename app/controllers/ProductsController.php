@@ -17,6 +17,18 @@ class ProductsController extends BaseController
 		return $view;
 	}
 
+    public function getAdminProducts()
+    {
+        $products = Product::all();
+        $categories = Category::all();
+
+        $view = View::make('products.admin');
+        $view->products = $products;
+        $view->categories = $categories;
+
+        return $view;
+    }
+
 	public function getFocus($id)
 	{
 		$product = Product::find($id);

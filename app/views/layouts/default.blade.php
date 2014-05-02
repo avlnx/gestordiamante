@@ -90,6 +90,7 @@
 						  </a>
 						  <ul class="dropdown-menu">
 						    @if(Auth::check() && Auth::user()->is_admin)
+                              <li>{{ HTML::linkRoute('products.admin','Administrar Produtos e Categorias') }}</li>
 							    <li>{{ HTML::linkRoute('products.new','Cadastrar Novo Produto') }}</li>
 							    <li>{{ HTML::linkRoute('categories.new','Cadastrar Nova Categoria') }}</li>
 							    <li class='divider'></li>

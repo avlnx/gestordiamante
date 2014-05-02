@@ -30,6 +30,7 @@ Route::post('account/check', array('uses' => 'AccountController@postCheckCredent
 
 // Products routes
 Route::get('products', array('before' => 'auth', 'uses' => 'ProductsController@getIndex', 'as' => 'products.index'));
+Route::get('products/admin', array('before' => 'auth', 'uses' => 'ProductsController@getAdminProducts', 'as' => 'products.admin'));
 Route::post('products/new', array('before' => 'auth|admins_only', 'uses' => 'ProductsController@postNew', 'as' => 'products.postNew'));
 Route::get('products/new', array('before' => 'auth|admins_only', 'uses' => 'ProductsController@getNew', 'as' => 'products.new'));
 
