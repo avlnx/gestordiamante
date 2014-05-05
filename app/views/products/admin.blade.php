@@ -12,7 +12,10 @@
 <p class='lead'>Clique sobre uma categoria para visualizar os produtos</p>
 @foreach($categories as $category)
 
-<a class='no-format' id='table-toggler-{{ $category->id }}' href='#'><p class='lead'>{{ $category->name }}</p></a>
+<p class='lead'>
+  <a class='no-format' id='table-toggler-{{ $category->id }}' href='#'>{{ $category->name }}</a>
+  {{ HTML::linkRoute('categories.edit', "Editar" ,[$category->id], array('title' => 'Editar categoria', 'class' => 'btn btn-mini')) }}
+</p>
 
 <div id='table-wrapper-{{ $category->id }}' style='display:none'>
     <table class='table table-hover table-condensed'>
