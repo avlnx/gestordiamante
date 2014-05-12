@@ -11,16 +11,16 @@
 </head>
 <body style='padding-top: 23px;'>
 	<style type="text/css">
-		@media (min-width: 768px) { 
+		@media (min-width: 768px) {
 		  .sb-fixed{
 		    position: fixed;
 		    width: inherit;
 		    z-index: 999;
 		    /*overflow-y: scroll;*/
-		  } 
+		  }
 		}
 	</style>
-	
+
 @if (Auth::check())
 <div class="navbar" style="background: white;">
 	<div class="navbar-inner navbar-fixed-top" style="background: white;">
@@ -38,10 +38,10 @@
 	      		</p>
 	      	</li>
 	      </ul>
-	      
+
 	      <div class="nav-collapse collapse">
 			<ul class="nav">
-				
+
 				<li>
 					<a href="{{ route('sales.new') }}"><strong><i class='icon icon-shopping-cart'></i> Nova Venda</strong></a>
 
@@ -50,9 +50,9 @@
 				<li class='divider-vertical'></li>
 				<li>{{ HTML::linkRoute('snapshots.stock','Visualizar Estoque Atual') }}</li>
 				<li>{{ HTML::linkRoute('snapshots.index','Histórico do Estoque') }}</li>
-				
-				
-				
+
+
+
 				</div>
 			</ul>
 		</div>
@@ -62,7 +62,7 @@
 
 
 
-	
+
 <div class='container'>
 	@if (Auth::check())
 	<div class="row sb-fixed">
@@ -73,14 +73,14 @@
 		  				{{ HTML::linkRoute('account.logout', 'Sair?', array(), array('class'=>'small')) }}
 		  			</small>
 			  	</li>
-				
+
 				@if (Auth::user()->is_superadmin)
 					<li>
-						<span class='label label-default'><strong>{{ Auth::user()->tenant->account_name }}</strong></span> 
+						<span class='label label-default'><strong>{{ Auth::user()->tenant->account_name }}</strong></span>
 						<small>{{ HTML::linkRoute('superadmin.choose','Alterar?') }}</small>
 					</li>
 				@endif
-				
+
 				@if (Auth::user()->is_admin)
 					<li>
 						<div class="btn-group">
@@ -91,8 +91,6 @@
 						  <ul class="dropdown-menu">
 						    @if(Auth::check() && Auth::user()->is_admin)
                               <li>{{ HTML::linkRoute('products.admin','Administrar Produtos e Categorias') }}</li>
-							    <li>{{ HTML::linkRoute('products.new','Cadastrar Novo Produto') }}</li>
-							    <li>{{ HTML::linkRoute('categories.new','Cadastrar Nova Categoria') }}</li>
 							    <li class='divider'></li>
 							    <li>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry')) }}</li>
 							    <li class='divider'></li>
@@ -110,7 +108,7 @@
 		</div>
 	</div>
 	@endif
-	
+
 	<div class='row' style="padding-top: 60px;">
 		<div class='span12'>
 			@if (Session::get('notice'))
@@ -125,12 +123,12 @@
 			    	<button type="button" class="close" data-dismiss="alert">&times;</button>
 			    	<strong>Ops!</strong> {{ Session::get('error') }}
 			    </div>
-				
+
 			@endif
 		</div>
 
 	</div>
-	
+
 	<div class='row' style="padding-top: 20px;">
 		<div class="span12">
 			@yield('content')
@@ -153,7 +151,7 @@
 			@yield('scripts')
 			@yield('scripts2')
  		});
-		
+
 	</script>
 
 </body>
