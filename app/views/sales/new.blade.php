@@ -14,12 +14,14 @@
 				<input class="span2" id="order_number" type="text" name="order_number">
 			</div>
 
+			<h5>Ativação</h5>
 			<div id="ativacao-options" class="btn-group" data-toggle="buttons-radio">
-				<button type="button" class="btn btn-small btn active" data-toggle="button" id="nenhuma-ativacao">Nenhuma ativação</button>
-				<button type="button" class="btn btn-small btn-warning" data-toggle="button" id="ativacao-up">Ativação UP! (1)</button>
-				<button type="button" class="btn btn-small btn-warning" data-toggle="button" id="ativacao-top">Ativação Top (2)</button>
-				<button type="button" class="btn btn-small btn-warning" data-toggle="button" id="ativacao-premium">Ativação Premium (3)</button>
-				<button type="button" class="btn btn-small btn-warning" data-toggle="button" id="ativacao-elite">Ativação Elite (4)</button>
+				<button type="button" class="btn btn-small btn active" data-toggle="button" id="nenhuma-ativacao" style='width: inherit'>Nenhuma ativação</button>
+				<button type="button" class="btn btn-small btn-warning" data-toggle="button" id="ativacao-up" style='width: inherit'>UP! (1)</button>
+				<button type="button" class="btn btn-small btn-warning" data-toggle="button" id="ativacao-top" style='width: inherit'>Top (2)</button>
+				<button type="button" class="btn btn-small btn-warning" data-toggle="button" id="ativacao-premium" style='width: inherit'>Premium (3)</button>
+				<button type="button" class="btn btn-small btn-warning" data-toggle="button" id="ativacao-elite" style='width: inherit'>Elite (4)</button>
+				<button type="button" class="btn btn-small btn-danger" data-toggle="button" id="kit-free" style='width: inherit'>Kit Free</button>
 				<input type='hidden' id='ativacoes_input' value=0 name='ativacoes_input' />
 			</div>
 
@@ -107,20 +109,26 @@
 	<?php @parent ?>
 
 	var ativacoes = 0;
+	var kit_free = 0;
 	var total_perfume_quantity = 0;
 
 	// Make licenca de usos uneditable by user
+	// Save id for important products
 	var ativacao_id = '#qtd-unidades-'+$('#licenca-de-uso').html();
 	$(ativacao_id).attr('readonly', 'readonly');
+	var licenca_kit_free_id = '#qtd-unidades-'+$('#licenca-de-concessao').html();
+	$(licenca_kit_free_id).attr('readonly', 'readonly');
 
 	function update_ativacoes()
 	{
 		// Estamos usando o slug do produto licenca de uso para
 		// pegar o id do produto licenca de uso e utiliza-lo para atualizar
 		// as ativacoes
-		var ativacao_id = '#qtd-unidades-'+$('#licenca-de-uso').html();
 		$(ativacao_id).val(ativacoes);
 		$('#ativacoes_input').val(ativacoes);
+		// update kit free
+		$(licenca_kit_free_id).val(kit_free);
+		console.log(licenca_kit_free_id);
 		run_calculations();
 	}
 
@@ -172,26 +180,37 @@
 	$('#nenhuma-ativacao').click(function(event){
 		console.log('Sem ativação');
 		ativacoes = 0;
+		kit_free = 0;
 		update_ativacoes();
 	});
 	$('#ativacao-up').click(function(event){
 		console.log('Ativação UP!');
 		ativacoes = 1;
+		kit_free = 0;
 		update_ativacoes();
 	});
 	$('#ativacao-top').click(function(event){
 		console.log('Ativação Top');
 		ativacoes = 2;
+		kit_free = 0;
 		update_ativacoes();
 	});
 	$('#ativacao-premium').click(function(event){
 		console.log('Ativação Premium');
 		ativacoes = 3;
+		kit_free = 0;
 		update_ativacoes();
 	});
 	$('#ativacao-elite').click(function(event){
 		console.log('Ativação Elite');
 		ativacoes = 4;
+		kit_free = 0;
+		update_ativacoes();
+	});
+	$('#kit-free').click(function(event){
+		console.log('Kit free');
+		ativacoes = 0;
+		kit_free = 1;
 		update_ativacoes();
 	});
 	/*

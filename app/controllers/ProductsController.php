@@ -85,15 +85,17 @@ class ProductsController extends BaseController
 		$product = new Product;
 		$product->tenant_id = Auth::user()->tenant_id;
 		$product->name = Input::get('name');
-		//$product->category_id = Input::get('category_id');
+		$product->category_id = Input::get('category_id');
 		$product->slug = Str::slug(Input::get('name'));
 		$product->description = Input::get('description');
 		$product->price = Input::get('price');
 		$product->margin = Input::get('margin');
 		$product->box = Input::get('box');
 
-		$category = Category::find(Input::get('category_id'));
-		$product = $category->products()->insert($product);
+		$product->save();
+
+		//$category = Category::find(Input::get('category_id'));
+		//$product = $category->products()->insert($product);
 		// TODO: add validation
 		return Redirect::route('products.focus', array($product->id))
 				->with('notice', 'Produto criado com sucesso');

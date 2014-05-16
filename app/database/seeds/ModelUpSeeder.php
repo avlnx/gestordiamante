@@ -8,7 +8,7 @@ class ModelUpSeeder extends Seeder
 		$tenant_id = DB::table('tenants')
 			->where('company', 'up')
 			->where('is_model', true)
-			->pluck('id');	
+			->pluck('id');
 
 		$margem_padrao = 0.15;
 
@@ -45,7 +45,7 @@ class ModelUpSeeder extends Seeder
 				'created_at'	=>	date('Y-m-d H:m:s'),
 				'updated_at'	=>	date('Y-m-d H:m:s')
 			));
-		
+
 		// CATEGORIAS
 		$categories = array(
 			'Perfumes Masculinos'		=>	'Perfumes Masculinos',
@@ -318,7 +318,7 @@ class ModelUpSeeder extends Seeder
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
 			'is_alive'		=>	true
 		));
-		
+
 		// Kits
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -726,7 +726,7 @@ class ModelUpSeeder extends Seeder
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
 			'is_alive'		=>	true
 		));
-		
+
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
 			'category_id'	=>	$cats_ids['Acessórios para Kits UP!'],
@@ -958,7 +958,21 @@ class ModelUpSeeder extends Seeder
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
 			'is_alive'		=>	true
 		));
-		
+
+		DB::table('products')->insert(array(
+			'tenant_id'		=>	$tenant_id,
+			'category_id'	=>	$cats_ids['Acessórios em Geral'],
+			'name'			=>	'Licença de Concessão',
+			'slug'			=>	'licenca-de-concessao',
+			'description'	=>	'Licença de Concessão para ser utilizada com Kits Free',
+			'price'			=>	39.5,
+			'margin'		=>	0,
+			'box'			=>	NULL,
+			'created_at'	=> 	date('Y-m-d H:m:s'),
+			'updated_at'	=> 	date('Y-m-d H:m:s'),
+			'is_alive'		=>	true
+		));
+
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
 			'category_id'	=>	$cats_ids['Acessórios em Geral'],
@@ -989,4 +1003,3 @@ class ModelUpSeeder extends Seeder
 		));
 	}
 }
-
