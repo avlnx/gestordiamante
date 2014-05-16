@@ -93,6 +93,7 @@
                               <li>{{ HTML::linkRoute('products.admin','Administrar Produtos e Categorias') }}</li>
 							    <li class='divider'></li>
 							    <li>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry')) }}</li>
+									<li>{{ HTML::linkRoute('snapshots.new','Registrar Baixa no Estoque', array('baixa')) }}</li>
 							    <li class='divider'></li>
 							    <li>{{ HTML::linkRoute('users.index','Usuários', array(), array('role' => 'menuitem')) }}</li>
 						    @endif

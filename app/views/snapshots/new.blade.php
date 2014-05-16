@@ -7,12 +7,12 @@
 		@if(isset($entry_snapshot))
 			<h1><small>Lançar pedido de </small>Reposição do estoque</h1>
 		@elseif(isset($baixa_snapshot))
-			<h1><small>Adicionar nova </small>Baixa do Estoque</h1>
+			<h1><small>Registrar </small>Baixa no Estoque</h1>
 		@else
 			<h1><small>Adicionar nova fotografia do </small>Estoque atual</h1>
 		@endif
 
-		</div>	
+		</div>
 	</div>
 
 	<div class='row'>
@@ -28,16 +28,12 @@
 
 			@include('includes.products_list')
 
-
-			
-
-			
-    	</div>
-    	<div class='span3'>
-    		<div class='sb-fixed'>
-	    		<h1><small>Total: </small>R$ <span id='total'>0</span></h1>
-	    			<hr/>
-	    		@if(isset($entry_snapshot))
+  	</div>
+  	<div class='span3'>
+  		<div class='sb-fixed'>
+    		<h1><small>Total: </small>R$ <span id='total'>0</span></h1>
+    			<hr/>
+    		@if(isset($entry_snapshot))
 					{{ Form::submit('Gravar Pedido de Reposição &rarr;', array('class' => 'btn btn-primary btn-large'))}}
 				@elseif(isset($baixa_snapshot))
 					{{ Form::submit('Registrar Baixa do Estoque &rarr;', array('class' => 'btn btn-primary btn-large'))}}
@@ -46,9 +42,9 @@
 				@endif
 
 
-		    	{{ Form::close() }}
-	    	</div>
-    	</div>	
+	    	{{ Form::close() }}
+    	</div>
+  	</div>
 	</div>
 
 @stop

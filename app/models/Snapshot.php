@@ -4,7 +4,7 @@ class Snapshot extends Eloquent
 {
 	protected $guarded = array('id');
 	protected $appends = array('pretty_date','creator');
-	
+
 	public function tenant()
 	{
 		return $this->belongsTo('Tenant');
@@ -45,7 +45,7 @@ class Snapshot extends Eloquent
 		$pt_date = str_replace($eng, $pt, $eng_date);
 		return $pt_date;
 	}
-
+	
    public function getCreatorAttribute()
    {
       $user = User::find($this->user_id);

@@ -45,7 +45,7 @@ class SnapshotsController extends BaseController
 			} else {
 				$product_list_out_of_stock[$category->name] = $cat_products;
 			}
-			
+
 		}
 		$view->product_list = $full_product_list;
 		$view->product_list_in_stock = $product_list_in_stock;
@@ -56,7 +56,7 @@ class SnapshotsController extends BaseController
 		return $view;
 	}
 
-	public function getNew($type='snapshot')
+	public function getNew($snapshot_type='snapshot')
 	{
 		$products = Product::all();
 		$categories = Category::all();
@@ -64,7 +64,7 @@ class SnapshotsController extends BaseController
 		$view->products = $products;
 		$view->categories = $categories;
 
-		switch ($type) {
+		switch ($snapshot_type) {
 			case 'entry':
 				$view->entry_snapshot = True;
 				break;
@@ -81,7 +81,7 @@ class SnapshotsController extends BaseController
 		return $view;
 	}
 
-	public function postNew($type='snapshot')
+	public function postNew($snapshot_type='snapshot')
 	{
 		//if($entry != False) { $entry = True; }
 		$rules = array();
@@ -89,14 +89,14 @@ class SnapshotsController extends BaseController
 		foreach($inputs as $product => $quantity)
 		{
 			if ($product != '_token') {
-				$rules[$product] = 'integer';	
+				$rules[$product] = 'integer';
 			}
 		}
 		$validation = Validator::make($inputs, $rules);
 
 		if ($validation->fails())
 		{
-			switch ($type) {
+			switch ($snapshot_type) {
 				case 'snapshot':
 					return Redirect::route('snapshots.new')
 						->with('error', 'Utilize apenas números inteiros para as quantidades.');
@@ -117,7 +117,7 @@ class SnapshotsController extends BaseController
 		$snapshot = Snapshot::create(array(
 			'tenant_id'	=>	Auth::user()->tenant_id,
 			'is_alive'	=>	True,
-			'type'		=> 	$type
+			'type'		=> 	$snapshot_type
 			//'entry'		=>	False
 		));
 
@@ -129,7 +129,7 @@ class SnapshotsController extends BaseController
 			if ($id_type == '_token') { continue; }
 
 			$list = explode('-', $id_type);
-			
+
 			$id = $list[0]; $type = $list[1];
 
 			$product = Product::find($id);
@@ -142,8 +142,16 @@ class SnapshotsController extends BaseController
 
 			if($total_quantity != 0)
 			{
-				// Add total quantity to current stock
-				$product->quantity_in_stock += $total_quantity;
+				// Update quantity in current stock
+				switch ($snapshot_type) {
+					case 'baixa':
+						$product->quantity_in_stock -= $total_quantity;
+						break;
+					case 'entry':
+					case 'snapshot':
+						$product->quantity_in_stock += $total_quantity;
+						break;
+				}
 				$product->save();
 
 				if(array_key_exists($product->id, $parts))
@@ -161,7 +169,7 @@ class SnapshotsController extends BaseController
 					);
 				}
 			}
-			
+
 		}
 		// turn array to actual part models before adding
 		foreach ($parts as $part_item_array) {
@@ -169,7 +177,7 @@ class SnapshotsController extends BaseController
 		}
 
 		$notice = '';
-		switch ($type) {
+		switch ($snapshot_type) {
 			case 'snapshot':
 				$notice = 'Fotografia criada com sucesso';
 				break;
@@ -198,11 +206,22 @@ class SnapshotsController extends BaseController
 	{
 		$snapshot = Snapshot::findOrFail($id);
 		$parts = $snapshot->parts()->get();
+		$type = $snapshot->type;
 
 		if ($snapshot->is_alive) {
 			foreach ($parts as $part) {
 				$product = $part->product;
-				$product->quantity_in_stock -= $part->quantity;
+				switch ($type) {
+					case 'baixa':
+						# Reverter baixa, add quantidades
+						$product->quantity_in_stock += $part->quantity;
+						break;
+					case 'entry':
+					case 'snapshot':
+						# Reverter entrada, subtract quantidades
+						$product->quantity_in_stock -= $part->quantity;
+						break;
+				}
 				$product->save();
 			}
 		}
@@ -211,7 +230,7 @@ class SnapshotsController extends BaseController
 		$snapshot->is_alive = False;
 		$snapshot->save();
 
-		return Redirect::route('snapshots.index')->with('notice', "Pedido deletado com sucesso");
+		return Redirect::route('snapshots.index')->with('notice', "Deletado com sucesso");
 
 	}
 

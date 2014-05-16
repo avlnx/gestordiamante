@@ -59,8 +59,8 @@ Route::post('users/new', array('before' => 'auth|admins_only', 'uses' => 'UsersC
 
 // Snapshots/Pedidos/Estoque routes
 Route::get('snapshots', array('before' => 'auth', 'uses' => 'SnapshotsController@getIndex', 'as' => 'snapshots.index'));
-Route::get('snapshots/new/{type?}', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@getNew', 'as' => 'snapshots.new'));
-Route::post('snapshots/new/{type?}', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@postNew', 'as' => 'snapshots.postNew'));
+Route::get('snapshots/new/{snapshot_type?}', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@getNew', 'as' => 'snapshots.new'));
+Route::post('snapshots/new/{snapshot_type?}', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@postNew', 'as' => 'snapshots.postNew'));
 Route::get('snapshots/{id}', array('before' => 'auth|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getFocus', 'as' => 'snapshots.focus'));
 Route::get('snapshots/delete/{id}', array('before' => 'auth|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getDeleteSnapshot', 'as' => 'snapshots.delete'));
 // Stock routes
@@ -79,11 +79,3 @@ Route::get('sales/ajax.json/date/{date}/payment_type/{payment_type}', array('bef
 // Superadmin routes
 Route::get('superadmin/choose', array('before' => 'auth', 'uses' => 'SuperadminController@getChooseProfile', 'as' => 'superadmin.choose'));
 Route::get('superadmin/choose/{id}', array('before' => 'auth', 'uses' => 'SuperadminController@getSwitchProfile', 'as' => 'superadmin.switch'));
-
-
-
-
-
-
-
-

@@ -31,7 +31,7 @@
 
     	<div class='span3'>
     		<div class='forms-wrapper sb-fixed'>
-    		
+
     			<h1><small>Total: </small>R$ <span id='total'>0</span></h1>
     			<hr/>
 
@@ -94,12 +94,12 @@
 					</tr>
 				</table>
 				{{ Form::submit('Registrar venda &rarr;', array('class' => 'btn btn-primary btn-large'))}}
-			
+
 	   		 	{{ Form::close() }}
 	    	</div>
     	</div>
 	</div>
-    
+
 @stop
 
 
@@ -108,6 +108,10 @@
 
 	var ativacoes = 0;
 	var total_perfume_quantity = 0;
+
+	// Make licenca de usos uneditable by user
+	var ativacao_id = '#qtd-unidades-'+$('#licenca-de-uso').html();
+	$(ativacao_id).attr('readonly', 'readonly');
 
 	function update_ativacoes()
 	{
@@ -125,20 +129,20 @@
 		total_perfume_quantity = 0;
 		var perfumes = $('.perfumes-masculinos, .perfumes-femininos,.perfumes-unisex');
 		//console.log(perfumes);
-		
+
 		$.each(perfumes, function(index, perfume){
 			total_perfume_quantity += parseFloat($(perfume).val());
 		});
 		console.log(total_perfume_quantity);
 		//console.log(perfumes);
-		
+
 	}
 
 	function validate_ativacoes()
 	{
 		update_num_perfumes();
 		result = false;
-		if (ativacoes == 0) 
+		if (ativacoes == 0)
 		{
 			result = true;
 		} else if (total_perfume_quantity >= ativacoes) {
