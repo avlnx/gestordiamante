@@ -7,7 +7,7 @@
 				<a class='no-format' href='#' id='table-toggler-{{ $category->id }}'><p class='lead'><i class='icon-chevron-right'></i>  {{ $category->name }}</p></a>
 				<div id='table-wrapper-{{ $category->id }}' style='display: none'>
 					<table class='table table-condensed'>
-					
+
 					@foreach($products as $product)
 						@if($product->category == $category)
 							<?php $found = True ?>
@@ -18,7 +18,7 @@
 									@if(False)
 									{{-- if($produtc->box) --}}
 									<div class='input-append'>
-										{{ Form::text($product->id.'-box', 0, array('class'=>'input-small reset-input qtdd','id'=>"qtd-caixas-$product->id",'onClick'=>'this.select()')) }} 
+										{{ Form::text($product->id.'-box', 0, array('class'=>'input-small reset-input qtdd','id'=>"qtd-caixas-$product->id",'onClick'=>'this.select()')) }}
 										<span class='add-on'>caixas</span>
 									</div>
 									@endif
@@ -71,7 +71,7 @@
 			{
 				total += parseFloat(box*caixas*preco);
 			}
-			
+
 			// Unidades
 			var unidades = parseFloat($('#qtd-unidades-'+id).val());
 			total += parseFloat(unidades*preco);
@@ -79,6 +79,9 @@
 		// DEBUG
 		//console.log(products);
 		//console.log(total);
+
+    // clean total
+    total = total.toFixed(2);
 
 		$('#total').html(total);
 		update_forms_total();
@@ -107,7 +110,7 @@
 			$('#forms-label-success').hide();
 			$('#forms-label-fail').show();
 			$('#forms-label-fail').html(difference);
-			
+
 		}
 		else
 		{
@@ -120,14 +123,14 @@
 
 @section('scripts2')
 	<?php @parent ?>
-	
+
 	$(".reset-input").val(0);
 	$('.qtdd').on('change', function(event) {
 		run_calculations();
 	});
 
 	@foreach($categories as $category)
-		
+
 		$('#table-toggler-{{ $category->id }}').on('click', function(event){
 			event.preventDefault();
 			$('#table-wrapper-{{ $category->id }}').slideToggle();
