@@ -267,7 +267,7 @@ class SalesController extends BaseController
 					break;
 				case 'order_number':
 					// numero do pedido obrigatorio
-					$rules[$field] = 'required|unique:sales';
+					$rules[$field] = 'unique:sales';
 					break;
 				case '_token':
 					break;
@@ -287,7 +287,7 @@ class SalesController extends BaseController
 		{
 			//return print_r($validation->errors);
 			return Redirect::route('sales.new')
-				->with('error', 'Utilize apenas números inteiros para as quantidades e números para as formas de pagamento. O número do pedido é obrigatório e deve ser único.')
+				->with('error', 'Utilize apenas números inteiros para as quantidades e números para as formas de pagamento. O número do pedido deve ser único.')
 				->withInput();
 		}
 

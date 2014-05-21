@@ -4,15 +4,19 @@
 	<div class='row'>
 
 		<div class='span9'>
-			<h1>Nova venda</h1>
 
 			{{ Form::open(array('url' => 'sales/new')) }}
-			<hr/>
+
 
 			<div class="input-prepend">
 				<span class="add-on">Número do Pedido</span>
 				<input class="span2" id="order_number" type="text" name="order_number">
 			</div>
+
+			<br>
+			<a href="#" id='add_notes'>Adicionar notas e informações ao pedido</a><br/>
+			<textarea id='notes_textarea' name="notes" rows="8" style='display:none' placeholder="Notas e informações referentes ao pedido"></textarea>
+			<br/>
 
 			<h5>Ativação</h5>
 			<div id="ativacao-options" class="btn-group" data-toggle="buttons-radio">
@@ -166,15 +170,29 @@
 	$('#cash').on('change', function(){update_forms_total()});
 
 	$('form').on('submit', function(event){
+		
 		if(!$('#order_number').val())
 		{
-			alert('Por favor, preencha o número do pedido');
-			event.preventDefault();
-		} else if(!validate_ativacoes()) {
+			// Número do pedido está vazio
+			if(confirm('Este pedido será gravado sem um número de pedido. Confirma?'))
+			{
+				console.log('Pedido sem número gravado.');
+			} else {
+				event.preventDefault();
+			}
+		}
+
+		if(!validate_ativacoes()) {
 			alert('Por favor, adicione ' + (ativacoes - total_perfume_quantity) + ' perfume(s) ao pedido para se igualar ao número de ativações.');
 			//alert('Por favor, adicione ao menos ' + ativacoes + ' perfumes ao pedido para se igualar ao número de ativações.');
 			event.preventDefault();
 		}
+		
+	});
+
+	$('#add_notes').click(function(event){
+		//console.log('add_notes clicked!');
+		$('#notes_textarea').toggle('slow');
 	});
 
 	$('#nenhuma-ativacao').click(function(event){

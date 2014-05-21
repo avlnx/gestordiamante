@@ -104,10 +104,6 @@ class ProductsController extends BaseController
 	public function getEdit($id)
 	{
 		$product = Product::find($id);
-		if ($product == NULL)
-		{
-			return Response::error('404');
-		}
 		$view = View::make('products.edit');
 		$view->product = $product;
 
@@ -124,6 +120,7 @@ class ProductsController extends BaseController
 
 	public function postEdit($id)
 	{
+		$product = Product::find($id);
 		// Process post of new product in MODEL
 
 		$rules = array(

@@ -4,6 +4,98 @@ class TenantsController extends BaseController
 {
 	public $restful = false;
 
+	public function getUpdateModelItems()
+	{
+		/*
+		LISTA DE CATEGORIAS
+		$categories = array(
+			'Perfumes Masculinos'		=>	'Perfumes Masculinos',
+			'Perfumes Femininos'		=>	'Perfumes Femininos',
+			'Perfumes Unisex'			=>	'Perfumes Unisex',
+			'Flaconetes Masculinos'		=>	'Flaconetes Masculinos',
+			'Flaconetes Femininos'		=>	'Flaconetes Femininos',
+			'Flaconetes Unisex'			=>	'Flaconetes Unisex',
+			'Cremes'					=>	'Cremes',
+			'Linha Bucal'				=>	'Linha Bucal',
+			'Linha UP Hair'				=>	'Linha UP Hair',
+			'Kits'			=>	'Kits (concessões) Oficiais e Upgrades UP!',
+			'Acessórios para Kits UP!'	=>	'Acessórios para Kits UP!',
+			'Acessórios em Geral'		=>	'Acessórios gerais',
+			'Amostras'					=>	'Amostras',
+			'Livros'					=>	'Livros',
+			'Combos'					=>	'Combos Promocionais UP!'
+		);
+		*/
+		$model_tenants = Tenant::where('is_model','=',true)->get();
+		$regular_tenants = Tenant::where('is_model','!=',true)->where('company','!=', 'root')->get();
+
+		foreach ($model_tenants as $model_tenant) {
+			// get all categories of model_tenant
+			$categories = $model_tenant->categories;
+			$products = $model_tenant->products;
+
+			// foreach regular_tenants with a company equal to this model_tenant's company
+			
+			foreach ($regular_tenants as $regular_tenant) {
+				if ($regular_tenant->company == $model_tenant->company) {
+					// foreach categories in model_tenant if category doesn't exist yet for regular_tenant, create it
+					// if it does exist, update it to match the one in model_tenant
+					foreach ($categories as $model_tenant_category) {
+						$name = $model_tenant_category->name;
+						//$users = DB::table('users')->whereIn('id', array(1, 2, 3))->get();
+						$regular_cat = Category::where('tenant_id','=',$regular_tenant->id)
+							->where('name','=',$name)->first();
+						if ($regular_cat == NULL) {
+							// Category doesn't exist yet for this tenant, copy it
+							$new_regular_cat = $model_tenant_category->replicate();
+							$new_regular_cat->tenant_id = $regular_tenant->id;
+							$new_regular_cat->is_protected = true;
+							$new_regular_cat->save();
+						} else {
+							// Category exists, update it
+							$regular_cat->name = $model_tenant_category->name;
+							$regular_cat->slug = $model_tenant_category->slug;
+							$regular_cat->description = $model_tenant_category->description;
+							$regular_cat->is_protected = true;
+							$regular_cat->save();
+						}
+					}
+
+					// Now, do the same for the products
+					foreach ($products as $model_tenant_product) {
+						$ref = $model_tenant_product->ref;
+						$category_in_regular_tenant = Category::where('tenant_id','=',$regular_tenant->id)
+							->where('name','=',$model_tenant_product->category->name)->first();
+
+						$regular_product = Product::where('tenant_id','=',$regular_tenant->id)
+							->where('ref','=',$ref)->first();
+						if ($regular_product == NULL) {
+							// Product doesn't exist yet for this tenant, copy it
+							$new_regular_product = $model_tenant_product->replicate();
+							$new_regular_product->category_id = $category_in_regular_tenant->id;
+							$new_regular_product->tenant_id = $regular_tenant->id;
+							$new_regular_product->is_protected = true;
+							$new_regular_product->save();
+						} else {
+							// Product exists, update it
+							$regular_product->ref = $model_tenant_product->ref;
+							$regular_product->category_id = $category_in_regular_tenant->id;
+							$regular_product->slug = $model_tenant_product->slug;
+							$regular_product->description = $model_tenant_product->description;
+							$regular_product->is_protected = true;
+							$regular_product->save();
+						}
+					}
+
+				}
+			}
+		}
+
+		return Redirect::route('tenants.index', array())
+				->with('notice', 'Modelos atualizados com sucesso.');
+
+	}
+
 	public function getIndex()
 	{
 		//$tenants = Tenant::where('is_model','!=',true)->get();
@@ -11,7 +103,6 @@ class TenantsController extends BaseController
 
 		$view = View::make('tenants.index');
 		$view->tenants = $tenants;
-
 		return $view;
 	}
 

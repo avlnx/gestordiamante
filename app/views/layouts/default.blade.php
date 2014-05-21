@@ -95,7 +95,7 @@
 							    <li>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry')) }}</li>
 									<li>{{ HTML::linkRoute('snapshots.new','Registrar Baixa no Estoque', array('baixa')) }}</li>
 							    <li class='divider'></li>
-							    <li>{{ HTML::linkRoute('users.index','Usuários', array(), array('role' => 'menuitem')) }}</li>
+							    <li>{{ HTML::linkRoute('users.index','Administrar Usuários', array(), array('role' => 'menuitem')) }}</li>
 						    @endif
 						    @if (Auth::check() && Auth::user()->is_root)
 						    	<li>{{ HTML::linkRoute('tenants.index','Clientes') }}</li>
@@ -149,6 +149,12 @@
 
 		$(document).ready(function() {
 			$('.dropdown-toggle').dropdown();
+			$('.confirm').on('click', function(event){
+				if(!confirm('Tem certeza de que deseja *'+this.innerHTML+'* ?'))
+				{
+					event.preventDefault();
+				}
+			});
 			@yield('scripts')
 			@yield('scripts2')
  		});

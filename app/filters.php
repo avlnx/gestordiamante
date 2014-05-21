@@ -131,3 +131,25 @@ Route::filter('admins_only', function()
 	}
 
 });
+
+Route::filter('protected_item', function($route, $request, $value)
+{
+	// Get $id from URI
+	$segments = explode('/', Request::path());
+	$id = $segments[count($segments)-1];
+
+	// Check if current user can edit or delete this cat or product
+	// Get category or product
+	$item = $value::find($id);
+	if ($item == NULL)
+	{
+		App::abort(404);
+	}
+	if ($item->is_protected) {
+		if (!Auth::user()->tenant->is_model && !Auth::user()->is_root) {
+			# not authorized
+			App::abort(403, 'Ação não autorizada.');
+		}
+	}
+});
+

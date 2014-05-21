@@ -4,13 +4,19 @@ class ModelUpSeeder extends Seeder
 {
 	public function run()
 	{
+		/*
+			We generate a model for each company so later we can 'copy' it's products and categories
+			to the tenants accounts that share the company of the model.
+			We call these products and categories 'protected', they are not editable by the tenant and
+			are updated automatically.
+		*/
 		// Seed model UP
 		$tenant_id = DB::table('tenants')
 			->where('company', 'up')
 			->where('is_model', true)
 			->pluck('id');
 
-		$margem_padrao = 0.15;
+		$margem_padrao = 0.2;
 
 		if ($tenant_id == NULL) {
 			// Model doesn't exist yet, create it
@@ -34,8 +40,13 @@ class ModelUpSeeder extends Seeder
 				->delete();
 		}
 
-		// TODO: Create user to manipulate model tenants!
-		DB::table('users')->insert(array(
+		// TODO: Create user to manipulate model tenants! if not exists
+		$model_user = DB::table('users')
+			->where('email', 'upmodel@gmail.com')
+			->get();
+
+		if($model_user == NULL) {
+			DB::table('users')->insert(array(
 				'email'			=>	'upmodel@gmail.com',
 				'tenant_id'		=>	$tenant_id,
 				'password'		=>	Hash::make('ntmesfecjo19'),
@@ -45,6 +56,7 @@ class ModelUpSeeder extends Seeder
 				'created_at'	=>	date('Y-m-d H:m:s'),
 				'updated_at'	=>	date('Y-m-d H:m:s')
 			));
+		}		
 
 		// CATEGORIAS
 		$categories = array(
@@ -61,7 +73,8 @@ class ModelUpSeeder extends Seeder
 			'Acessórios para Kits UP!'	=>	'Acessórios para Kits UP!',
 			'Acessórios em Geral'		=>	'Acessórios gerais',
 			'Amostras'					=>	'Amostras',
-			'Livros'					=>	'Livros'
+			'Livros'					=>	'Livros',
+			'Combos'					=>	'Combos Promocionais UP!'
 		);
 
 		$cats_ids = array();
@@ -81,174 +94,208 @@ class ModelUpSeeder extends Seeder
 		// PRODUTOS
 		// Variáveis
 		$essencias_masc	=	array(
-			'UP! 01'	=>	'UP! 01 - Azzaro',
-			'UP! 03'	=>	'UP! 03 - Boss',
-			'UP! 05'	=>	'UP! 05 - Bulgari Black',
-			'UP! 07'	=>	'UP! 07 - Dolce & Gabbana',
-			'UP! 09'	=>	'UP! 09 - Armani White',
-			'UP! 11'	=>	'UP! 11 - Ferrari Black',
-			'UP! 13'	=>	'UP! 13 - Ferrari Red',
-			'UP! 15'	=>	'UP! 15 - Kouros',
-			'UP! 17'	=>	'UP! 17 - Polo',
-			'UP! 19'	=>	'UP! 19 - Polo Blue',
-			'UP! 21'	=>	'UP! 21 - Polo Black',
-			'UP! 31'	=>	'UP! 31 - Joop! Nightflight',
-			'UP! 33'	=>	'UP! 33 - Fahrenheit',
-			'UP! 35'	=>	'UP! 35 - Armani Black',
-			'UP! 37'	=>	'UP! 37 - Diesel',
-			'UP! 39'	=>	'UP! 39 - Allure Sport',
-			'UP! 41'	=>	'UP! 41 - Lapidus',
-			'UP! 43'	=>	'UP! 43 - Animale',
-			'UP! 45'	=>	'UP! 45 - 212 Men',
-			'UP! 47'	=>	'UP! 47 - 1 Million',
+			'01'	=>	'UP! 01 - Azzaro',
+			'03'	=>	'UP! 03 - Boss',
+			'05'	=>	'UP! 05 - Bulgari Black',
+			'07'	=>	'UP! 07 - Dolce & Gabbana',
+			'09'	=>	'UP! 09 - Armani White',
+			'11'	=>	'UP! 11 - Ferrari Black',
+			'13'	=>	'UP! 13 - Ferrari Red',
+			'15'	=>	'UP! 15 - Kouros',
+			'17'	=>	'UP! 17 - Polo',
+			'19'	=>	'UP! 19 - Polo Blue',
+			'21'	=>	'UP! 21 - Polo Black',
+			'31'	=>	'UP! 31 - Joop! Nightflight',
+			'33'	=>	'UP! 33 - Fahrenheit',
+			'35'	=>	'UP! 35 - Armani Black',
+			'37'	=>	'UP! 37 - Diesel',
+			'39'	=>	'UP! 39 - Allure Sport',
+			'41'	=>	'UP! 41 - Lapidus',
+			'43'	=>	'UP! 43 - Animale',
+			'45'	=>	'UP! 45 - 212 Men',
+			'47'	=>	'UP! 47 - 1 Million',
 		);
 		$essencias_fem	=	array(
-			'UP! 02'	=>	'UP! 02 - 212 Sexy',
-			'UP! 06'	=>	'UP! 06 - Amor Amor',
-			'UP! 08'	=>	'UP! 08 - Angel',
-			'UP! 10'	=>	'UP! 10 - Carolina Herrera',
-			'UP! 14'	=>	'UP! 14 - Dolce & Gabanna Light Blue',
-			'UP! 16'	=>	'UP! 16 - Dolce & Gabbana',
-			'UP! 22'	=>	'UP! 22 - Flower By Kenzo',
-			'UP! 24'	=>	'UP! 24 - Gabriela Sabatini',
-			'UP! 26'	=>	'UP! 26 - J\'adore',
-			'UP! 28'	=>	'UP! 28 - Jean Paul Gaultier',
-			'UP! 30'	=>	'UP! 30 - Ralph Lauren',
-			'UP! 32'	=>	'UP! 32 - Anais Anais',
-			'UP! 34'	=>	'UP! 34 - Hypnose',
-			'UP! 36'	=>	'UP! 36 - CK in2u Her',
-			'UP! 38'	=>	'UP! 38 - Fantasy',
-			'UP! 40'	=>	'UP! 40 - The One',
-			'UP! 42'	=>	'UP! 42 - Ange ou Démon',
-			'UP! 44'	=>	'UP! 44 - Glow by J.Lo',
-			'UP! 46'	=>	'UP! 46 - Lady Million'
+			'02'	=>	'UP! 02 - 212 Sexy',
+			'06'	=>	'UP! 06 - Amor Amor',
+			'08'	=>	'UP! 08 - Angel',
+			'10'	=>	'UP! 10 - Carolina Herrera',
+			'14'	=>	'UP! 14 - Dolce & Gabanna Light Blue',
+			'16'	=>	'UP! 16 - Dolce & Gabbana',
+			'22'	=>	'UP! 22 - Flower By Kenzo',
+			'24'	=>	'UP! 24 - Gabriela Sabatini',
+			'26'	=>	'UP! 26 - J\'adore',
+			'28'	=>	'UP! 28 - Jean Paul Gaultier',
+			'30'	=>	'UP! 30 - Ralph Lauren',
+			'32'	=>	'UP! 32 - Anais Anais',
+			'34'	=>	'UP! 34 - Hypnose',
+			'36'	=>	'UP! 36 - CK in2u Her',
+			'38'	=>	'UP! 38 - Fantasy',
+			'40'	=>	'UP! 40 - The One',
+			'42'	=>	'UP! 42 - Ange ou Démon',
+			'44'	=>	'UP! 44 - Glow by J.Lo',
+			'46'	=>	'UP! 46 - Lady Million'
 		);
 		$essencias_uni	=	array(
-			'UP! 25'	=>	'UP! 25 - CK One',
-			'UP! 27'	=>	'UP! 27 - CK Be',
-			'UP! 29'	=>	'UP! 29 - CK Cool Water',
-			'UP! Monaco'=>	'UP! Monaco'
+			'25'	=>	'UP! 25 - CK One',
+			'27'	=>	'UP! 27 - CK Be',
+			'29'	=>	'UP! 29 - CK Cool Water'
 		);
 
-		if($name == "UP! Monaco" || $name == "UP! 44")
-		{
-			$perfume_price = 48;
-		} else {
-			$perfume_price = 39.5;
-		}
-
 		// Perfumes Masculinos
-		foreach ($essencias_masc as $name => $description) {
+		foreach ($essencias_masc as $number => $description) {
 			DB::table('products')->insert(array(
 				'tenant_id'		=>	$tenant_id,
 				'category_id'	=>	$cats_ids['Perfumes Masculinos'],
-				'name'			=>	'Perfume '.$name,
-				'slug'			=>	'perfume-'.Str::slug($name),
+				'name'			=>	'Perfume UP! '.$number,
+				'slug'			=>	'perfume-up-'.$number,
 				'description'	=>	'Perfume '.$description,
-				'price'			=>	$perfume_price,
+				'price'			=>	39.5,
 				'margin'		=>	$margem_padrao,
 				'box'			=>	20,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
-				'is_alive'		=>	true
+				'is_alive'		=>	true,
+				'ref'				=> 'TM50'.$number
 			));
 			DB::table('products')->insert(array(
 				'tenant_id'		=>	$tenant_id,
 				'category_id'	=>	$cats_ids['Flaconetes Masculinos'],
-				'name'			=>	'Flaconete '.$name,
-				'slug'			=>	'flaconete-'.Str::slug($name),
+				'name'			=>	'Flaconete '.$number,
+				'slug'			=>	'flaconete-'.Str::slug($number),
 				'description'	=>	'Flaconete '.$description,
 				'price'			=>	3,
 				'margin'		=>	$margem_padrao,
 				'box'			=>	500,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
-				'is_alive'		=>	true
+				'is_alive'		=>	true,
+				'ref'				=> 'FC04'.$number
 			));
 		}
 		// Perfumes femininos
-		foreach ($essencias_fem as $name => $description) {
+		foreach ($essencias_fem as $number => $description) {
+			if($number == "44")
+			{
+				$perfume_price = 48;
+			} else {
+				$perfume_price = 39.5;
+			}
 			DB::table('products')->insert(array(
 				'tenant_id'		=>	$tenant_id,
 				'category_id'	=>	$cats_ids['Perfumes Femininos'],
-				'name'			=>	'Perfume '.$name,
-				'slug'			=>	'perfume-'.Str::slug($name),
+				'name'			=>	'Perfume '.$number,
+				'slug'			=>	'perfume-'.Str::slug($number),
 				'description'	=>	'Perfume '.$description,
 				'price'			=>	$perfume_price,
 				'margin'		=>	$margem_padrao,
 				'box'			=>	20,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
-				'is_alive'		=>	true
+				'is_alive'		=>	true,
+				'ref'				=> 'TF50'.$number
 			));
 			DB::table('products')->insert(array(
 				'tenant_id'		=>	$tenant_id,
 				'category_id'	=>	$cats_ids['Flaconetes Femininos'],
-				'name'			=>	'Flaconete '.$name,
-				'slug'			=>	'flaconete-'.Str::slug($name),
+				'name'			=>	'Flaconete '.$number,
+				'slug'			=>	'flaconete-'.Str::slug($number),
 				'description'	=>	'Flaconete '.$description,
 				'price'			=>	3,
 				'margin'		=>	$margem_padrao,
 				'box'			=>	500,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
-				'is_alive'		=>	true
+				'is_alive'		=>	true,
+				'ref'				=> 'FC04'.$number
 			));
 		}
 		// Perfumes Unisex
 
-		foreach ($essencias_uni as $name => $description) {
+		foreach ($essencias_uni as $number => $description) {
 			DB::table('products')->insert(array(
 				'tenant_id'		=>	$tenant_id,
 				'category_id'	=>	$cats_ids['Perfumes Unisex'],
-				'name'			=>	'Perfume '.$name,
-				'slug'			=>	'perfume-'.Str::slug($name),
+				'name'			=>	'Perfume '.$number,
+				'slug'			=>	'perfume-'.Str::slug($number),
 				'description'	=>	'Perfume '.$description,
 				'price'			=>	$perfume_price,
 				'margin'		=>	$margem_padrao,
 				'box'			=>	20,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
-				'is_alive'		=>	true
+				'is_alive'		=>	true,
+				'ref'				=> 'TU50'.$number
 			));
 			DB::table('products')->insert(array(
 				'tenant_id'		=>	$tenant_id,
 				'category_id'	=>	$cats_ids['Flaconetes Unisex'],
-				'name'			=>	'Flaconete '.$name,
-				'slug'			=>	'flaconete-'.Str::slug($name),
+				'name'			=>	'Flaconete '.$number,
+				'slug'			=>	'flaconete-'.Str::slug($number),
 				'description'	=>	'Flaconete '.$description,
 				'price'			=>	3,
 				'margin'		=>	$margem_padrao,
 				'box'			=>	500,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
-				'is_alive'		=>	true
+				'is_alive'		=>	true,
+				'ref'				=> 'FC04'.$number
 			));
 		}
+		// Monaco
+		DB::table('products')->insert(array(
+				'tenant_id'		=>	$tenant_id,
+				'category_id'	=>	$cats_ids['Perfumes Unisex'],
+				'name'			=>	'Perfume UP! Monaco',
+				'slug'			=>	'perfume-up-monaco',
+				'description'	=>	'Perfume UP! Monaco',
+				'price'			=>	48,
+				'margin'		=>	$margem_padrao,
+				'box'			=>	20,
+				'created_at'	=> 	date('Y-m-d H:m:s'),
+				'updated_at'	=> 	date('Y-m-d H:m:s'),
+				'is_alive'		=>	true,
+				'ref'				=> 'TUUPMO'
+			));
+		DB::table('products')->insert(array(
+			'tenant_id'		=>	$tenant_id,
+			'category_id'	=>	$cats_ids['Flaconetes Unisex'],
+			'name'			=>	'Flaconete UP! Monaco',
+			'slug'			=>	'flaconete-up-monaco',
+			'description'	=>	'Flaconete UP! Monaco',
+			'price'			=>	3,
+			'margin'		=>	$margem_padrao,
+			'box'			=>	500,
+			'created_at'	=> 	date('Y-m-d H:m:s'),
+			'updated_at'	=> 	date('Y-m-d H:m:s'),
+			'is_alive'		=>	true,
+			'ref'				=> 'FCUPMO'
+		));
 
 		// Cremes
 		$essencias_cremes	=	array(
-			'UP! 08'	=>	'UP! 08 - Angel',
-			'UP! 10'	=>	'UP! 10 - Carolina Herrera',
-			'UP! 16'	=>	'UP! 16 - Dolce & Gabbana',
-			'UP! 24'	=>	'UP! 24 - Gabriela Sabatini',
-			'UP! 38'	=>	'UP! 38 - Fantasy',
-			'UP! 27'	=>	'UP! 27 - CK Be',
+			'08'	=>	'UP! 08 - Angel',
+			'10'	=>	'UP! 10 - Carolina Herrera',
+			'16'	=>	'UP! 16 - Dolce & Gabbana',
+			'24'	=>	'UP! 24 - Gabriela Sabatini',
+			'38'	=>	'UP! 38 - Fantasy',
+			'27'	=>	'UP! 27 - CK Be',
 		);
 
-		foreach ($essencias_cremes as $name => $description) {
+		foreach ($essencias_cremes as $number => $description) {
 			DB::table('products')->insert(array(
 				'tenant_id'		=>	$tenant_id,
 				'category_id'	=>	$cats_ids['Cremes'],
-				'name'			=>	'Creme Hidratante '.$name,
-				'slug'			=>	'creme-hidratante-'.Str::slug($name),
+				'name'			=>	'Creme Hidratante '.$number,
+				'slug'			=>	'creme-hidratante-'.$number,
 				'description'	=>	'Creme Hidratante '.$description,
 				'price'			=>	16,
 				'margin'		=>	$margem_padrao,
 				'box'			=>	12,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
-				'is_alive'		=>	true
+				'is_alive'		=>	true,
+				'ref'				=> 'HI00'.$number
 			));
 		}
 		DB::table('products')->insert(array(
@@ -262,7 +309,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	30,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'DS0001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -275,7 +323,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	30,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'ACTI01'
 		));
 
 		// Linha bucal
@@ -290,7 +339,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	77,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'GD0001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -303,7 +353,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	12,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'AB0001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -316,7 +367,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'NC0001'
 		));
 
 		// Kits
@@ -331,7 +383,22 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'KTVENDT'
+		));
+		DB::table('products')->insert(array(
+			'tenant_id'		=>	$tenant_id,
+			'category_id'	=>	$cats_ids['Kits'],
+			'name'			=>	'Kit Profissional Classico',
+			'slug'			=>	'kit-profissional-classico',
+			'description'	=>	'Kit Profissional Classico',
+			'price'			=>	180,
+			'margin'		=>	$margem_padrao,
+			'box'			=>	NULL,
+			'created_at'	=> 	date('Y-m-d H:m:s'),
+			'updated_at'	=> 	date('Y-m-d H:m:s'),
+			'is_alive'		=>	true,
+			'ref'				=> 'KTCLAST'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -344,7 +411,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'KTVEMPT'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -357,7 +425,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'KTEXECT'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -370,7 +439,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'KTMASTE'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -383,7 +453,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'KTCLEXT'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -396,7 +467,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'KTCLMAT'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -409,7 +481,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'KTEXMAT'
 		));
 		// Linha UP Hair
 		DB::table('products')->insert(array(
@@ -423,7 +496,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	12,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'SHNORM'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -436,7 +510,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	12,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'SHSECO'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -449,7 +524,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	12,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'SHOLEO'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -462,7 +538,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	12,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'CONORM'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -475,10 +552,12 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	12,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'COSECO'
 		));
 
 		// Acessórios para Kits
+		/*
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
 			'category_id'	=>	$cats_ids['Acessórios para Kits UP!'],
@@ -505,6 +584,7 @@ class ModelUpSeeder extends Seeder
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
 			'is_alive'		=>	true
 		));
+		*/
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
 			'category_id'	=>	$cats_ids['Acessórios para Kits UP!'],
@@ -516,7 +596,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'BANC01'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -529,7 +610,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'BANC02'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -542,7 +624,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'BANT02'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -555,7 +638,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'BANT01'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -568,7 +652,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'BCARD1'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -581,7 +666,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	25,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'BF0001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -594,7 +680,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'BLOCN1'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -607,7 +694,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	100,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'CATA01'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -620,7 +708,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'CAN001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -633,7 +722,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'CH0001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -646,7 +736,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'CR0001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -659,7 +750,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'ENCT02'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -672,7 +764,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'FOL001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -685,7 +778,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'CXPT01'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -698,7 +792,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'EV0001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -711,7 +806,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'EVVZ01'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -724,21 +820,23 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'FP0002'
 		));
 
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
 			'category_id'	=>	$cats_ids['Acessórios para Kits UP!'],
-			'name'			=>	'Manual de Negócios UP!',
-			'slug'			=>	'manual-de-negocios-up',
-			'description'	=>	'Manual de Negócios UP!',
-			'price'			=>	7,
+			'name'			=>	'Guia Oficial do MRR UP!',
+			'slug'			=>	'guia-oficial-do-mrr-up',
+			'description'	=>	'Guia Oficial do MRR UP!',
+			'price'			=>	117.90,
 			'margin'		=>	$margem_padrao,
 			'box'			=>	100,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'MN0001'
 		));
 
 		DB::table('products')->insert(array(
@@ -752,7 +850,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'JNUP03'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -765,7 +864,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'FPCO01'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -778,7 +878,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	100,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'TP0001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -791,7 +892,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'SP0001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -804,36 +906,39 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'BV0001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
 			'category_id'	=>	$cats_ids['Acessórios para Kits UP!'],
-			'name'			=>	'Bolsa Pequena UP!',
-			'slug'			=>	'bolsa-pequena-up',
-			'description'	=>	'Bolsa Pequena UP!',
+			'name'			=>	'Bolsa MRR UP!',
+			'slug'			=>	'bolsa-mrr-up',
+			'description'	=>	'Bolsa MRR UP!',
 			'price'			=>	22.60,
 			'margin'		=>	$margem_padrao,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'BP0001'
 		));
-		/*
+		
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
 			'category_id'	=>	$cats_ids['Acessórios para Kits UP!'],
-			'name'			=>	'DVD Apresentação de Negócios UP!',
-			'slug'			=>	'dvd-apresentacao-negocios-up',
-			'description'	=>	'DVD Apresentação de Negócios UP!',
-			'price'			=>	3,
+			'name'			=>	'DVD Multi-itens MRR UP!+',
+			'slug'			=>	'dvd-multi-itens-mrr-up-mais',
+			'description'	=>	'DVD Multi-itens MRR UP!+',
+			'price'			=>	117.50,
 			'margin'		=>	$margem_padrao,
 			'box'			=>	100,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'DVDNG1'
 		));
-		*/
+		
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
 			'category_id'	=>	$cats_ids['Acessórios para Kits UP!'],
@@ -845,7 +950,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'PAST01'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -858,7 +964,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'MPAD001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
@@ -871,8 +978,10 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'MPAD002'
 		));
+		/*
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
 			'category_id'	=>	$cats_ids['Acessórios para Kits UP!'],
@@ -884,8 +993,10 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'MPAD002'
 		));
+		*/
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
 			'category_id'	=>	$cats_ids['Acessórios para Kits UP!'],
@@ -897,52 +1008,70 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'MP0001'
 		));
 		DB::table('products')->insert(array(
 			'tenant_id'		=>	$tenant_id,
 			'category_id'	=>	$cats_ids['Acessórios para Kits UP!'],
-			'name'			=>	'Pin Especialista',
-			'slug'			=>	'pin-especialista',
-			'description'	=>	'Pin especialista',
+			'name'			=>	'Pin Distribuidor Oficial UP!',
+			'slug'			=>	'pin-distribuidor-oficial-up',
+			'description'	=>	'Pin Distribuidor Oficial UP!',
 			'price'			=>	5,
 			'margin'		=>	0,
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'PD0000'
 		));
 
 		// Amostras
 		$essencias_amostras	=	array(
-			'UP! 01'	=>	'UP! 01 - Azzaro',
-			'UP! 02'	=>	'UP! 02 - 212 Sexy',
-			'UP! 16'	=>	'UP! 16 - Dolce & Gabbana',
-			'UP! 11'	=>	'UP! 11 - Ferrari Black',
-			'UP! 38'	=>	'UP! 38 - Fantasy',
-			'UP! 39'	=>	'UP! 39 - Allure Sport',
-			'UP! 43'	=>	'UP! 43 - Animale',
-			'UP! 44'	=>	'UP! 44 - Glow by J.Lo',
-			'UP! 45'	=>	'UP! 45 - 212 Men',
-			'UP! 46'	=>	'UP! 46 - Lady Million',
-			'UP! 47'	=>	'UP! 47 - 1 Million',
+			'01'	=>	'UP! 01 - Azzaro',
+			'02'	=>	'UP! 02 - 212 Sexy',
+			'16'	=>	'UP! 16 - Dolce & Gabbana',
+			'11'	=>	'UP! 11 - Ferrari Black',
+			'38'	=>	'UP! 38 - Fantasy',
+			'39'	=>	'UP! 39 - Allure Sport',
+			'43'	=>	'UP! 43 - Animale',
+			'44'	=>	'UP! 44 - Glow by J.Lo',
+			'45'	=>	'UP! 45 - 212 Men',
+			'46'	=>	'UP! 46 - Lady Million',
+			'47'	=>	'UP! 47 - 1 Million',
 		);
 
-		foreach ($essencias_amostras as $name => $description) {
+		foreach ($essencias_amostras as $number => $description) {
 			DB::table('products')->insert(array(
 				'tenant_id'		=>	$tenant_id,
 				'category_id'	=>	$cats_ids['Amostras'],
-				'name'			=>	'Amostra '.$name,
-				'slug'			=>	'amostra-'.Str::slug($name),
+				'name'			=>	'Amostra UP! '.$number,
+				'slug'			=>	'amostra-up-'.Str::slug($number),
 				'description'	=>	'Amostra '.$description. ' (10 Unidades)',
 				'price'			=>	7,
 				'margin'		=>	$margem_padrao,
 				'box'			=>	NULL,
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
-				'is_alive'		=>	true
+				'is_alive'		=>	true,
+				'ref'				=> 'AM01'.$number
 			));
 		}
+		// Amostra monaco
+		DB::table('products')->insert(array(
+			'tenant_id'		=>	$tenant_id,
+			'category_id'	=>	$cats_ids['Amostras'],
+			'name'			=>	'Amostra UP! Monaco',
+			'slug'			=>	'amostra-up-monaco',
+			'description'	=>	'Amostra UP! Monaco (10 Unidades)',
+			'price'			=>	7,
+			'margin'		=>	$margem_padrao,
+			'box'			=>	NULL,
+			'created_at'	=> 	date('Y-m-d H:m:s'),
+			'updated_at'	=> 	date('Y-m-d H:m:s'),
+			'is_alive'		=>	true,
+			'ref'				=> 'AMUPMO'
+		));
 
 		// Acessórios em Geral
 		DB::table('products')->insert(array(
@@ -956,7 +1085,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'licenca'
 		));
 
 		DB::table('products')->insert(array(
@@ -970,7 +1100,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'liconc'
 		));
 
 		DB::table('products')->insert(array(
@@ -984,7 +1115,8 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> 'display'
 		));
 
 		// Livros
@@ -999,7 +1131,48 @@ class ModelUpSeeder extends Seeder
 			'box'			=>	NULL,
 			'created_at'	=> 	date('Y-m-d H:m:s'),
 			'updated_at'	=> 	date('Y-m-d H:m:s'),
-			'is_alive'		=>	true
+			'is_alive'		=>	true,
+			'ref'				=> '9000001349'
 		));
+
+		// Malas
+		DB::table('products')->insert(array(
+			'tenant_id'		=>	$tenant_id,
+			'category_id'	=>	$cats_ids['Acessórios em Geral'],
+			'name'			=>	"Malas UP!",
+			'slug'			=>	'malas-up',
+			'description'	=>	'Este produto é composto por Mala de Despacho e Mala de Mão',
+			'price'			=>	950,
+			'margin'		=>	0,
+			'box'			=>	NULL,
+			'created_at'	=> 	date('Y-m-d H:m:s'),
+			'updated_at'	=> 	date('Y-m-d H:m:s'),
+			'is_alive'		=>	true,
+			'ref'				=> 'CJMLUP'
+		));
+
+		// Combos
+		$combos = array(
+			'CMGUER'	=>	'Combo Super Mãe',
+			'CMINTE'	=>	'Combo Mãe Ativa',
+			'CMROMA'	=>	'Combo Mãe Amiga',
+		);
+
+		foreach ($combos as $cod => $name) {
+			DB::table('products')->insert(array(
+				'tenant_id'		=>	$tenant_id,
+				'category_id'	=>	$cats_ids['Combos'],
+				'name'			=>	$name,
+				'slug'			=>	Str::slug($name),
+				'description'	=>	$name,
+				'price'			=>	105.1,
+				'margin'		=>	$margem_padrao,
+				'box'			=>	NULL,
+				'created_at'	=> 	date('Y-m-d H:m:s'),
+				'updated_at'	=> 	date('Y-m-d H:m:s'),
+				'is_alive'		=>	true,
+				'ref'				=> $cod
+			));
+		}
 	}
 }

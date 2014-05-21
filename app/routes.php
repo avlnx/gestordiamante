@@ -19,6 +19,7 @@ Route::get('/', array('before' => 'auth', 'uses' => 'HomeController@getIndex', '
 Route::get('tenants', array('before' => 'auth|root_only', 'uses' => 'TenantsController@getIndex', 'as' => 'tenants.index'));
 Route::post('tenants/new', array('before' => 'auth|root_only', 'uses' => 'TenantsController@postNew', 'as' => 'tenants.postNew'));
 Route::get('tenants/new', array('before' => 'auth|root_only', 'uses' => 'TenantsController@getNew', 'as' => 'tenants.new'));
+Route::get('tenants/update_from_model', array('before' => 'auth|root_only', 'uses' => 'TenantsController@getUpdateModelItems', 'as' => 'tenants.update_from_model'));
 
 Route::get('tenants/{id}', array('before' => 'auth|root_only', 'uses' => 'TenantsController@getFocus', 'as' => 'tenants.focus'));
 Route::get('tenants/delete/{id}', array('before' => 'auth|root_only', 'uses' => 'TenantsController@getDelete', 'as' => 'tenants.delete'));
@@ -34,9 +35,9 @@ Route::get('products/admin', array('before' => 'auth', 'uses' => 'ProductsContro
 Route::post('products/new', array('before' => 'auth|admins_only', 'uses' => 'ProductsController@postNew', 'as' => 'products.postNew'));
 Route::get('products/new', array('before' => 'auth|admins_only', 'uses' => 'ProductsController@getNew', 'as' => 'products.new'));
 
-Route::get('products/edit/{id}', array('before' => 'auth|admins_only|check_tenant:Product', 'uses' => 'ProductsController@getEdit', 'as' => 'products.edit'));
-Route::post('products/edit/{id}', array('before' => 'auth|admins_only|check_tenant:Product', 'uses' => 'ProductsController@postEdit', 'as' => 'products.postEdit'));
-Route::get('products/delete/{id}', array('before' => 'auth|admins_only|check_tenant:Product', 'uses' => 'ProductsController@getDelete', 'as' => 'products.delete'));
+Route::get('products/edit/{id}', array('before' => 'auth|admins_only|check_tenant:Product|protected_item:Product', 'uses' => 'ProductsController@getEdit', 'as' => 'products.edit'));
+Route::post('products/edit/{id}', array('before' => 'auth|admins_only|check_tenant:Product|protected_item:Product', 'uses' => 'ProductsController@postEdit', 'as' => 'products.postEdit'));
+Route::get('products/delete/{id}', array('before' => 'auth|admins_only|check_tenant:Product|protected_item:Product', 'uses' => 'ProductsController@getDelete', 'as' => 'products.delete'));
 Route::get('products/{id}', array('before' => 'auth|check_tenant:Product', 'uses' => 'ProductsController@getFocus', 'as' => 'products.focus'));
 
 // Categories routes
@@ -44,9 +45,9 @@ Route::get('products/categories', array('before' => 'auth', 'uses' => 'Categorie
 Route::post('products/categories/new', array('before' => 'auth|admins_only', 'uses' => 'CategoriesController@postNew', 'as' => 'categories.postNew'));
 Route::get('products/categories/new', array('before' => 'auth|admins_only', 'uses' => 'CategoriesController@getNew', 'as' => 'categories.new'));
 
-Route::get('products/categories/edit/{id}', array('before' => 'auth|admins_only|check_tenant:Category', 'uses' => 'CategoriesController@getEdit', 'as' => 'categories.edit'));
-Route::post('products/categories/edit/{id}', array('before' => 'auth|admins_only|check_tenant:Category', 'uses' => 'CategoriesController@postEdit', 'as' => 'categories.postEdit'));
-Route::get('products/categories/delete/{id}', array('before' => 'auth|admins_only|check_tenant:Category', 'uses' => 'CategoriesController@getDelete', 'as' => 'categories.delete'));
+Route::get('products/categories/edit/{id}', array('before' => 'auth|admins_only|check_tenant:Category|protected_item:Category', 'uses' => 'CategoriesController@getEdit', 'as' => 'categories.edit'));
+Route::post('products/categories/edit/{id}', array('before' => 'auth|admins_only|check_tenant:Category|protected_item:Category', 'uses' => 'CategoriesController@postEdit', 'as' => 'categories.postEdit'));
+Route::get('products/categories/delete/{id}', array('before' => 'auth|admins_only|check_tenant:Category|protected_item:Category', 'uses' => 'CategoriesController@getDelete', 'as' => 'categories.delete'));
 Route::get('products/categories/{id}', array('before' => 'auth|check_tenant:Category', 'uses' => 'CategoriesController@getFocus', 'as' => 'categories.focus'));
 
 // Users routes

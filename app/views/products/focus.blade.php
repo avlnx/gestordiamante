@@ -28,7 +28,15 @@
 	<p><small><em>Última alteração há {{ Ago::agolize($product->updated_at)}}</em></small></p>
 
 	<p>
-		{{ HTML::linkRoute('products.edit', 'Editar', array($product->id), array('class' => 'btn btn-primary') )}}
-		{{ HTML::linkRoute('products.delete', 'Deletar!', array($product->id), array('class' => 'btn btn-danger btn-small') )}}
+		@if(Auth::user()->is_admin)
+			@if($product->is_protected && !Auth::user()->tenant->is_model)
+			   <span class='label label-info'>Protegido</span>
+			@else
+			   {{ HTML::linkRoute('products.edit', 'Editar', array($product->id), array('class' => 'btn btn-mini'))}}
+			   {{ HTML::linkRoute('products.delete', 'Deletar!', array($product->id), array('class' => 'btn btn-mini btn-danger'))}}
+			@endif
+		@else
+			&nbsp;
+      @endif
 	</p>
 @stop

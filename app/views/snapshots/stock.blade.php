@@ -12,15 +12,15 @@
 			</div>
 		</div>
 
-		
+
 		<hr>
 
 		<?php $cats = $product_list_in_stock ?>
 
 		@foreach ($cats as $category_name => $products)
 			<p class="lead">{{ $category_name }}</p>
-			
-			<table class='table table-hover table-condensed table-striped table-bordered'>
+
+			<table class='table table-hover table-condensed table-striped'>
 				<thead>
 					<tr>
 						<th>Produto</th>
@@ -39,7 +39,7 @@
 							<td>R$ {{ $product->price }}</td>
 							<td>R$ {{ $product->quantity_in_stock * $product->price }}</td>
 						</tr>
-						<?php $total_quantity += $product->quantity_in_stock  ?> 
+						<?php $total_quantity += $product->quantity_in_stock  ?>
 						<?php $total_value += $product->price  * $product->quantity_in_stock ?>
 					@endforeach
 					<tr>
@@ -52,5 +52,5 @@
 
 			</table>
 		@endforeach
-	
+
 @stop
