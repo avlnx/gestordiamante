@@ -62,6 +62,7 @@ class CategoriesController extends BaseController
 		$category->slug = Str::slug(Input::get('name'));
 		$category->description = Input::get('description');
 		$category->is_alive = true;
+		$category->is_protected = False;
 
 		$category->save();
 
@@ -92,6 +93,7 @@ class CategoriesController extends BaseController
 		$category->name = Input::get('name');
 		$category->slug = Str::slug(Input::get('name'));
 		$category->description = Input::get('description');
+		$category->is_protected = False;
 
 		$category->save();
 
