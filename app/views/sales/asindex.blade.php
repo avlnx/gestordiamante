@@ -8,24 +8,36 @@
 
 	<a href="#" id='filter-date-toggle'><h6>FILTRAR POR DATA</h6></a>
 	<div class='btn-group' data-toggle='buttons-radio' id='date-button-group' style='display:none'>
-		<a href="#" id='latest' class='btn active'>Últimas 200 vendas</a>
-		<a href="#" id='today' class='btn'>Hoje</a>
-		<a href="#" id='yesterday' class='btn'>Ontem</a>
-		<a href="#" id='month' class='btn'>Este mês</a>
-		<a href="#" id='year' class='btn'>Este ano</a><hr/>
-		<p>
-			<!--<span class="add-on">Data Específica</span>-->
-			<input class="span2" id="specific-date-input" type="text" placeholder="Ex. 14/04/2014" readonly><br/>
-			<a href='#' class='btn' id="specific-date">Data Específica</a><br/><hr/>
-		</p>
-		<p>
-			<!--<span class="add-on">Data Específica</span>-->
-			<input class="span2" id="specific-period-input-start" type="text" placeholder="Ex. 01/04/2014" readonly> até
-			<input class="span2" id="specific-period-input-end" type="text" placeholder="Ex. 31/04/2014" readonly><br/>
-			<a href='#' class='btn' id="specific-period">Período</a>
-		</p>
-	</div>
+	<div class='row'>
+			<div class="span4">
+					<p><a href="#" id='latest' class='btn active'>Últimas 200 Vendas</a></p>
+					<!--
+					<a href="#" id='today' class='btn'>Hoje</a>
+					<a href="#" id='yesterday' class='btn'>Ontem</a>
+					<a href="#" id='month' class='btn'>Este mês</a>
+					<a href="#" id='year' class='btn'>Este ano</a><hr/>
+					-->
+			</div>
+			
+			<div class="span4">
+				<p>
+					<!--<span class="add-on">Data Específica</span>-->
+					<input class="span2" id="specific-date-input" type="text" placeholder="Ex. 14/04/2014" readonly><br/>
+					<a href='#' class='btn' id="specific-date">Data Específica</a>
+				</p>
+			</div>
+			<div class="span4">
+				<p>
+					<input class="span2" id="specific-period-input-start" type="text" placeholder="Ex. 01/04/2014" readonly> até
+					<input class="span2" id="specific-period-input-end" type="text" placeholder="Ex. 31/04/2014" readonly><br/>
+					<a href='#' class='btn' id="specific-period">Período</a>
+				</p>
+			</div>
 
+		</div>
+		<hr/>
+	</div>
+	
 	<a href="#" id='filter-payment-toggle'><h6>FILTRAR POR FORMA DE PAGAMENTO</h6></a>
 	<div class='btn-group' data-toggle='buttons-radio' id='payment-button-group' style='display:none'>
 		<a href="#" id='all_payments' class='btn active'>Todas</a>
@@ -179,11 +191,11 @@
 
 	$('#filter-date-toggle').bind('click', function(event) {
 		event.preventDefault();
-		$('#date-button-group').toggle();
+		$('#date-button-group').toggle( 'slow');
 	});
 	$('#filter-payment-toggle').bind('click', function(event) {
 		event.preventDefault();
-		$('#payment-button-group').toggle();
+		$('#payment-button-group').toggle('slow');
 	});
 
 @stop

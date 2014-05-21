@@ -31,7 +31,7 @@
 			<p>
 		    	{{ Form::label('password', 'Senha:') }}
 		    	{{ $errors->has('password') ? $errors->first('password', '<p class="text-error">:message</p>') : '' }}
-		    	{{ Form::text('password') }}
+		    	{{ Form::password('password') }}
 		    </p>
 		    <p>
 		    	{{ Form::radio('is_admin', True) }} <span class="label label-warning">Admin</span><br/>

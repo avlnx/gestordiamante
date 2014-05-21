@@ -117,7 +117,8 @@ class SnapshotsController extends BaseController
 		$snapshot = Snapshot::create(array(
 			'tenant_id'	=>	Auth::user()->tenant_id,
 			'is_alive'	=>	True,
-			'type'		=> 	$snapshot_type
+			'type'		=> 	$snapshot_type,
+			'user_id'	=>	Auth::user()->id
 			//'entry'		=>	False
 		));
 

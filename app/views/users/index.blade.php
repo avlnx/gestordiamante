@@ -3,9 +3,10 @@
 @section('content')
 
 	<h2>Usuários <small>Usuários cadastrados</small></h2>
-	{{ HTML::linkRoute('users.new', "Novo Usuário" ,[], array('title' => 'Criar novo usuário', 'class' => 'btn')) }}
-	<hr/>
-
+	@if(Auth::user()->is_admin)
+	<p>{{ HTML::linkRoute('users.new', "Novo Usuário" ,[], array('title' => 'Criar novo usuário', 'class' => 'btn btn-primary')) }}</p>
+	@endif
+	
 	<table class='table table-condensed table-hover'>
 		<tbody>
 	@foreach($users as $user)
