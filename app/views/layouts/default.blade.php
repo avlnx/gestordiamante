@@ -143,6 +143,7 @@
 	{{ HTML::script('js/jquery.min.js') }}
 	{{ HTML::script('js/bootstrap.min.js') }}
 	{{ HTML::script('js/bootstrap-datepicker.js') }}
+	{{ HTML::script('js/jquery.currency.js') }}
 
 	<script type='text/javascript'>
 		@yield('script_functions')
@@ -157,6 +158,12 @@
 			});
 			@yield('scripts')
 			@yield('scripts2')
+			// Fix formating of money numbers
+			$('.currency').currency({
+				region: 	'BRL',
+				thousands: '.',
+				decimal: ','
+			});
  		});
 
 	</script>

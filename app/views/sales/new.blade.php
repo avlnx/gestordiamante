@@ -21,11 +21,11 @@
 			<h5>Ativação</h5>
 			<div id="ativacao-options" class="btn-group" data-toggle="buttons-radio">
 				<button type="button" class="btn btn-small btn active" data-toggle="button" id="nenhuma-ativacao" style='width: inherit'>Nenhuma ativação</button>
-				<button type="button" class="btn btn-small btn-warning" data-toggle="button" id="ativacao-up" style='width: inherit'>UP! (1)</button>
-				<button type="button" class="btn btn-small btn-warning" data-toggle="button" id="ativacao-top" style='width: inherit'>Top (2)</button>
-				<button type="button" class="btn btn-small btn-warning" data-toggle="button" id="ativacao-premium" style='width: inherit'>Premium (3)</button>
-				<button type="button" class="btn btn-small btn-warning" data-toggle="button" id="ativacao-elite" style='width: inherit'>Elite (4)</button>
-				<button type="button" class="btn btn-small btn-danger" data-toggle="button" id="kit-free" style='width: inherit'>Kit Free</button>
+				<button type="button" class="btn btn-small btn-info" data-toggle="button" id="ativacao-up" style='width: inherit'>UP! (1)</button>
+				<button type="button" class="btn btn-small btn-info" data-toggle="button" id="ativacao-top" style='width: inherit'>Top (2)</button>
+				<button type="button" class="btn btn-small btn-info" data-toggle="button" id="ativacao-premium" style='width: inherit'>Premium (3)</button>
+				<button type="button" class="btn btn-small btn-info" data-toggle="button" id="ativacao-elite" style='width: inherit'>Elite (4)</button>
+				<button type="button" class="btn btn-small btn-warning" data-toggle="button" id="kit-free" style='width: inherit'>Kit Free</button>
 				<input type='hidden' id='ativacoes_input' value=0 name='ativacoes_input' />
 			</div>
 
@@ -38,7 +38,7 @@
     	<div class='span3'>
     		<div class='forms-wrapper sb-fixed'>
 
-    			<h1><small>Total: </small>R$ <span id='total'>0</span></h1>
+    			<h1><small>Total </small><span id='total'></span><br/><span id='total-hidden' style='display:none'></span></h1>
     			<hr/>
 
 				<h4>Formas de pagamento</h4>
@@ -91,9 +91,9 @@
 						</td>
 					</tr>
 					<tr>
-						<td><strong>Total:</strong></td>
+						<td><strong>Total</strong></td>
 						<td>
-							<span class='pull-left'>R$&nbsp;</span> <p class='lead pull-left' id='forms-total'>0</p>
+							<p class='lead pull-left' id='forms-total'></p>
 							<span class='label label-important pull-right' id='forms-label-fail' style='display:none'>0</span>
 							<span class='label label-success pull-right' id='forms-label-success' style='display:none'>OK</span>
 						</td>

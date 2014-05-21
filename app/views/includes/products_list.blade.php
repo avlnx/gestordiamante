@@ -6,14 +6,19 @@
 			@foreach($categories as $category)
 				<a class='no-format' href='#' id='table-toggler-{{ $category->id }}'><p class='lead'><i class='icon-chevron-right'></i>  {{ $category->name }}</p></a>
 				<div id='table-wrapper-{{ $category->id }}' style='display: none'>
-					<table class='table table-condensed'>
+					<ul class="inline">
 
 					@foreach($products as $product)
 						@if($product->category == $category)
 							<?php $found = True ?>
-							<tr id='prod-row-{{$product->id}}'>
-								<td>{{ $product->name }}</td>
-								<td>
+							<li id='prod-row-{{$product->id}}' style='border: 1px solid #ccc; padding: 10px;margin: 0px 10px 10px 0'>
+
+								<p>
+								<strong>{{ $product->name }}</strong><br/>
+								<small class='currency'>{{$product->price}}</small>
+								</p>
+
+								<p>
 
 									@if(False)
 									{{-- if($produtc->box) --}}
@@ -28,22 +33,24 @@
 										<span class='add-on'>unidades</span>
 									</div>
 
-								</td>
+								</p>
+
 								<span id='preco-{{$product->id}}' style='display:none'>{{$product->price}}</span>
 								<span id='box-{{$product->id}}' style='display:none'>{{$product->box}}</span>
 								<span id='{{$product->slug}}' style='display:none'>{{$product->id}}</span>
-							</tr>
+							</li>
 						@endif
 					@endforeach
 					@if(count($products)==0)
-						<p class='text-info'>Você ainda não cadastrou nenhum produto.</p>
+						<li class='text-info'>Você ainda não cadastrou nenhum produto.</li>
 					@endif
 					@if(!$found)
-						<p class='text-warning'>Nenhum produto nessa categoria</p>
+						<li class='text-warning'>Nenhum produto nessa categoria</li>
 					@else
 						<?php $found = False; ?>
 					@endif
-					</table>
+
+					</ul>
 				</div>
 			@endforeach
 			@if(count($categories)==0)
@@ -81,9 +88,14 @@
 		//console.log(total);
 
     // clean total
-    total = total.toFixed(2);
+    //total = total.toFixed(2);
 
-		$('#total').html(total);
+    	$('#total-hidden').html(total);
+		$('#total').html(total).currency({
+				region: 	'BRL',
+				thousands: '.',
+				decimal: ','
+			});
 		update_forms_total();
 	}
 	function update_forms_total()
@@ -98,10 +110,13 @@
 
 		//alert(total);
 
-		$('#forms-total').html(total);
+		$('#forms-total').html(total).currency({
+				region: 	'BRL',
+				thousands: '.',
+				decimal: ','
+			});;
 
-
-		var total_geral = parseFloat($('#total').html());
+		var total_geral = parseFloat($('#total-hidden').html());
 		var forms_total = total;
 
 		if (total_geral != forms_total)

@@ -8,7 +8,7 @@
 				<p>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry'), array('class' => 'btn btn-primary')) }}</p>
 			</div>
 			<div class="span3">
-				<h2 class="text-left">R$ {{ $total_stock_value }}</h2>
+				<h2 class="text-left currency">{{ $total_stock_value }}</h2>
 			</div>
 		</div>
 
@@ -36,8 +36,8 @@
 						<tr @if ($product->quantity_in_stock <= 0) {{ "class='error'" }}@endif>
 							<td>{{ $product->name }}</td>
 							<td>{{ $product->quantity_in_stock }}</td>
-							<td>R$ {{ $product->price }}</td>
-							<td>R$ {{ $product->quantity_in_stock * $product->price }}</td>
+							<td class='currency'>{{ $product->price }}</td>
+							<td class='currency'>{{ $product->quantity_in_stock * $product->price }}</td>
 						</tr>
 						<?php $total_quantity += $product->quantity_in_stock  ?>
 						<?php $total_value += $product->price  * $product->quantity_in_stock ?>
@@ -46,7 +46,7 @@
 						<td><h4>TOTAIS</h4></td>
 						<td><h4>{{ $total_quantity }}</h4></td>
 						<td>---</td>
-						<td><h4>R$ {{ $total_value }}</h4></td>
+						<td><h4 class='currency'>{{ $total_value }}</h4></td>
 					</tr>
 				</tbody>
 
