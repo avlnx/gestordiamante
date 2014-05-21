@@ -4,10 +4,13 @@
 @section('content')
 
 <h2>Produtos <small>Produtos cadastrados</small></h2>
+<p>
 @if(Auth::user()->is_admin)
-{{ HTML::linkRoute('products.new', "+ Novo Produto" ,[], array('title' => 'Criar novo produto', 'class' => 'btn btn-primary')) }}
+{{ HTML::linkRoute('products.new', "+ Novo Produto" ,[], array('title' => 'Criar novo produto', 'class' => 'btn btn-primary')) }}&nbsp;
 @endif
-<hr/>
+
+</p>
+
 
 <p class='lead'>
     Clique sobre uma categoria para visualizar os produtos

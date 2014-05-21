@@ -98,8 +98,8 @@
 							    <li>{{ HTML::linkRoute('users.index','Administrar Usuários', array(), array('role' => 'menuitem')) }}</li>
 						    @endif
 						    @if (Auth::check() && Auth::user()->is_root)
+						    	<li class='divider'></li>
 						    	<li>{{ HTML::linkRoute('tenants.index','Clientes') }}</li>
-						    	<li>{{ HTML::linkRoute('tenants.new','Novo Cliente') }}</li>
 						    @endif
 						  </ul>
 						</div>

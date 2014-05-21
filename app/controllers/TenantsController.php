@@ -75,12 +75,17 @@ class TenantsController extends BaseController
 							$new_regular_product->category_id = $category_in_regular_tenant->id;
 							$new_regular_product->tenant_id = $regular_tenant->id;
 							$new_regular_product->is_protected = true;
+							$new_regular_product->quantity_in_stock = 0;
 							$new_regular_product->save();
 						} else {
 							// Product exists, update it
 							$regular_product->ref = $model_tenant_product->ref;
 							$regular_product->category_id = $category_in_regular_tenant->id;
+							$regular_product->name = $model_tenant_product->name;
 							$regular_product->slug = $model_tenant_product->slug;
+							$regular_product->price = $model_tenant_product->price;
+							$regular_product->margin = $model_tenant_product->margin;
+							$regular_product->box = $model_tenant_product->box;
 							$regular_product->description = $model_tenant_product->description;
 							$regular_product->is_protected = true;
 							$regular_product->save();
@@ -92,7 +97,7 @@ class TenantsController extends BaseController
 		}
 
 		return Redirect::route('tenants.index', array())
-				->with('notice', 'Modelos atualizados com sucesso.');
+				->with('notice', 'Sucesso!');
 
 	}
 
@@ -119,15 +124,25 @@ class TenantsController extends BaseController
 
 		// Delete superadmin?:
 		// Get this tenant's superadmin
-		$superadmin = User::where('email','=',$tenant->email)->first();
-		// is this the only tenant with this superadmin?
-		$count = Tenant::where('email','=',$tenant->email)->count();
-		// if yes, delete the superadmin
-		if ($count <= 1) {
-			// there are no other tenants, delete superadmin
-			$superadmin->delete();
-		}
+		if (!$tenant->is_model) {
+			$superadmin = User::where('email','=',$tenant->email)->first();
+			$superadmins_tenant = $superadmin->tenant;
 
+			// is this the only tenant with this superadmin?
+			$count = Tenant::where('email','=',$tenant->email)->count();
+			// if yes, delete the superadmin
+			if ($count <= 1) {
+				// there are no other tenants, delete superadmin
+				$superadmin->delete();
+			} else {
+				// Is this superadmin set to this tenant? If yes, set it to one of the other remaining tenants
+				if ($superadmins_tenant->id == $tenant->id) {
+					$other_tenants_id = Tenant::where('email','=',$tenant->email)->where('id','!=',$tenant->id)->first()->id;
+					$superadmin->tenant_id = $other_tenants_id;
+					$superadmin->save();
+				}
+			}
+		}
         Category::where('tenant_id',$tenant->id)->delete();
         Product::where('tenant_id',$tenant->id)->delete();
         Snapshot::where('tenant_id',$tenant->id)->delete();
@@ -213,8 +228,10 @@ class TenantsController extends BaseController
 
 		// TODO: email superadmin
 
-		return Redirect::route('tenants.index', array())
-				->with('notice', 'Tenant criado com sucesso');
+		//return Redirect::route('tenants.index', array())
+		//		->with('notice', 'Tenant criado com sucesso. Atualize os modelos.');
+		return Redirect::route('tenants.update_from_model', array())
+			->with('notice', 'Tenant criado com sucesso. Modelos atualizados.');
 	}
 
 	public function getFocus($id)

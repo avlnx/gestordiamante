@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-	<h1><small>Visualizando</small> {{ $tenant->email }}</h1>
+	<h1><small>Visualizando</small> {{ $tenant->account_name }}</h1>
 	<hr/>
 	<table class='table table-condensed table-hover'>
 		<thead>

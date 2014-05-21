@@ -19,9 +19,10 @@ class UserTableSeeder extends Seeder
 				'email'			=>	'thferreira@gmail.com',
 				'tenant_id'		=>	$tenant_id,
 				'password'		=>	Hash::make('ntmesfecjo19'),
-				'is_admin'		=> 	true,
+				'is_admin'		=> true,
 				'is_root'		=>	true,
-				'name'			=> 	'Equipe Gestor Diamante',
+				'is_superadmin'=> true,
+				'name'			=> 'Equipe Gestor Diamante',
 				'created_at'	=>	date('Y-m-d H:m:s'),
 				'updated_at'	=>	date('Y-m-d H:m:s')
 			));

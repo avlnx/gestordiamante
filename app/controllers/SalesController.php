@@ -4,6 +4,8 @@ class SalesController extends BaseController
 {
 	public $restful = True;
 	public $comparing_date = null;
+	public $date_start = null;
+	public $date_end = null;
 
 	public function getIndex($filter)
 	{
@@ -158,18 +160,35 @@ class SalesController extends BaseController
 						});
 				break;
 			default:
-				// A date like 03/04/1986
-				$sales = $sales->filter(function($sale) {
-					list($start_day,$start_month,$start_year) = explode('-', $this->comparing_date);
-					$start_date_obj = Carbon::createFromDate($start_year,$start_month,$start_day);
-					if($sale->created_at->format('Y-m-d') == $start_date_obj->format('Y-m-d')) {
-						return $sale;
-					}
-				});
+				// A date like 03/04/1986 or like 03/04/1986*24/04/1986
+				$dates_array = explode('*', $this->comparing_date); //list($this->date_start,$this->date_end)
+				if (count($dates_array) > 1) {
+					// Period date
+					$this->date_start = $dates_array[0];
+					$this->date_end = $dates_array[1];
+
+					$sales = $sales->filter(function($sale) {
+						list($start_day,$start_month,$start_year) = explode('-', $this->date_start);
+						list($end_day,$end_month,$end_year) = explode('-', $this->date_end);
+						$start_date_obj = Carbon::createFromDate($start_year,$start_month,$start_day);
+						$end_date_obj = Carbon::createFromDate($end_year,$end_month,$end_day);
+						$clean_sale_date = Carbon::createFromDate($sale->created_at->year,$sale->created_at->month,$sale->created_at->day);
+						if ($clean_sale_date->between($start_date_obj,$end_date_obj)) {
+							return $sale;
+						}
+					});
+				} else {
+					// Specific date
+					$sales = $sales->filter(function($sale) {
+						list($start_day,$start_month,$start_year) = explode('-', $this->comparing_date);
+						$start_date_obj = Carbon::createFromDate($start_year,$start_month,$start_day);
+						if($sale->created_at->format('Y-m-d') == $start_date_obj->format('Y-m-d')) {
+							return $sale;
+						}
+					});
+				} 
 				break;
 		}
-		// continue filtering by user if not alreay empty
-		// continue filtering by kits if not already empty
 
 		// continue filtering by payment_type
 		switch ($payment_type) {
@@ -270,6 +289,7 @@ class SalesController extends BaseController
 					$rules[$field] = 'unique:sales';
 					break;
 				case '_token':
+				case 'notes':
 					break;
 				case 'ativacoes_input':
 					$rules[$field] = 'numeric|required';
@@ -373,7 +393,7 @@ class SalesController extends BaseController
 			$product->save();
 		}
 
-		return Redirect::route('sales.asindex')->with('notice', 'Venda gerada com sucesso.');
+		return Redirect::route('sales.new')->with('notice', 'Venda gerada com sucesso.');
 		
 	}
 

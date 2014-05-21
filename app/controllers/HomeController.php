@@ -23,7 +23,17 @@ class HomeController extends BaseController {
 
 	public function getIndex()
 	{
-		return View::make('home.index');
+		if (Auth::user()->is_root) {
+			return Redirect::route('tenants.index');
+		} else if (Auth::user()->tenant->is_model) {
+			return Redirect::route('products.admin');
+		} else if (Auth::user()->is_superadmin) {
+			return Redirect::route('superadmin.choose');
+		} else if (Auth::user()->is_admin) {
+			return Redirect::route('snapshots.stock');
+		} else {
+			return Redirect::route('sales.new');
+		}
 	}
 
 }

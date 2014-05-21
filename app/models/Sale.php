@@ -86,11 +86,12 @@ class Sale extends Eloquent
 	}
 	public function getMetaAttribute()
 	{
-		if (!$this->is_alive) { 
+		if ($this->is_alive) { 
 			$user = User::find($this->user_id);
 		} else {
 			$user = User::find($this->deleted_by);
 		}
+		
       if($user)
       {
          $user_name = $user->name;

@@ -21,6 +21,9 @@ class Tenant extends Eloquent
 
 	public function generate_default_products()
 	{
+		/*
+		**We are using a function to automatically build all products from the model account**
+
 		$company = $this->company;
 		$model_tenant = Tenant::where('is_model','=',true)->where('company','=',$company)->where('is_alive','=',true)->first();
 
@@ -44,6 +47,7 @@ class Tenant extends Eloquent
 				$product->save();
 			}
 		}
+		*/
 	}
 
 	public function generate_admin_account($password)

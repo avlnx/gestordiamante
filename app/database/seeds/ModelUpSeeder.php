@@ -21,7 +21,7 @@ class ModelUpSeeder extends Seeder
 		if ($tenant_id == NULL) {
 			// Model doesn't exist yet, create it
 			$tenant_id = DB::table('tenants')->insertGetId(array(
-				'email'			=>	NULL,
+				'email'			=>	'thferreira@gmail.com',
 				'created_at'	=> 	date('Y-m-d H:m:s'),
 				'updated_at'	=> 	date('Y-m-d H:m:s'),
 				'is_alive'		=>	true,

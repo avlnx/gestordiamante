@@ -12,7 +12,7 @@ class TenantTableSeeder extends Seeder
 		if ($rootTenant == NULL) {
 			// Seed root's tenant, it doesn't exist yet
 			DB::table('tenants')->insert(array(
-				'email'			=>	NULL,
+				'email'			=>	'thferreira@gmail.com',
 				'created_at'	=>	date('Y-m-d H:m:s'),
 				'updated_at'	=>	date('Y-m-d H:m:s'),
 				'company'		=> 	'root',

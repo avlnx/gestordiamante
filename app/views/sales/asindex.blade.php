@@ -6,22 +6,28 @@
 
 	<h2>Vendas</h2>
 
-	<h6>FILTRAR POR DATA</h6>
-	<div class='btn-group' data-toggle='buttons-radio' id='date-button-group'>
+	<a href="#" id='filter-date-toggle'><h6>FILTRAR POR DATA</h6></a>
+	<div class='btn-group' data-toggle='buttons-radio' id='date-button-group' style='display:none'>
 		<a href="#" id='latest' class='btn active'>Últimas 200 vendas</a>
 		<a href="#" id='today' class='btn'>Hoje</a>
 		<a href="#" id='yesterday' class='btn'>Ontem</a>
 		<a href="#" id='month' class='btn'>Este mês</a>
-		<a href="#" id='year' class='btn'>Este ano</a><br/><br/>
-		<div class="input-append">
+		<a href="#" id='year' class='btn'>Este ano</a><hr/>
+		<p>
 			<!--<span class="add-on">Data Específica</span>-->
-			<input class="span2" id="specific-date-input" type="text" placeholder="Ex. 14/04/2014" readonly>
-			<button class="btn" type="button" id="specific-date">Data Específica</button>
-		</div>
+			<input class="span2" id="specific-date-input" type="text" placeholder="Ex. 14/04/2014" readonly><br/>
+			<a href='#' class='btn' id="specific-date">Data Específica</a><br/><hr/>
+		</p>
+		<p>
+			<!--<span class="add-on">Data Específica</span>-->
+			<input class="span2" id="specific-period-input-start" type="text" placeholder="Ex. 01/04/2014" readonly> até
+			<input class="span2" id="specific-period-input-end" type="text" placeholder="Ex. 31/04/2014" readonly><br/>
+			<a href='#' class='btn' id="specific-period">Período</a>
+		</p>
 	</div>
 
-	<h6>FILTRAR POR FORMA DE PAGAMENTO</h6>
-	<div class='btn-group' data-toggle='buttons-radio' id='payment-button-group'>
+	<a href="#" id='filter-payment-toggle'><h6>FILTRAR POR FORMA DE PAGAMENTO</h6></a>
+	<div class='btn-group' data-toggle='buttons-radio' id='payment-button-group' style='display:none'>
 		<a href="#" id='all_payments' class='btn active'>Todas</a>
 		<a href="#" id='cash' class='btn'>Dinheiro</a>
 		<a href="#" id='debit' class='btn'>Débito</a>
@@ -30,12 +36,12 @@
 		<a href="#" id='bonus' class='btn'>Bônus e Transferência de Crédito UP!</a>
 	</div>
 
-	<p></p>
+	<p>&nbsp;</p>
 
 	<a href="#" id='show_deleted' class='btn btn-mini'>Mostrar vendas deletadas</a>
 
 
-	<p></p>
+	<p>&nbsp;</p>
 
 	<!-- results -->
 	<table class='table table-hover table-condensed' id='results-table'>
@@ -76,7 +82,7 @@
 
 				sales.push(
 					"<tr><td>" + sale.pretty_order_number + 
-					"</td><td><small>" + sale.meta + " há " + sale.pretty_date + "</small>" +
+					"</td><td><small>" + sale.meta + " há " + sale.pretty_date + " (" + sale.created_at + ")</small>" +
 					"</td><td>R$ " + value+
 					"</td><td>" + sale.delete_link + 
 					"</td></tr>"
@@ -111,10 +117,19 @@
 		} else if (filter_click == 'specific-date') {
 			date = $('#specific-date-input').val();
 			date_done = true;
+		} else if (filter_click == 'specific-period') {
+			date = $('#specific-period-input-start').val() + '*' + $('#specific-period-input-end').val();
+			date_done = true;
 		}
 
 		if (!date_done) {
 			date = $('#date-button-group').find('a.active').attr('id');
+			if(date == 'specific-date')
+			{
+				date = $('#specific-date-input').val();
+			} else if (date == 'specific-period') {
+				date = $('#specific-period-input-start').val() + '*' + $('#specific-period-input-end').val();
+			}
 		}	
 		if (!payment_type_done) {
 			payment_type = $('#payment-button-group').find('a.active').attr('id');
@@ -137,6 +152,10 @@
 		get_active_filters(event, 'specific-date');
 		event.preventDefault();
 	});
+	$('#specific-period').bind('click', function(event){
+		get_active_filters(event, 'specific-period');
+		event.preventDefault();
+	});
 	$('#all_payments,#cash,#debit,#credit,#deposit,#bonus').bind('click', function(event){
 		get_active_filters(event, 'payment_type');
 		event.preventDefault();
@@ -150,6 +169,21 @@
 
 	$('#specific-date-input').datepicker({
 		format: 'dd-mm-yyyy'
+	});
+	$('#specific-period-input-start').datepicker({
+		format: 'dd-mm-yyyy'
+	});
+	$('#specific-period-input-end').datepicker({
+		format: 'dd-mm-yyyy'
+	});
+
+	$('#filter-date-toggle').bind('click', function(event) {
+		event.preventDefault();
+		$('#date-button-group').toggle();
+	});
+	$('#filter-payment-toggle').bind('click', function(event) {
+		event.preventDefault();
+		$('#payment-button-group').toggle();
 	});
 
 @stop
