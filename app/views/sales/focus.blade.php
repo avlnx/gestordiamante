@@ -2,15 +2,19 @@
 
 @section('content')
 
+	@include('includes.back-button', array('route' => URL::route('sales.asindex')))
+
 	<h2>Pedido {{ $sale->order_number }}</h2>
 	<p class='pull-right'>
-		<em>Realizado há {{ Ago::agolize($sale->created_at) }}</em>
+		<em>Realizado há {{ $sale->pretty_date }} por {{ $sale->creator }}</em>
 	</p>
 	<br class='clearfix' />
 
-	<h4>Formas de pagamento</h4>
 	<table class='table table-condensed table-hover'>
 		<thead>
+			<tr>
+				<th class='table-title'>Formas de Pagamento</th>
+			</tr>
 			<tr>
 				@foreach($payments as $payment_type => $value)
 					<th>{{ $payment_type }}</th>
@@ -20,15 +24,17 @@
 		</thead>
 		<tbody>
 			@foreach($payments as $payment_type => $value)
-				<td>R$ {{ $value }}</td>
+				<td class='currency'>{{ $value }}</td>
 			@endforeach
-			<td><p class='lead'><strong>R$ {{ $sale->total_value() }}</strong></p>
+			<td><p class='lead'><strong class='currency'>{{ $sale->total_value() }}</strong></p>
 		</tbody>
 	</table>
 
-	<h4>Produtos</h4>
 	<table class='table table-condensed table-hover'>
 		<thead>
+			<tr>
+			<th class='table-title'>Produtos</th>
+			</tr>
 			<tr>
 				<th>Nome</th>
 				<th>Preço</th>
@@ -40,9 +46,9 @@
 		@foreach($items as $item)
 			<tr>
 				<td>{{ $item->product->name }}</td>
-				<td>R$ {{ $item->current_price }}</td>
-				<td>{{ $item->quantity }}</td>
-				<td>R$ {{ $item->current_price * $item->quantity }}</td>
+				<td class='currency'>{{ $item->current_price }}</td>
+				<td><span class='label label-info'>{{ $item->quantity }}</span></td>
+				<td class='currency'>{{ $item->current_price * $item->quantity }}</td>
 			</tr>
 		@endforeach
 		@if(count($items)==0)
@@ -53,6 +59,11 @@
 		</tbody>
 	</table>
 
-	
+	@if ($sale->notes)
+		<blockquote>
+			<p class='lead'>Notas</p>
+			<p>{{$sale->notes}}</p>
+		</blockquote>
+	@endif
 
 @stop

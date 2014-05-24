@@ -15,6 +15,9 @@ Route::pattern('id', '[0-9]+');
 
 Route::get('/', array('before' => 'auth', 'uses' => 'HomeController@getIndex', 'as' => 'home.index'));
 
+// Stats routes
+Route::get('stats', array('before' => 'auth|admins_only', 'uses' => 'StatsController@getIndex', 'as' => 'stats.index'));
+
 // Root routes
 Route::get('tenants', array('before' => 'auth|root_only', 'uses' => 'TenantsController@getIndex', 'as' => 'tenants.index'));
 Route::post('tenants/new', array('before' => 'auth|root_only', 'uses' => 'TenantsController@postNew', 'as' => 'tenants.postNew'));
@@ -65,7 +68,7 @@ Route::post('snapshots/new/{snapshot_type?}', array('before' => 'auth|admins_onl
 Route::get('snapshots/{id}', array('before' => 'auth|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getFocus', 'as' => 'snapshots.focus'));
 Route::get('snapshots/delete/{id}', array('before' => 'auth|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getDeleteSnapshot', 'as' => 'snapshots.delete'));
 // Stock routes
-Route::get('stock', array('before' => 'auth', 'uses' => 'SnapshotsController@getStock', 'as' => 'snapshots.stock'));
+Route::get('stock/{filter?}', array('before' => 'auth', 'uses' => 'SnapshotsController@getStock', 'as' => 'snapshots.stock'));
 
 // Sales routes
 Route::get('sales', array('before' => 'auth', 'uses' => 'SalesController@getASIndex', 'as' => 'sales.asindex'));

@@ -4,64 +4,62 @@
 
 	<?php setlocale(LC_TIME, 'pt_BR'); ?>
 
-	<h2>Vendas</h2>
+	<div class="row">
+		<div class="span3">
+			<h2>Vendas</h2>
+			<p class="lead">Vendas realizadas pelo seu CD</p>
+			<hr/>
 
-	<a href="#" id='filter-date-toggle'><h6>FILTRAR POR DATA</h6></a>
-	<div class='btn-group' data-toggle='buttons-radio' id='date-button-group' style='display:none'>
-	<div class='row'>
-			<div class="span4">
-					<p><a href="#" id='latest' class='btn active'>Últimas 200 Vendas</a></p>
-					<!--
-					<a href="#" id='today' class='btn'>Hoje</a>
-					<a href="#" id='yesterday' class='btn'>Ontem</a>
-					<a href="#" id='month' class='btn'>Este mês</a>
-					<a href="#" id='year' class='btn'>Este ano</a><hr/>
-					-->
-			</div>
-			
-			<div class="span4">
+			<p><a href="#" id='show_deleted'  data-toggle="button" class='btn btn-small pretty-button'>Mostrar vendas deletadas</a></p>
+			<hr/>
+
+			<a href="#" id='filter-date-toggle'><h6>FILTRAR POR DATA</h6></a>
+			<div class='btn-group' data-toggle='buttons-radio' id='date-button-group'>
+				<p><a href="#" id='latest' class='btn btn-small active pretty-button'>Últimas 200 Vendas</a></p>
+				<hr/>
 				<p>
 					<!--<span class="add-on">Data Específica</span>-->
 					<input class="span2" id="specific-date-input" type="text" placeholder="Ex. 14/04/2014" readonly><br/>
-					<a href='#' class='btn' id="specific-date">Data Específica</a>
+					<a href='#' class='btn btn-small pretty-button' id="specific-date">Data Específica</a>
 				</p>
-			</div>
-			<div class="span4">
+				<hr/>
 				<p>
-					<input class="span2" id="specific-period-input-start" type="text" placeholder="Ex. 01/04/2014" readonly> até
+					<input class="span2" id="specific-period-input-start" type="text" placeholder="Ex. 01/04/2014" readonly><br/>
 					<input class="span2" id="specific-period-input-end" type="text" placeholder="Ex. 31/04/2014" readonly><br/>
-					<a href='#' class='btn' id="specific-period">Período</a>
+					<a href='#' class='btn btn-small pretty-button' id="specific-period">Período</a>
 				</p>
+				<hr/>
 			</div>
+
+			<a href="#" id='filter-payment-toggle'><h6>FILTRAR POR FORMA DE PAGAMENTO</h6></a>
+			<div class='btn-group' data-toggle='buttons-radio' id='payment-button-group'>
+				<ul class="inline">
+					<li><p><a href="#" id='all_payments' class='btn active btn-small pretty-button'>Todas</a></p></li><br/>
+					<li><p><a href="#" id='cash' class='btn btn-small pretty-button'>Dinheiro</a></p></li><br/>
+					<li><p><a href="#" id='debit' class='btn btn-small pretty-button'>Débito</a></p></li><br/>
+					<li><p><a href="#" id='credit' class='btn btn-small pretty-button'>Crédito</a></p></li><br/>
+					<li><p><a href="#" id='deposit' class='btn btn-small pretty-button'>Depósito</a></p></li><br/>
+					<li><p><a href="#" id='bonus' class='btn btn-small pretty-button'>Bônus e Crédito UP!</a></p></li>
+				</ul>
+			</div>
+			<hr/>
+			
 
 		</div>
-		<hr/>
+
+		<div class="span9">
+			<!-- results -->
+			<p>
+				<span class='label label-info' id='date-filter-label'>Últimas 200 vendas</span>
+				<span class='label label-warning' id='payment-filter-label'>Todas formas de pagamento</span>
+			</p>
+			<table class='table table-hover table-condensed' id='results-table'>
+				
+			</table>
+		</div>
+
 	</div>
-	
-	<a href="#" id='filter-payment-toggle'><h6>FILTRAR POR FORMA DE PAGAMENTO</h6></a>
-	<div class='btn-group' data-toggle='buttons-radio' id='payment-button-group' style='display:none'>
-		<a href="#" id='all_payments' class='btn active'>Todas</a>
-		<a href="#" id='cash' class='btn'>Dinheiro</a>
-		<a href="#" id='debit' class='btn'>Débito</a>
-		<a href="#" id='credit' class='btn'>Crédito</a>
-		<a href="#" id='deposit' class='btn'>Depósito</a>
-		<a href="#" id='bonus' class='btn'>Bônus e Transferência de Crédito UP!</a>
-	</div>
 
-	<p>&nbsp;</p>
-
-	<a href="#" id='show_deleted' class='btn btn-mini'>Mostrar vendas deletadas</a>
-
-
-	<p>&nbsp;</p>
-
-	<!-- results -->
-	<table class='table table-hover table-condensed' id='results-table'>
-		
-	</table>
-	<style>
-		.deleted {text-decoration: line-through;}
-	</style>
 @stop
 
 @section('scripts')
@@ -94,7 +92,7 @@
 
 				sales.push(
 					"<tr><td>" + sale.pretty_order_number + 
-					"</td><td><small>" + sale.meta + " há " + sale.pretty_date + " (" + sale.created_at + ")</small>" +
+					"</td><td><small>" + sale.meta + " há " + sale.pretty_date + " (" + sale.pretty_created_at + ")</small>" +
 					"</td><td>R$ " + value+
 					"</td><td>" + sale.delete_link + 
 					"</td></tr>"
@@ -105,7 +103,7 @@
 			if (sales.length == 0) {
 				$('#results-table').append('<tr class="info"><td colspan="4"><strong>Nenhuma venda localizada.</strong></td></tr>');
 			} else {
-				$('#results-table').append('<tr class="info"><td>&nbsp;</td><td>&nbsp;</td><td><strong>R$ '+total+'</strong></td><td>&nbsp;</td></tr>');
+				$('#results-table').append('<tr class="info"><td>&nbsp;</td><td>&nbsp;</td><td class="lead"><strong>R$ '+total+'</strong></td><td>&nbsp;</td></tr>');
 			}
 
 			$('#results-table tr').hover(function(event){
@@ -123,15 +121,39 @@
 		if (filter_click == 'date') {
 			date = $(event.target).attr('id');
 			date_done = true;
+			$('#date-filter-label').html('Últimas 200 Vendas');
 		} else if (filter_click == 'payment_type') {
 			payment_type = $(event.target).attr('id');
 			payment_type_done = true;
+			switch(payment_type) {
+				case('all_payments'):
+					friendly_type = 'Todas';
+				break;
+				case('credit'):
+					friendly_type = 'Crédito';
+				break;
+				case('debit'):
+					friendly_type = 'Débito';
+				break;
+				case('deposit'):
+					friendly_type = 'Depósito e Transferência';
+				break;
+				case('bonus'):
+					friendly_type = 'Bônus e Crédito UP!';
+				break;
+				case('cash'):
+					friendly_type = 'Dinheiro';
+				break;
+			}
+			$('#payment-filter-label').html(friendly_type);
 		} else if (filter_click == 'specific-date') {
 			date = $('#specific-date-input').val();
 			date_done = true;
+			$('#date-filter-label').html('Vendas em '+ $('#specific-date-input').val());
 		} else if (filter_click == 'specific-period') {
 			date = $('#specific-period-input-start').val() + '*' + $('#specific-period-input-end').val();
 			date_done = true;
+			$('#date-filter-label').html('Vendas de '+ $('#specific-period-input-start').val() + ' a ' + $('#specific-period-input-end').val());
 		}
 
 		if (!date_done) {

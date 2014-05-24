@@ -2,6 +2,7 @@
 
 
 @section('content')
+@include('includes.back-button', array('route' => URL::route('products.admin')))
 	<div class='row'>
 		<div class='span9'>
 		<h1>Adicionar novo produto <br/><small>Utilize o formulário abaixo para adicionar o novo produto</small></h1>
@@ -13,6 +14,12 @@
 	<div class='row'>
 		<div class='span3'>
 			<p class='lead'>Informações gerais</p>
+			<p>
+				{{ Form::label('ref', 'Código:') }}
+				{{ $errors->has('ref') ? $errors->first('ref', '<p class="text-error">:message</p>') : '' }}
+			    
+			    {{ Form::text('ref') }}
+		    </p>
 			<p>
 				{{ Form::label('name', 'Nome:') }}
 				{{ $errors->has('name') ? $errors->first('name', '<p class="text-error">:message</p>') : '' }}

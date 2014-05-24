@@ -91,6 +91,7 @@ class ProductsController extends BaseController
 		$product->price = Input::get('price');
 		$product->margin = Input::get('margin');
 		$product->box = Input::get('box');
+		$product->ref = Input::get('ref');;
 		$product->is_protected = False;
 
 		$product->save();
@@ -151,6 +152,7 @@ class ProductsController extends BaseController
 		$product->margin = Input::get('margin');
 		$product->box = Input::get('box');
 		$product->is_protected = False;
+		$product->ref = Input::get('ref');
 		$product->save();
 		//$category->products()->save($product);
 		// TODO: add validation

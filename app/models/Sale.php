@@ -3,7 +3,7 @@
 class Sale extends Eloquent
 {
 	protected $guarded = array('id');
-	protected $appends = array('total_value', 'creator','pretty_date','pretty_order_number','meta','pretty_total_value','delete_link');
+	protected $appends = array('total_value', 'creator','pretty_date','pretty_created_at','pretty_order_number','meta','pretty_total_value','delete_link');
 
 	public function tenant()
 	{
@@ -48,6 +48,10 @@ class Sale extends Eloquent
 		$pt = array("anos","ano","meses","mês","dias","dia","horas","hora","minutos","minuto","segundos","segundo","atrás");
 		$pt_date = str_replace($eng, $pt, $eng_date);
 		return $pt_date;
+	}
+	public function getPrettyCreatedAtAttribute()
+	{
+		return $this->created_at->format('d/m/Y à\s H:m');
 	}
 	public function getTotalValueAttribute()
 	{

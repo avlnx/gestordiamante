@@ -3,7 +3,7 @@
 class Snapshot extends Eloquent
 {
 	protected $guarded = array('id');
-	protected $appends = array('pretty_date','creator');
+	protected $appends = array('pretty_date','creator','virtual_real_or_ambos');
 
 	public function tenant()
 	{
@@ -23,10 +23,23 @@ class Snapshot extends Eloquent
 	public function total_value()
 	{
 		$parts = $this->parts()->get();
+      $part = $parts->first();
+
+      $type = $part->virtual_real_or_ambos();
+
+      switch ($type) {
+         case 'virtual':
+            $quantity = $part->virtual_quantity;
+            break;
+         default:
+            $quantity = $part->quantity;
+            break;
+      }
+
 		$total = 0;
 		//print_r($parts);
 		foreach ($parts as $part) {
-			$total += ($part->current_price * $part->quantity);
+			$total += ($part->current_price * $quantity);
 		}
 		return $total;
 	}
@@ -56,6 +69,21 @@ class Snapshot extends Eloquent
          $return = "(Deletado)";
       }
       return $return;
+   }
+
+   public function getVirtualRealOrAmbosAttribute()
+   {
+      
+      $part = Part::where('snapshot_id','=',$this->id)->first();
+
+      $type = $part->virtual_real_or_ambos();
+      $html = '';
+      if ($type != 'ambos') {
+         $ctype = strtoupper($type);
+         $html = "<span class='label label-important'>$ctype</span>";
+      }
+      
+      return $html;
    }
 
 

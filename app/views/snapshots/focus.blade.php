@@ -1,27 +1,28 @@
 @extends('layouts.default')
 
+
 @section('content')
+
+		@include('includes.back-button', array('route' => URL::route('snapshots.index')))
+
 		@if ($snapshot->type == 'entry')
-			<h3>Pedido de Reposição de Estoque</h3>	
-			<p>Os produtos listados abaixo entraram no estoque do seu CD.</p>	
-			<p class='pull-right'><em>{{ $snapshot->pretty_date }}</em></p>
+			<h3>Pedido de Reposição de Estoque {{ $snapshot->virtual_real_or_ambos}}</h3>	
+			<p>Os produtos listados abaixo entraram no estoque {{ $snapshot->virtual_real_or_ambos}} do seu CD.</p>	
+			<p class='pull-right'><em>{{ $snapshot->pretty_date }} por {{$snapshot->creator}}</em></p>
 		@elseif($snapshot->type == 'baixa')
-			<h3>Baixa de Produtos</h3>	
-			<p>Os produtos listados abaixo foram retirados do seu estoque.</p>	
-			<p class='pull-right'><em>{{ $snapshot->pretty_date }}</em></p>
-		@else
-			<h3>Fotografia do Estoque</h3>	
-			<p>Os produtos listados abaixo correspondem ao espelho do seu estoque no momento em que a fotografia foi gravada.</p>	
-			<p class='pull-right'><em>{{ $snapshot->pretty_date }}</em></p>
+			<h3>Baixa de Produtos {{ $snapshot->virtual_real_or_ambos}}</h3>	
+			<p>Os produtos listados abaixo foram retirados do estoque {{ $snapshot->virtual_real_or_ambos}} do seu CD.</p>	
+			<p class='pull-right'><em>{{ $snapshot->pretty_date }} por {{$snapshot->creator}}</em></p>
 		@endif
-		<p class='lead'><small>Valor total:</small> R${{ $snapshot->total_value() }}</p>
+		<p class='lead'><small>Valor total:</small> <span class='currency'>{{ $snapshot->total_value() }}</span></p>
 		<p>{{ HTML::linkRoute('snapshots.delete', 'Deletar pedido', array($snapshot->id), array('class'=>'btn btn-small btn-danger'))}}</p>
 		<hr/>
 		<table class='table table-hover table-condensed'>
 			<thead>
 				<tr>
 					<th>Produto</th>
-					<th>Quantidade</th>
+					<th>Quantidade Real</th>
+					<th>Quantidade Virtual</th>
 					<th>Valor unitário</th>
 					<th>Valor total</th>
 				</tr>
@@ -30,9 +31,13 @@
 				@foreach($parts as $part)
 					<tr>
 						<td>{{ $part->product->name }}</td>
-						<td>{{ $part->quantity }}</td>
-						<td>R$ {{ $part->current_price }}</td>
-						<td>R$ {{ $part->quantity * $part->current_price }}</td>
+						<td>
+							{{ $part->quantity }}</td>
+						<td>
+							{{ $part->virtual_quantity }}
+						</td>
+						<td class='currency'>{{ $part->current_price }}</td>
+						<td class='currency'>{{ $part->quantity * $part->current_price }}</td>
 					</tr>
 				@endforeach
 				@if(count($parts)==0)

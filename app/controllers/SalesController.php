@@ -245,9 +245,10 @@ class SalesController extends BaseController
 		// update the quantities again
 
 		$items = $sale->items()->get();
+		// get items - add quantities
 		foreach ($items as $item) {
 			$product = $item->product;
-			$product->quantity_in_stock += $item->quantity;
+			$product->update_quantities($item->quantity,$item->quantity,'add');
 			$product->save();
 			$item->is_alive = False;
 			$item->save();
@@ -320,7 +321,8 @@ class SalesController extends BaseController
 			'bonus'		=>	Input::get('bonus'),
 			'cash'		=>	Input::get('cash'),
 			'deposit'		=>	Input::get('deposit'),
-			'order_number'	=>	Input::get('order_number')
+			'order_number'	=>	Input::get('order_number'),
+			'notes'	=> Input::get('notes')
 		));
 
 		$items = array();
@@ -356,6 +358,7 @@ class SalesController extends BaseController
 						'product_id'	=>	$product->id,
 						'current_price'	=>	$product->price,
 						'quantity'		=>	$total_quantity,
+						'virtual_quantity' => $total_quantity,
 						'is_alive'		=>	True
 					);
 					$quantities_to_update[$product->id] = $total_quantity;
@@ -389,8 +392,9 @@ class SalesController extends BaseController
 		// Update quantities, everything was succesfull, redirect
 		foreach ($quantities_to_update as $product_id => $quantity) {
 			$product = Product::find($product_id);
-			$product->quantity_in_stock -= $quantity;
-			$product->save();
+			$product->update_quantities($item->quantity,$item->quantity,'subtract');
+			//$product->quantity_in_stock -= $quantity;
+			//$product->save();
 		}
 
 		return Redirect::route('sales.new')->with('notice', 'Venda gerada com sucesso.');

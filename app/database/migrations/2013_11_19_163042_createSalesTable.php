@@ -33,7 +33,7 @@ class CreateSalesTable extends Migration {
 			$table->integer('tenant_id');
 			$table->integer('sale_id');
 			$table->integer('product_id');
-			$table->decimal('current_price',5,2);
+			$table->decimal('current_price',12,2);
 			$table->integer('quantity');	// quantidade unitaria
 			$table->boolean('is_alive')->default(true);
 			$table->timestamps();

@@ -3,19 +3,28 @@
 
 @section('content')
 
+
 <h2>Produtos <small>Produtos cadastrados</small></h2>
 <p>
 @if(Auth::user()->is_admin)
-{{ HTML::linkRoute('products.new', "+ Novo Produto" ,[], array('title' => 'Criar novo produto', 'class' => 'btn btn-primary')) }}&nbsp;
+<a href="{{ URL::route('products.new') }}" class='btn btn-primary pretty-button'>
+    <i class="icon-white icon-plus-sign"></i>
+    Novo Produto
+</a>
 @endif
-
 </p>
 
 
 <p class='lead'>
     Clique sobre uma categoria para visualizar os produtos
-    {{ HTML::linkRoute('categories.new', "+ Nova Categoria" ,[], array('title' => 'Criar nova categoria', 'class' => 'btn btn-small btn-primary')) }}
+    <a href="{{ URL::route('categories.new') }}" class='btn btn-small pretty-button'>
+        <i class="icon icon-plus-sign"></i>
+        Nova Categoria
+    </a>
 </p>
+
+<hr/>
+
 @foreach($categories as $category)
 
 <p class='lead'>
@@ -24,8 +33,8 @@
         @if($category->is_protected && !Auth::user()->tenant->is_model)
             <span class='label label-info'>Protegida</span>
         @else
-            {{ HTML::linkRoute('categories.edit', 'Editar', array($category->id), array('class' => 'btn btn-mini'))}}
-            {{ HTML::linkRoute('categories.delete', 'Deletar!', array($category->id), array('class' => 'btn btn-mini btn-danger confirm'))}}
+            {{ HTML::linkRoute('categories.edit', 'Editar', array($category->id), array('class' => 'btn btn-mini pretty-button'))}}
+            {{ HTML::linkRoute('categories.delete', 'Deletar!', array($category->id), array('class' => 'btn btn-mini btn-danger confirm pretty-button'))}}
         @endif
     @else
         &nbsp;
@@ -72,7 +81,17 @@
         @endif
         @endforeach
         @if(!$found)
-        <tr><td colspan='3'><p class='text-info'>Nenhum produto nesta categoria</p></td></tr>
+        <tr>
+            <td colspan='3'>
+                <p class='text-info'>
+                    Nenhum produto nesta categoria
+                    <a href="{{ URL::route('products.new') }}" class='btn btn-mini pretty-button'>
+                        <i class="icon icon-plus-sign"></i>
+                        Novo Produto
+                    </a>
+                </p>
+            </td>
+        </tr>
         @endif
         </tbody>
     </table>

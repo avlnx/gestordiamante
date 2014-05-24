@@ -226,7 +226,14 @@ class TenantsController extends BaseController
 			$tenant->generate_admin_account(Input::get('password'));
 		}
 
+		$data = array(
+			'email'	=> 	$tenant->email
+		);
 		// TODO: email superadmin
+		Mail::send('emails.new_tenant', $data, function($message)
+		{
+		    $message->to($tenant->email, $tenant->account_name)->subject('Seja bem vindo ao Gestor Diamante!');
+		});
 
 		//return Redirect::route('tenants.index', array())
 		//		->with('notice', 'Tenant criado com sucesso. Atualize os modelos.');

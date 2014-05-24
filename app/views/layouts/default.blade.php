@@ -7,23 +7,14 @@
 	{{ HTML::style('css/bootstrap.min.css') }}
 	{{ HTML::style('css/bootstrap-responsive.min.css') }}
 	{{ HTML::style('css/datepicker.css') }}
+	{{ HTML::style('css/my-styles.css') }}
 
 </head>
-<body style='padding-top: 23px;'>
-	<style type="text/css">
-		@media (min-width: 768px) {
-		  .sb-fixed{
-		    position: fixed;
-		    width: inherit;
-		    z-index: 999;
-		    /*overflow-y: scroll;*/
-		  }
-		}
-	</style>
+<body >
 
 @if (Auth::check())
-<div class="navbar" style="background: white;">
-	<div class="navbar-inner navbar-fixed-top" style="background: white;">
+<div class="navbar">
+	<div class="navbar-inner navbar-fixed-top">
 		<div class="container">
 			<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
 	      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -34,7 +25,7 @@
 	      <ul class="nav">
 	      	<li>
 	      		<p class='navbar-text' style='padding-left: 0px;'>
-	      			<span class='label label-inverse'> <i class='icon-certificate icon-white'></i> GESTOR DIAMANTE</strong></span>
+	      			<span class='label label-info'> <i class='icon-certificate icon-white'></i> GESTOR DIAMANTE</strong></span>
 	      		</p>
 	      	</li>
 	      </ul>
@@ -50,6 +41,8 @@
 				<li class='divider-vertical'></li>
 				<li>{{ HTML::linkRoute('snapshots.stock','Visualizar Estoque Atual') }}</li>
 				<li>{{ HTML::linkRoute('snapshots.index','Histórico do Estoque') }}</li>
+				<li class='divider-vertical'></li>
+				<li>{{ HTML::linkRoute('stats.index','Estatísticas e Relatórios') }}</li>
 
 
 
@@ -60,12 +53,9 @@
 </div>
 @endif
 
-
-
-
-<div class='container'>
+<div class='container shadow-container main-container'>
 	@if (Auth::check())
-	<div class="row sb-fixed">
+	<div class="row">
 		<div class="span12" style="background-color: white;height: 40px;padding-top: 10px;border-bottom: 1px solid #eee;">
 			<ul class="inline">
 			  	<li>
@@ -110,7 +100,7 @@
 	</div>
 	@endif
 
-	<div class='row' style="padding-top: 60px;">
+	<div class='row' style="padding-top: 10px; z-index: 10000000">
 		<div class='span12'>
 			@if (Session::get('notice'))
 				<div class="alert alert-info">
@@ -130,7 +120,7 @@
 
 	</div>
 
-	<div class='row' style="padding-top: 20px;">
+	<div class='row'>
 		<div class="span12">
 			@yield('content')
 			</div>
@@ -144,6 +134,7 @@
 	{{ HTML::script('js/bootstrap.min.js') }}
 	{{ HTML::script('js/bootstrap-datepicker.js') }}
 	{{ HTML::script('js/jquery.currency.js') }}
+	{{ HTML::script('js/jquery.jstepper.js') }}
 
 	<script type='text/javascript'>
 		@yield('script_functions')
@@ -163,6 +154,26 @@
 				region: 	'BRL',
 				thousands: '.',
 				decimal: ','
+			});
+			$('.tooltip-trigger').tooltip({});
+
+			$('.qtdd,.int-field').jStepper({
+				minValue:			0,
+				defaultValue:		0,
+				allowDecimals:		false
+			});
+			$('.qtdd,.int-field,.float-field').on('blur', function(e){
+				if($(this).val() == '') {
+					$(this).val(0);
+				}
+			});
+			$('.float-field').jStepper({
+				minValue:			0,
+				defaultValue:		0,
+				allowDecimals:		true,
+				decimalSeparator: ',',
+				minDecimals: 		0,
+				maxDecimals: 		2
 			});
  		});
 

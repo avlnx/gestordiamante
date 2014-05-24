@@ -1,6 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
+@include('includes.back-button', array('route' => URL::route('users.index')))
 	<div class='row'>
 		<div class='span9'>
 		<h1><small>Atualizando</small> {{ $user->name }}</h1>
@@ -40,8 +41,11 @@
 		</div>
 
 		<div class='span3'>
-    	<p>
-	    	{{ Form::submit('Atualizar Usuário &rarr;', array('class' => 'btn btn-primary btn-large btn-block')) }}
+		<p>
+    		<button type="submit" class='btn btn-primary pretty-button'>
+    			<i class='icon-white icon-edit'></i>
+    			Atualizar Usuário
+    		</button>
 	    </p>
 
 	    {{ Form::close() }}

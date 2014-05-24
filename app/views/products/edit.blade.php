@@ -2,6 +2,7 @@
 
 
 @section('content')
+@include('includes.back-button', array('route' => URL::route('products.admin')))
 	<div class='row'>
 		<div class='span9'>
 		<h1><small>Atualizando</small> {{ $product->name }} </h1>
@@ -13,6 +14,12 @@
 	<div class='row'>
 		<div class='span3'>
 			<p class='lead'>Informações gerais</p>
+			<p>
+				{{ Form::label('ref', 'Código:') }}
+				{{ $errors->has('ref') ? $errors->first('ref', '<p class="text-error">:message</p>') : '' }}
+			    
+			    {{ Form::text('ref', $product->ref) }}
+		    </p>
 			<p>
 				{{ Form::label('name', 'Nome:') }}
 				{{ $errors->has('name') ? $errors->first('name', '<p class="text-error">:message</p>') : '' }}
@@ -62,10 +69,12 @@
     	</div>
 		<div class='span3'>
 	    	<p>
-		    	{{ Form::submit('Atualizar Produto &rarr;', array('class' => 'btn btn-primary btn-large btn-block')) }}
+	    		<button type="submit" class='btn btn-primary pretty-button'>
+	    			<i class='icon-white icon-edit'></i>
+	    			Atualizar Produto
+	    		</button>
 		    </p>
-		    <p>
-		    	{{ HTML::linkRoute('products.index', 'Cancelar &times;', array(), array('class' => 'btn'))}}
+		    
 
 		    {{ Form::close() }}
     	</div>

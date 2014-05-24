@@ -4,7 +4,8 @@
 
 	<h2>Histórico de Alterações do Estoque</h2>
 	<p>
-		{{ HTML::linkRoute('snapshots.new', "Lançar Novo Pedido de Reposição" ,'entry', array('title' => 'Criar novo pedido de reposição do estoque do CD', 'class' => 'btn btn-primary')) }}
+		{{ HTML::linkRoute('snapshots.new', "Lançar Novo Pedido de Reposição" ,'entry', array('title' => 'Criar novo pedido de reposição do estoque do CD', 'class' => 'btn btn-primary pretty-button btn-small')) }}
+		{{ HTML::linkRoute('snapshots.new','Registrar baixa', array('baixa'), array('class' => 'btn btn-mini pretty-button')) }}
 	</p>
 
 	<table class='table table-hover table-condensed'>
@@ -37,8 +38,8 @@
 				<p class='lead'>R$ {{ $snapshot->total_value() }}</p>
 			</td>
 			<td>
-				{{ HTML::linkRoute('snapshots.focus', 'Visualizar detalhes', array($snapshot->id), array('class'=>'btn btn-mini'))}}
-				{{ HTML::linkRoute('snapshots.delete', 'Deletar pedido', array($snapshot->id), array('class'=>'btn btn-mini btn-danger'))}}
+				{{ HTML::linkRoute('snapshots.focus', 'Visualizar detalhes', array($snapshot->id), array('class'=>'btn btn-mini pretty-button'))}}
+				{{ HTML::linkRoute('snapshots.delete', 'Deletar pedido', array($snapshot->id), array('class'=>'btn btn-danger pretty-button btn-mini'))}}
 			</td>
 		</tr>
 

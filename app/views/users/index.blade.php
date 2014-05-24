@@ -2,9 +2,14 @@
 
 @section('content')
 
-	<h2>Usuários <small>Usuários cadastrados</small></h2>
+	<h2>Usuários <small>Visualizando usuários cadastrados</small></h2>
 	@if(Auth::user()->is_admin)
-	<p>{{ HTML::linkRoute('users.new', "Novo Usuário" ,[], array('title' => 'Criar novo usuário', 'class' => 'btn btn-primary')) }}</p>
+		<p>
+			<a href="{{ URL::route('users.new') }}" class='btn btn-primary pretty-button'>
+			    <i class="icon-white icon-plus-sign"></i>
+			    Novo Usuário
+			</a>
+		</p>
 	@endif
 	
 	<table class='table table-condensed table-hover'>
@@ -30,8 +35,8 @@
 			</td>
 			<td>
 				<p>
-					{{ HTML::linkRoute('users.edit','Editar', array($user->id), array('class' => 'btn btn-mini'))}}
-					{{ HTML::linkRoute('users.delete', 'Deletar!', array($user->id), array('class' => 'btn btn-mini btn-danger'))}}
+					{{ HTML::linkRoute('users.edit','Editar', array($user->id), array('class' => 'btn btn-mini pretty-button'))}}
+					{{ HTML::linkRoute('users.delete', 'Deletar!', array($user->id), array('class' => 'btn btn-mini btn-danger pretty-button'))}}
 				</p>
 			</td>
 

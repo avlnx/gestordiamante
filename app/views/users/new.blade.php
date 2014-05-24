@@ -1,6 +1,8 @@
 @extends('layouts.default')
 
 @section('content')
+	@include('includes.back-button', array('route' => URL::route('users.index')))
+
 	<div class='row'>
 		<div class='span9'>
 		<h1>Adicionar novo usuário <br/><small>Utilize o formulário abaixo para adicionar o novo usuário</small></h1>
@@ -41,7 +43,10 @@
 
 		<div class='span3'>
     	<p>
-	    	{{ Form::submit('Cadastrar Usuário &rarr;', array('class' => 'btn btn-primary btn-large btn-block')) }}
+    		<button type="submit" class='btn btn-primary pretty-button'>
+    			<i class='icon-white icon-plus-sign'></i>
+    			Cadastrar Usuário
+    		</button>
 	    </p>
 
 	    {{ Form::close() }}
