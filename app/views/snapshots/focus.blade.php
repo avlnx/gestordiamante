@@ -28,6 +28,8 @@
 				</tr>
 			</thead>
 			<tbody>
+				<?php $quantity = 0; ?>
+				<?php $virtual_quantity = 0; ?>
 				@foreach($parts as $part)
 					<tr>
 						<td>{{ $part->product->name }}</td>
@@ -39,10 +41,20 @@
 						<td class='currency'>{{ $part->current_price }}</td>
 						<td class='currency'>{{ $part->quantity * $part->current_price }}</td>
 					</tr>
+					<?php $quantity += $part->quantity; ?>
+					<?php $virtual_quantity += $part->virtual_quantity; ?>
 				@endforeach
 				@if(count($parts)==0)
 					<tr>
 						<td colspan='4'>Nenhum produto nessa fotografia.</td>
+					</tr>
+				@else
+					<tr>
+						<td><small><strong>TOTAL</strong></small></td>
+						<td>{{ $quantity }}</td>
+						<td>{{ $virtual_quantity }}</td>
+						<td>&nbsp;</td>
+						<td class='currency'>{{ $snapshot->total_value() }}</td>
 					</tr>
 				@endif
 			</tbody>
