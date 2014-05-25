@@ -32,22 +32,20 @@ class SnapshotsController extends BaseController
 				$total_stock_value += max($product->quantity_in_stock,0) * $product->price;
 				$total_virtual_stock += max($product->quantity_in_virtual,0) * $product->price;
 
-				//$ambos_quantity = abs(max($product->quantity_in_stock,0)-max($product->quantity_in_virtual,0));
 				// get minimum quantity between in_stock and in_virtual
 				// then if number is negative, turn it to zero max($num,0)
 				$ambos_quantity = max(min($product->quantity_in_stock,$product->quantity_in_virtual),0);
 
 				$total_ambos_stock += $ambos_quantity * $product->price;
 			}
-
+			/* DISABLED
 			$cat_products_in_stock = $category->products->filter(function($product){
 				if($product->quantity_in_stock != 0 || $product->quantity_in_virtual != 0)
 				{
 					return $product;
 				}
 			});
-
-			$full_product_list[$category->name] = $cat_products;
+			
 
 			if(count($cat_products_in_stock) > 0)
 			{
@@ -55,6 +53,10 @@ class SnapshotsController extends BaseController
 			} else {
 				$product_list_out_of_stock[$category->name] = $cat_products;
 			}
+			*/
+
+			// Full product list
+			$full_product_list[$category->name] = $cat_products;
 
 			$cat_products_sobrando_virtual = $category->products->filter(function($product){
 				if($product->quantity_in_stock < $product->quantity_in_virtual)
@@ -79,7 +81,7 @@ class SnapshotsController extends BaseController
 		// Choose the list
 		switch ($filter) {
 			case 'none':
-				$view->product_list = $product_list_in_stock;
+				$view->product_list = $full_product_list;
 				$view->list_option = 'todos';
 				break;
 			case 'sobrando_virtual':

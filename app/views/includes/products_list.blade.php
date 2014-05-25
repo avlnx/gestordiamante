@@ -20,7 +20,7 @@
 					@foreach($products as $product)
 						@if($product->category == $category)
 							<?php $found = True ?>
-							<li id='prod-row-{{$product->id}}' style='border: 1px solid #ccc; padding: 10px;margin: 0px 10px 10px 0'>
+							<li id='prod-row-{{$product->id}}' class='shadow-container2' style='border: 1px solid #ccc; padding: 10px;margin: 0px 10px 10px 0'>
 
 								<p>
 								<strong>{{ $product->name }}</strong><br/>

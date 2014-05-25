@@ -102,7 +102,7 @@
 							<td class='currency'>{{ $product->quantity_in_stock * $product->price }}</td>
 							<td class='currency'>{{ $product->quantity_in_virtual * $product->price }}</td>
 							<td>
-								@if($product->quantity_in_stock < 0)
+								@if($product->quantity_in_stock <= 0)
 									<?php $class = 'label-important';$negative=true;?>
 								@else
 									<?php $class = 'label-inverse';$negative=false;?>
@@ -112,7 +112,7 @@
 								</span>
 							</td>
 							<td>
-								@if($product->quantity_in_virtual < 0)
+								@if($product->quantity_in_virtual <= 0)
 									<?php $class = 'label-important';$negative=true;?>
 								@else
 									<?php $class = 'label-inverse';$negative=false;?>
@@ -161,7 +161,7 @@ $('#actions-trigger').click(function(){
 	}
 });
 
-$('.details-trigger').on('click', function(){
+$('.details-trigger').on('click', function(e){
 	trs = $(this).closest('table').children('tbody').children('tr:not(.totals-tr)').toggle('slow');
 
 	if($(this).text() == 'Ver Detalhes') {
@@ -169,6 +169,7 @@ $('.details-trigger').on('click', function(){
 	} else {
 		$(this).text('Ver Detalhes');
 	}
+	e.preventDefault();
 });
 
 @stop

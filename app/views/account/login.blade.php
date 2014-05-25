@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.default', array('container_wrapper' => false))
 
 @section('sidebar')
 

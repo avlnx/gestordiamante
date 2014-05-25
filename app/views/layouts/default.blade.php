@@ -53,7 +53,8 @@
 </div>
 @endif
 
-<div class='container shadow-container main-container'>
+<?php if(isset($container_wrapper)){$container_wrapper = false;} else {$container_wrapper = true;} ?>
+<div class='container @if($container_wrapper)shadow-container main-container@endif'>
 	@if (Auth::check())
 	<div class="row">
 		<div class="span12" style="background-color: white;height: 40px;padding-top: 10px;border-bottom: 1px solid #eee;">
