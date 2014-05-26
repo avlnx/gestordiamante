@@ -65,7 +65,7 @@
 					</td>
 					<td @if(!$sale->is_alive) style='text-decoration: line-through' @endif >R${{ $sale->total_value() }}</td>
 					<td>
-						@if ($sale->is_alive)
+						@if ($sale->is_alive && Auth::user()->is_admin)
 						{{ HTML::linkRoute('sales.delete', 'Deletar', array($sale->id), array('class'=>'btn btn-mini btn-danger btn-confirm')) }}
 						@endif
 					</td>
@@ -83,7 +83,7 @@
 						<h4>TOTAL</h4>
 					</td>
 					<td>
-						<h4>R$ {{ $total }}</h4>
+						<h4 class='currency'>{{ $total }}</h4>
 					</td>
 					<td>&nbsp;</td>
 				</tr>

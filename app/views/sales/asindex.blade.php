@@ -93,8 +93,8 @@
 				sales.push(
 					"<tr><td>" + sale.pretty_order_number + 
 					"</td><td><small>" + sale.meta + " há " + sale.pretty_date + " (" + sale.pretty_created_at + ")</small>" +
-					"</td><td>R$ " + value+
-					"</td><td>" + sale.delete_link + 
+					"</td><td><span class='currency'>R$ " + value+
+					"</span></td><td>" + sale.delete_link + 
 					"</td></tr>"
 				);
 			});
@@ -103,8 +103,14 @@
 			if (sales.length == 0) {
 				$('#results-table').append('<tr class="info"><td colspan="4"><strong>Nenhuma venda localizada.</strong></td></tr>');
 			} else {
-				$('#results-table').append('<tr class="info"><td>&nbsp;</td><td>&nbsp;</td><td class="lead"><strong>R$ '+total+'</strong></td><td>&nbsp;</td></tr>');
+				$('#results-table').append('<tr class="info"><td>&nbsp;</td><td>&nbsp;</td><td class="lead"><strong><span id="table-total">'+total+'</span></strong></td><td>&nbsp;</td></tr>');
+				$('#table-total').currency({
+					region: 	'BRL',
+					thousands: '.',
+					decimal: ','
+				});
 			}
+			
 
 			$('#results-table tr').hover(function(event){
 				$(this).find('a.delete-link').toggleClass('btn-danger disabled');

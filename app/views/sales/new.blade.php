@@ -86,7 +86,7 @@
 					<span class='label label-success pull-right' id='forms-label-success' style='display:none'>OK</span>
 				</div>
 
-				<p>{{ Form::submit('Registrar venda', array('class' => 'btn btn-primary btn-large pretty-button'))}}</p>
+				<p>{{ Form::submit('Registrar venda', array('data-loading-text' => "Carregando...", 'class' => 'btn btn-primary btn-large pretty-button', 'id' => 'form-submit=btn'))}}</p>
 				
 	   		{{ Form::close() }}
 	   		<p><a href='#' class='btn btn-small pretty-button' id='reset'>Reset pedido</a></p>
@@ -221,6 +221,7 @@
 			if(confirm('Este pedido será gravado sem um número de pedido. Confirma?'))
 			{
 				console.log('Pedido sem número gravado.');
+				$('#form-submit-btn').button('loading');
 			} else {
 				event.preventDefault();
 			}

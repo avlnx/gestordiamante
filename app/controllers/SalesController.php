@@ -275,8 +275,6 @@ class SalesController extends BaseController
 		$inputs = Input::all();
 		$products = array();
 
-		
-
 		foreach($inputs as $field => $value)
 		{
 			switch ($field) {
@@ -288,10 +286,12 @@ class SalesController extends BaseController
 					// formas de pagamento numeric
 					$rules[$field] = 'numeric';
 					break;
+					
 				case 'order_number':
 					// numero do pedido obrigatorio
 					$rules[$field] = 'unique:sales';
 					break;
+					
 				case '_token':
 				case 'notes':
 					break;
