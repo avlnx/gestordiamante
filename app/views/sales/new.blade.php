@@ -56,7 +56,7 @@
     			
 
 				<h4>Formas de pagamento</h4>
-				<p class="lead"><small>Utilize o formato <strong>19,40</strong> por exemplo</small></p>
+				<!--<p class="lead"><small>Utilize o formato <strong>19,40</strong> por exemplo</small></p>-->
 				<div class="input-prepend">
 					<span class="add-on">Débito&nbsp;&nbsp;&nbsp; <strong>R$</strong></span>
 					<input class="input-small reset-input payment-type float-field" onClick='this.select()' id="debit" type="text" name='debit'>
@@ -198,6 +198,19 @@
 	$('#bonus').on('change', function(){update_forms_total()});
 	$('#cash').on('change', function(){update_forms_total()});
 
+	function clean_money() {
+		var debit = parseFloat($('#debit').val().replace(',','.'));
+		$('#debit').val(debit);
+		var credit = parseFloat($('#credit').val().replace(',','.'));
+		$('#credit').val(credit);
+		var deposit = parseFloat($('#deposit').val().replace(',','.'));
+		$('#deposit').val(deposit);
+		var bonus = parseFloat($('#bonus').val().replace(',','.'));
+		$('#bonus').val(bonus);
+		var cash = parseFloat($('#cash').val().replace(',','.'));
+		$('#cash').val(cash);
+	}
+
 	$('form').on('submit', function(event){
 		
 		if(!$('#order_number').val())
@@ -216,6 +229,8 @@
 			//alert('Por favor, adicione ao menos ' + ativacoes + ' perfumes ao pedido para se igualar ao número de ativações.');
 			event.preventDefault();
 		}
+
+		clean_money();
 		
 	});
 

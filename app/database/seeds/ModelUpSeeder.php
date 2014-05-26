@@ -184,7 +184,7 @@ class ModelUpSeeder extends Seeder
 			DB::table('products')->insert(array(
 				'tenant_id'		=>	$tenant_id,
 				'category_id'	=>	$cats_ids['Perfumes Femininos'],
-				'name'			=>	'Perfume '.$number,
+				'name'			=>	'Perfume UP! '.$number,
 				'slug'			=>	'perfume-'.Str::slug($number),
 				'description'	=>	'Perfume '.$description,
 				'price'			=>	$perfume_price,
@@ -216,7 +216,7 @@ class ModelUpSeeder extends Seeder
 			DB::table('products')->insert(array(
 				'tenant_id'		=>	$tenant_id,
 				'category_id'	=>	$cats_ids['Perfumes Unisex'],
-				'name'			=>	'Perfume '.$number,
+				'name'			=>	'Perfume UP! '.$number,
 				'slug'			=>	'perfume-'.Str::slug($number),
 				'description'	=>	'Perfume '.$description,
 				'price'			=>	$perfume_price,

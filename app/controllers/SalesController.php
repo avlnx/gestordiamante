@@ -274,6 +274,9 @@ class SalesController extends BaseController
 		$rules = array();
 		$inputs = Input::all();
 		$products = array();
+
+		
+
 		foreach($inputs as $field => $value)
 		{
 			switch ($field) {
