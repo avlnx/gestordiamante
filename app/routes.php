@@ -62,13 +62,13 @@ Route::get('users/delete/{id}', array('before' => 'auth|admins_only|check_tenant
 Route::post('users/new', array('before' => 'auth|admins_only', 'uses' => 'UsersController@postNew', 'as' => 'users.postNew'));
 
 // Snapshots/Pedidos/Estoque routes
-Route::get('snapshots', array('before' => 'auth', 'uses' => 'SnapshotsController@getIndex', 'as' => 'snapshots.index'));
+Route::get('snapshots', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@getIndex', 'as' => 'snapshots.index'));
 Route::get('snapshots/new/{snapshot_type?}', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@getNew', 'as' => 'snapshots.new'));
 Route::post('snapshots/new/{snapshot_type?}', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@postNew', 'as' => 'snapshots.postNew'));
-Route::get('snapshots/{id}', array('before' => 'auth|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getFocus', 'as' => 'snapshots.focus'));
-Route::get('snapshots/delete/{id}', array('before' => 'auth|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getDeleteSnapshot', 'as' => 'snapshots.delete'));
+Route::get('snapshots/{id}', array('before' => 'auth|admins_only|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getFocus', 'as' => 'snapshots.focus'));
+Route::get('snapshots/delete/{id}', array('before' => 'auth|admins_only|check_tenant:Snapshot', 'uses' => 'SnapshotsController@getDeleteSnapshot', 'as' => 'snapshots.delete'));
 // Stock routes
-Route::get('stock/{filter?}', array('before' => 'auth', 'uses' => 'SnapshotsController@getStock', 'as' => 'snapshots.stock'));
+Route::get('stock/{filter?}', array('before' => 'auth|admins_only', 'uses' => 'SnapshotsController@getStock', 'as' => 'snapshots.stock'));
 
 // Sales routes
 Route::get('sales', array('before' => 'auth', 'uses' => 'SalesController@getASIndex', 'as' => 'sales.asindex'));
@@ -81,5 +81,5 @@ Route::get('sales/{id}', array('before' => 'auth|check_tenant:Sale', 'uses' => '
 Route::get('sales/ajax.json/date/{date}/payment_type/{payment_type}', array('before' => 'auth', 'uses' => 'SalesController@getASSales', 'as' => 'sales.json'));
 
 // Superadmin routes
-Route::get('superadmin/choose', array('before' => 'auth', 'uses' => 'SuperadminController@getChooseProfile', 'as' => 'superadmin.choose'));
-Route::get('superadmin/choose/{id}', array('before' => 'auth', 'uses' => 'SuperadminController@getSwitchProfile', 'as' => 'superadmin.switch'));
+Route::get('superadmin/choose', array('before' => 'auth|admins_only', 'uses' => 'SuperadminController@getChooseProfile', 'as' => 'superadmin.choose'));
+Route::get('superadmin/choose/{id}', array('before' => 'auth|admins_only', 'uses' => 'SuperadminController@getSwitchProfile', 'as' => 'superadmin.switch'));
