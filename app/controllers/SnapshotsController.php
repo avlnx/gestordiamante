@@ -340,13 +340,13 @@ class SnapshotsController extends BaseController
 					case 'baixa':
 						# Reverter baixa, add quantidades
 						//$product->quantity_in_stock += $part->quantity;
-						$product->update_quantities($part->quantity,$part->virtual_quantity,'subtract');
+						$product->update_quantities($part->quantity,$part->virtual_quantity,'add');
 						break;
 					case 'entry':
 					case 'snapshot':
 						# Reverter entrada, subtract quantidades
 						//$product->quantity_in_stock -= $part->quantity;
-						$product->update_quantities($part->quantity,$part->virtual_quantity,'add');
+						$product->update_quantities($part->quantity,$part->virtual_quantity,'subtract');
 						break;
 				}
 				$product->save();
