@@ -58,6 +58,10 @@
 				<h4>Formas de pagamento</h4>
 				<!--<p class="lead"><small>Utilize o formato <strong>19,40</strong> por exemplo</small></p>-->
 				<div class="input-prepend">
+					<span class="add-on">Dinheiro&nbsp; <strong>R$</strong></span>
+					<input class="input-small reset-input payment-type float-field" onClick='this.select()' id="cash" type="text" name='cash'>
+				</div>
+				<div class="input-prepend">
 					<span class="add-on">Débito&nbsp;&nbsp;&nbsp; <strong>R$</strong></span>
 					<input class="input-small reset-input payment-type float-field" onClick='this.select()' id="debit" type="text" name='debit'>
 				</div>
@@ -65,17 +69,15 @@
 					<span class="add-on">Crédito&nbsp;&nbsp; <strong>R$</strong></span>
 					<input class="input-small reset-input payment-type float-field" onClick='this.select()' id="credit" type="text" name='credit'>
 				</div>
+				
+				
 				<div class="input-prepend">
-					<span class="add-on">Dinheiro&nbsp; <strong>R$</strong></span>
-					<input class="input-small reset-input payment-type float-field" onClick='this.select()' id="cash" type="text" name='cash'>
+					<span class="add-on">Bônus&nbsp;&nbsp;&nbsp;&nbsp; <strong>R$</strong></span>
+					<input class="input-small reset-input payment-type float-field" onClick='this.select()' id="bonus" type="text" name='bonus'>
 				</div>
 				<div class="input-prepend">
 					<span class="add-on">Depósito <strong>R$</strong></span>
 					<input class="input-small reset-input payment-type float-field" onClick='this.select()' id="deposit" type="text" name='deposit'>
-				</div>
-				<div class="input-prepend">
-					<span class="add-on">Bônus&nbsp;&nbsp;&nbsp;&nbsp; <strong>R$</strong></span>
-					<input class="input-small reset-input payment-type float-field" onClick='this.select()' id="bonus" type="text" name='bonus'>
 				</div>
 				<div>
 					<p><strong>Total</strong></p>
