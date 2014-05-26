@@ -38,12 +38,13 @@
 
 				</li>
 				<li>{{ HTML::linkRoute('sales.asindex','Últimas vendas') }}</li>
+				@if (Auth::user()->is_superadmin)
 				<li class='divider-vertical'></li>
 				<li>{{ HTML::linkRoute('snapshots.stock','Visualizar Estoque Atual') }}</li>
 				<li>{{ HTML::linkRoute('snapshots.index','Histórico do Estoque') }}</li>
 				<li class='divider-vertical'></li>
 				<li>{{ HTML::linkRoute('stats.index','Estatísticas e Relatórios') }}</li>
-
+				@endif
 
 
 				</div>

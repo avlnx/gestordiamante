@@ -75,7 +75,7 @@ Route::get('sales', array('before' => 'auth', 'uses' => 'SalesController@getASIn
 Route::any('sales/filter/{filter?}', array('before' => 'auth', 'uses' => 'SalesController@getIndex', 'as' => 'sales.index'));
 Route::post('sales/new', array('before' => 'auth', 'uses' => 'SalesController@postNew', 'as' => 'sales.postNew'));
 Route::get('sales/new', array('before' => 'auth', 'uses' => 'SalesController@getNew', 'as' => 'sales.new'));
-Route::get('sales/delete/{id}', array('before' => 'auth|check_tenant:Sale', 'uses' => 'SalesController@getDeleteSale', 'as' => 'sales.delete'));
+Route::get('sales/delete/{id}', array('before' => 'auth|admins_only|check_tenant:Sale', 'uses' => 'SalesController@getDeleteSale', 'as' => 'sales.delete'));
 Route::get('sales/{id}', array('before' => 'auth|check_tenant:Sale', 'uses' => 'SalesController@getFocus', 'as' => 'sales.focus'));
 // Assynchronous sales routes
 Route::get('sales/ajax.json/date/{date}/payment_type/{payment_type}', array('before' => 'auth', 'uses' => 'SalesController@getASSales', 'as' => 'sales.json'));
