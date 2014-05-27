@@ -48,9 +48,10 @@
 		</div>
 
 		<div class="span9">
-			<div class="progress progress-striped active" style='display:none' id='loading-bar'>
-			  <div class="bar" style="width: 100%;">Carregando...</div>
+			<div class="progress progress-striped active" style='display: none'>
+			  <div class="bar" style="width: 100%;"></div>
 			</div>
+
 			<!-- results -->
 			<h4 id='pedidos-count'></h4>
 
@@ -75,9 +76,9 @@
 	{
 		if(status == 'loading')
 		{
-			$('#loading-bar').show();
+			$('.progress').show();
 		} else {
-			$('#loading-bar').hide();
+			$('.progress').hide();
 		}
 	}
 
