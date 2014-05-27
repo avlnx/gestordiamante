@@ -14,7 +14,7 @@
 			<hr/>
 
 			<p><a href="#" id='filter-date-toggle' class='btn btn-small btn-info pretty-button'>FILTRAR POR DATA</a></p>
-			<div class='btn-group' data-toggle='buttons-radio' id='date-button-group'>
+			<div style='display: none' class='btn-group' data-toggle='buttons-radio' id='date-button-group'>
 				<p><a href="#" id='latest' class='btn btn-small active pretty-button'>Vendas mais recentes</a></p>
 				<hr/>
 				<p>
@@ -32,7 +32,7 @@
 			</div>
 
 			<p><a href="#" id='filter-payment-toggle' class='btn btn-small btn-info pretty-button'>FILTRAR POR FORMA DE PAGAMENTO</a></p>
-			<div class='btn-group' data-toggle='buttons-radio' id='payment-button-group'>
+			<div style='display: none' class='btn-group' data-toggle='buttons-radio' id='payment-button-group'>
 				<ul class="inline">
 					<li><p><a href="#" id='all_payments' class='btn active btn-small pretty-button'>Todas</a></p></li><br/>
 					<li><p><a href="#" id='cash' class='btn btn-small pretty-button'>Dinheiro</a></p></li><br/>
