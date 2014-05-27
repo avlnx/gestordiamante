@@ -110,6 +110,11 @@ class Sale extends Eloquent
 		}
 		return $meta;
 	}
+
+	public function safe_delete()
+	{
+		
+	}
 	
 	public function total_value()
 	{

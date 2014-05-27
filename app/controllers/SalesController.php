@@ -372,15 +372,23 @@ class SalesController extends BaseController
 		// validate sum of payment methods
 		$temp_sum = 0;
 		foreach ($items as $item) {
-			$temp_sum += $item['current_price'] * $item['quantity'];
+			$temp_sum += $item['current_price'] * $item['quantity']; // quantity x virtual_quantity
 		}
-		$sum_of_payments = Input::get('debit') + Input::get('credit') + Input::get('cash') + Input::get('deposit') + Input::get('bonus');
+		$temp_sum = round($temp_sum,2);
+		$sum_of_payments = round(Input::get('debit') + Input::get('credit') + Input::get('cash') + Input::get('deposit') + Input::get('bonus'),2);
 		if($temp_sum != $sum_of_payments)
 		{
 			// error in calculation! blow up!
 			$sale->delete();
+
+			// #DEBUG
+			//die($temp_sum != $sum_of_payments);
+			//die('temp_sum'. var_dump($temp_sum));
+			//die('sum_of_payments'. var_dump($sum_of_payments));
+			//die('temp_sum != $sum_of_payments: ' . ($temp_sum != $sum_of_payments) . "\ntemp_sum: $temp_sum" . "\nsum_of_payments: $sum_of_payments\n".var_dump($sum_of_payments).var_dump($temp_sum));
+
 			return Redirect::route('sales.new')
-				->with('error', 'Os valores das formas de pagamento não batem com o valor total do pedido! Cheque os valores e tente novamente.')
+				->with('error', "Os valores das formas de pagamento não batem com o valor total do pedido! Cheque os valores e tente novamente.")
 				->withInput();
 		}
 
