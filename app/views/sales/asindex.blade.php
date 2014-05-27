@@ -13,9 +13,9 @@
 			<p><a href="#" id='show_deleted'  data-toggle="button" class='btn btn-small pretty-button'>Mostrar vendas deletadas</a></p>
 			<hr/>
 
-			<a href="#" id='filter-date-toggle'><h6>FILTRAR POR DATA</h6></a>
+			<p><a href="#" id='filter-date-toggle' class='btn btn-small btn-info pretty-button'>FILTRAR POR DATA</a></p>
 			<div class='btn-group' data-toggle='buttons-radio' id='date-button-group'>
-				<p><a href="#" id='latest' class='btn btn-small active pretty-button'>Últimas 200 Vendas</a></p>
+				<p><a href="#" id='latest' class='btn btn-small active pretty-button'>Vendas mais recentes</a></p>
 				<hr/>
 				<p>
 					<!--<span class="add-on">Data Específica</span>-->
@@ -31,7 +31,7 @@
 				<hr/>
 			</div>
 
-			<a href="#" id='filter-payment-toggle'><h6>FILTRAR POR FORMA DE PAGAMENTO</h6></a>
+			<p><a href="#" id='filter-payment-toggle' class='btn btn-small btn-info pretty-button'>FILTRAR POR FORMA DE PAGAMENTO</a></p>
 			<div class='btn-group' data-toggle='buttons-radio' id='payment-button-group'>
 				<ul class="inline">
 					<li><p><a href="#" id='all_payments' class='btn active btn-small pretty-button'>Todas</a></p></li><br/>
@@ -49,10 +49,13 @@
 
 		<div class="span9">
 			<!-- results -->
+			<h4 id='pedidos-count'></h4>
+
 			<p>
-				<span class='label label-info' id='date-filter-label'>Últimas 200 vendas</span>
+				<span class='label label-info' id='date-filter-label'>Vendas mais recentes</span>
 				<span class='label label-warning' id='payment-filter-label'>Todas formas de pagamento</span>
 			</p>
+
 			<table class='table table-hover table-condensed' id='results-table'>
 				
 			</table>
@@ -110,7 +113,9 @@
 					decimal: ','
 				});
 			}
-			
+
+			$('#pedidos-count').html(sales.length + ' Pedidos');
+
 
 			$('#results-table tr').hover(function(event){
 				$(this).find('a.delete-link').toggleClass('btn-danger disabled');
@@ -127,7 +132,7 @@
 		if (filter_click == 'date') {
 			date = $(event.target).attr('id');
 			date_done = true;
-			$('#date-filter-label').html('Últimas 200 Vendas');
+			$('#date-filter-label').html('Vendas mais recentes');
 		} else if (filter_click == 'payment_type') {
 			payment_type = $(event.target).attr('id');
 			payment_type_done = true;
