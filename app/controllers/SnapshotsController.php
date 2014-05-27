@@ -21,6 +21,8 @@ class SnapshotsController extends BaseController
 		$full_product_list = [];
 		$product_list_in_stock = [];
 		$product_list_out_of_stock = [];
+		$cat_products_sobrando_virtual_list = [];
+		$cat_products_faltando_virtual_list = [];
 		$total_stock_value = 0;
 		$total_virtual_stock = 0;
 		$total_ambos_stock = 0;
