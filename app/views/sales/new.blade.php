@@ -80,10 +80,11 @@
 					<input class="input-small reset-input payment-type float-field" onClick='this.select()' id="deposit" type="text" name='deposit'>
 				</div>
 				<div>
-					<p><strong>Total</strong></p>
-					<p class='lead pull-left' id='forms-total'></p>
 					<span class='label label-important pull-right' id='forms-label-fail' style='display:none'>0</span>
 					<span class='label label-success pull-right' id='forms-label-success' style='display:none'>OK</span>
+					<p><strong>Total</strong></p>
+					<p class='lead'>R$ <span id='forms-total'></span></p>
+					
 				</div>
 
 				<p>{{ Form::submit('Registrar venda', array('data-loading-text' => "Carregando...", 'class' => 'btn btn-primary btn-large pretty-button', 'id' => 'form-submit=btn'))}}</p>
@@ -120,29 +121,21 @@
 		var bonus = parseFloat($('#bonus').val().replace(',','.'));
 		var cash = parseFloat($('#cash').val().replace(',','.'));
 
-		var total = debit + credit + deposit + bonus + cash;
+		var total = (debit + credit + deposit + bonus + cash).toFixed(2);
 
 		//alert(total);
 
-		$('#forms-total').html(total).currency({
-				region: 	'BRL',
-				thousands: '.',
-				decimal: ','
-			});
+		$('#forms-total').html(total);
 
-		var total_geral = parseFloat($('#total-hidden').html());
+		var total_geral = parseFloat($('#total-hidden').html()).toFixed(2);
 		var forms_total = total;
 
 		if (total_geral != forms_total)
 		{
-			var difference = forms_total-total_geral;
+			var difference = (forms_total-total_geral).toFixed(2);
 			$('#forms-label-success').hide();
 			$('#forms-label-fail').show();
-			$('#forms-label-fail').html(difference).currency({
-				region: 	'BRL',
-				thousands: '.',
-				decimal: ','
-			});
+			$('#forms-label-fail').html(difference);
 
 		}
 		else

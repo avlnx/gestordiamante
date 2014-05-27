@@ -83,12 +83,14 @@
 			id = product.id;
 			preco = parseFloat($('#preco-'+id).html());
 			// Caixas
+			/*
 			var caixas = parseFloat($('#qtd-caixas-'+id).val());
 			//var box = parseFloat($('#box-'+id).html());
 			if(box)
 			{
 				total += parseFloat(box*caixas*preco);
 			}
+			*/
 
 			// Unidades
 			var unidades = parseFloat($('#qtd-unidades-'+id).val());
@@ -99,7 +101,7 @@
 		//console.log(total);
 
     // clean total
-    //total = total.toFixed(2);
+    total = total.toFixed(2);
 
     	$('#total-hidden').html(total);
 		$('#total').html(total).currency({
