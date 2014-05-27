@@ -48,8 +48,9 @@
 		</div>
 
 		<div class="span9">
-			<div class="progress progress-striped active" style='display: none'>
-			  <div class="bar" style="width: 100%;"></div>
+
+			<div class="progress progress-striped active" style="display: none">
+			  <div class="bar" style="width: 100%;">Carregando, aguarde...</div>
 			</div>
 
 			<!-- results -->
@@ -139,10 +140,12 @@
 				$(this).find('a.delete-link').toggleClass('btn-danger disabled');
 			});
 			$('#results-table').find('span.deleted-item').closest('tr').hide();
+		}).done(function(){
+			update_loader('done');
 		});
 
 		// Enable buttons/hide loader
-		update_loader('done');
+		//update_loader('done');
 	}
 
 	function get_active_filters(event, filter_click)
