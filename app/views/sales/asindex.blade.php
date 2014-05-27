@@ -48,6 +48,9 @@
 		</div>
 
 		<div class="span9">
+			<div class="progress progress-striped active" style='display:none' id='loading-bar'>
+			  <div class="bar" style="width: 100%;">Carregando...</div>
+			</div>
 			<!-- results -->
 			<h4 id='pedidos-count'></h4>
 
@@ -68,9 +71,23 @@
 @section('scripts')
 	<?php @parent ?>
 
+	function update_loader(status)
+	{
+		if(status == 'loading')
+		{
+			$('#loading-bar').show();
+		} else {
+			$('#loading-bar').hide();
+		}
+	}
+
 	function get_from_server(route, payment_type)
 	{
+		// Disable buttons/show loader
+		update_loader('loading');
+
 		$.getJSON( route,
+			
 			function(data) {
 			var sales = [];
 			var total = 0;
@@ -122,6 +139,9 @@
 			});
 			$('#results-table').find('span.deleted-item').closest('tr').hide();
 		});
+
+		// Enable buttons/hide loader
+		update_loader('done');
 	}
 
 	function get_active_filters(event, filter_click)
