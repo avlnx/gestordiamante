@@ -42,8 +42,7 @@ class CategoriesController extends BaseController
 		// Process post of new categoria in MODEL
 
 		$rules = array(
-			'name'	=>	'required',
-			'description'	=>	'required'
+			'name'	=>	'required'
 		);
 
 		$messages = array(

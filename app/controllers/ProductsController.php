@@ -66,7 +66,6 @@ class ProductsController extends BaseController
 
 		$rules = array(
 			'name'	=>	'required',
-			'description'	=>	'required',
 			'price'			=>	'required|numeric',
 			'margin'		=>	'required|numeric',
 			'box'			=>	'numeric',
