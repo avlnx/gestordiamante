@@ -19,13 +19,13 @@
 				<hr/>
 				<p>
 					<!--<span class="add-on">Data Específica</span>-->
-					<input class="span2" id="specific-date-input" type="text" placeholder="Ex. 14/04/2014" readonly><br/>
+					<input class="span2" id="specific-date-input" type="text" readonly><br/>
 					<a href='#' class='btn btn-small pretty-button' id="specific-date">Data Específica</a>
 				</p>
 				<hr/>
 				<p>
-					<input class="span2" id="specific-period-input-start" type="text" placeholder="Ex. 01/04/2014" readonly><br/>
-					<input class="span2" id="specific-period-input-end" type="text" placeholder="Ex. 31/04/2014" readonly><br/>
+					<input class="span2" id="specific-period-input-start" type="text" readonly><br/>
+					<input class="span2" id="specific-period-input-end" type="text" readonly><br/>
 					<a href='#' class='btn btn-small pretty-button' id="specific-period">Período</a>
 				</p>
 				<hr/>
