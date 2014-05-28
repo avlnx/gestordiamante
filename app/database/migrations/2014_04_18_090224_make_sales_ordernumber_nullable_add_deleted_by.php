@@ -18,7 +18,7 @@ class MakeSalesOrdernumberNullableAddDeletedBy extends Migration {
 		});
 		Schema::table('sales', function($table)
 		{
-		    $table->string('order_number')->unique()->nullable();
+		    $table->string('order_number')->nullable();
 		});
 		Schema::table('sales', function($table)
 		{
