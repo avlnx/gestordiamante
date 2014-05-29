@@ -29,7 +29,7 @@ class Sale extends Eloquent
 			->get();
 	}
 	// Mutators & Ajax Attributes
-	public function getDeleteLinkAttribute()
+	public function getOldDeleteLinkAttribute()
 	{
 		if($this->is_alive) {
 			$link = link_to_route('sales.delete', "Deletar", 
@@ -40,6 +40,32 @@ class Sale extends Eloquent
 		}
 		return $link;
 	}
+
+	public function getDeleteLinkAttribute()
+	{
+		if($this->is_alive) {
+			if (Auth::user()->is_admin) {
+				# code...
+				$link = link_to_route('sales.delete', "Deletar", 
+				$parameters = array($this->id), 
+				$attributes = array('class' => 'btn btn-mini disabled delete-link'));
+
+
+			} else {
+				$link = link_to_route('sales.delete', "Deletar", 
+				$parameters = array($this->id), 
+				$attributes = array('class' => 'btn btn-mini disabled delete-link'));
+			}
+			$edit_link = link_to_route('sales.edit', "Editar", 
+				$parameters = array($this->id), 
+				$attributes = array('class' => 'btn btn-mini disabled edit-link'));
+			$link .= ' ' . $edit_link;
+		} else {
+			$link = "";
+		}
+		return $link;
+	}
+
 	public function getPrettyDateAttribute()
 	{
 		if($this->is_alive) { $date = $this->created_at;} else { $date = $this->updated_at;}

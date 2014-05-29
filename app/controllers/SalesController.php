@@ -120,6 +120,11 @@ class SalesController extends BaseController
 		return View::make('sales.asindex');
 	}
 
+	public function getEditSale()
+	{
+
+	}
+
 	public function getASSales($date, $payment_type)
 	{
 		$sales = Sale::all();
