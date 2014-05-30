@@ -88,11 +88,14 @@
 		// Disable buttons/show loader
 		update_loader('loading');
 
+
+
 		$.getJSON( route,
 			
 			function(data) {
 			var sales = [];
 			var total = 0;
+			var sales_count = 0;
 			$.each(data, function(index, sale) {
 				value = 0;
 
@@ -110,7 +113,10 @@
 					value = sale.bonus;
 				}
 
-				if (sale.is_alive == 1) {total += parseFloat(value)}
+				if (sale.is_alive == 1) {
+					total += parseFloat(value);
+					sales_count++;
+				}
 
 				sales.push(
 					"<tr><td>" + sale.pretty_order_number + 
@@ -133,7 +139,7 @@
 				});
 			}
 
-			$('#pedidos-count').html(sales.length + ' Pedidos');
+			$('#pedidos-count').html(sales_count + ' Pedidos');
 
 
 			$('#results-table tr').hover(function(event){

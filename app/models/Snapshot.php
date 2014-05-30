@@ -26,16 +26,6 @@ class Snapshot extends Eloquent
       $part = $parts->first();
 
       $type = $part->virtual_real_or_ambos();
-      /*
-      switch ($type) {
-         case 'virtual':
-            $quantity = $part->virtual_quantity;
-            break;
-         default:
-            $quantity = $part->quantity;
-            break;
-      }
-      */
 
 		$total = 0;
 		//print_r($parts);
