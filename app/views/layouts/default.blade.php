@@ -8,6 +8,7 @@
 	{{ HTML::style('css/bootstrap-responsive.min.css') }}
 	{{ HTML::style('css/datepicker.css') }}
 	{{ HTML::style('css/my-styles.css') }}
+	{{-- HTML::style('css/smoothness/jquery-ui.custom.min.css') --}}
 
 </head>
 <body >
@@ -137,6 +138,7 @@
 	{{ HTML::script('js/bootstrap-datepicker.js') }}
 	{{ HTML::script('js/jquery.currency.js') }}
 	{{ HTML::script('js/jquery.jstepper.js') }}
+	{{--HTML::script('js/jquery-ui.custom.min.js')--}}
 
 	<script type='text/javascript'>
 		@yield('script_functions')
