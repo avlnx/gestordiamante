@@ -242,6 +242,13 @@ class SalesController extends BaseController
 	public function getDeleteSale($id)
 	{
 		$sale = Sale::findOrFail($id);
+
+		// Users can only delete their own sales
+		if(!Auth::user()->is_admin) {
+			if ($sale->user_id != Auth::user()->id) {
+				return Redirect::route('sales.asindex')->with('error', 'Você não pode deletar uma venda criada por outro usuário.');
+			}
+		}
 		$sale->is_alive = false;
 		$sale->order_number_before_delete = $sale->order_number;
 		$sale->order_number = NULL;
