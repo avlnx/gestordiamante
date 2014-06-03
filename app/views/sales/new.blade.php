@@ -178,10 +178,7 @@
 	{
 		update_num_perfumes();
 		result = false;
-		if (ativacoes == 0)
-		{
-			result = true;
-		} else if (total_perfume_quantity >= ativacoes) {
+		if (ativacoes == 0 || total_perfume_quantity >= ativacoes) {
 			result = true;
 		}
 		return result;
@@ -221,9 +218,15 @@
 		}
 
 		if(!validate_ativacoes()) {
-			alert('Por favor, adicione ' + (ativacoes - total_perfume_quantity) + ' perfume(s) ao pedido para se igualar ao número de ativações.');
-			//alert('Por favor, adicione ao menos ' + ativacoes + ' perfumes ao pedido para se igualar ao número de ativações.');
-			event.preventDefault();
+			//alert('Por favor, adicione ' + (ativacoes - total_perfume_quantity) + ' perfume(s) ao pedido para se igualar ao número de ativações.');
+			// Pedido de ativações sem Perfumes
+			if(confirm('O número de perfumes não bate com o número de ativações. Confirma?'))
+			{
+				console.log('Pedido sem número gravado.');
+				$('#form-submit-btn').button('loading');
+			} else {
+				event.preventDefault();
+			}
 		}
 
 		clean_money();
