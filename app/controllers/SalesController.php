@@ -197,35 +197,35 @@ class SalesController extends BaseController
 
 		// continue filtering by payment_type
 		switch ($payment_type) {
-			case 'debit':
+			case 'Debito':
 				$sales = $sales->filter(function($sale){
 							if ($sale->debit > 0) {
 								return $sale;
 							}
 						});
 				break;
-			case 'credit':
+			case 'Credito':
 				$sales = $sales->filter(function($sale){
 							if ($sale->credit > 0) {
 								return $sale;
 							}
 						});
 				break;
-			case 'cash':
+			case 'Dinheiro':
 				$sales = $sales->filter(function($sale){
 							if ($sale->cash > 0) {
 								return $sale;
 							}
 						});
 				break;
-			case 'deposit':
+			case 'Deposito':
 				$sales = $sales->filter(function($sale){
 							if ($sale->deposit > 0) {
 								return $sale;
 							}
 						});
 				break;
-			case 'bonus':
+			case 'Bonus':
 				$sales = $sales->filter(function($sale){
 							if ($sale->bonus > 0) {
 								return $sale;
@@ -291,12 +291,8 @@ class SalesController extends BaseController
 					// formas de pagamento numeric
 					$rules[$field] = 'numeric';
 					break;
-					
+				
 				case 'order_number':
-					// numero do pedido obrigatorio
-					$rules[$field] = 'unique:sales';
-					break;
-					
 				case '_token':
 				case 'notes':
 					break;
