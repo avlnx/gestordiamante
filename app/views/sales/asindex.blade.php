@@ -193,7 +193,7 @@
 			if (sales.length == 0) {
 				$('#results-table').append('<tr class="info"><td colspan="4"><strong>Nenhuma venda localizada.</strong></td></tr>');
 			} else {
-				$('#results-table').append('<tr class="info"><td>&nbsp;</td><td>&nbsp;</td><td class="lead"><strong><span id="table-total">'+total+'</span></strong></td><td>&nbsp;</td></tr>');
+				$('#results-table').prepend('<tr class="info"><td>&nbsp;</td><td>&nbsp;</td><td class="lead"><strong><span id="table-total">'+total+'</span></strong></td><td>&nbsp;</td></tr>');
 				$('#table-total').currency({
 					region: 	'BRL',
 					thousands: '.',
