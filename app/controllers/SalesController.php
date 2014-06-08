@@ -142,7 +142,7 @@ class SalesController extends BaseController
 		// filter by date
 		switch ($date) {
 			case 'latest':
-				$sales = $sales->take(200);
+				$sales = $sales->take(10000);
 				break;
 			case 'today':
 				$sales = $sales->filter(function($sale){
