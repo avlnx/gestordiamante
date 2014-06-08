@@ -4,6 +4,7 @@ class Sale extends Eloquent
 {
 	protected $guarded = array('id');
 	protected $appends = array('total_value', 'creator','pretty_date','pretty_created_at','pretty_order_number','meta','pretty_total_value','delete_link');
+	public static $clear_tenants;
 
 	public function tenant()
 	{
@@ -20,13 +21,34 @@ class Sale extends Eloquent
 		return $this->hasMany('Item');
 	}
 
+	public static function getSuperAdminSales($tenants_ids)
+	{
+		// Security: check if all ids in list sent via javascript are tenants controlled by this superadmin
+		// If we are here we are superadmins
+		$saemail = Auth::user()->email;
+		
+		// get all tenants_ids controlled by this superadmin
+		Sale::$clear_tenants = Tenant::where('email','=',$saemail)->lists('id');
+		
+		// Build an array from sent String tenants ids (10,23,43,4)
+		$sent_tenants_list = explode(',', $tenants_ids);
+		
+		// filter sent_tenants_list by tenants actually controlled by this superadmin
+		$filtered_tenants_list = array_filter($sent_tenants_list,function ($tenant){
+			return in_array($tenant, Sale::$clear_tenants);
+		});
+		
+		// get all sales whose tenant_id is in list of tenants above
+		$sales = Sale::whereIn('tenant_id', $filtered_tenants_list)->get();
+		
+      return $sales;
+	}
+
 	public static function all($columns = array('*'))
 	{
 		return parent::where('tenant_id', '=', Auth::user()->tenant_id)
-			//->where('is_alive','=',true)
-			->orderBy('created_at', 'desc')
-			//->take(10)
-			->get();
+		->orderBy('created_at', 'desc')
+		->get();
 	}
 	// Mutators & Ajax Attributes
 	public function getOldDeleteLinkAttribute()

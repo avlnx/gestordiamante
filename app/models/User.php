@@ -54,6 +54,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->belongsTo('Tenant');
 	}
 
+	public function getSuperAdminEmail()
+	{
+		return $this->tenant->email;
+	}
+
 	/** Overload methods to account for tenants **/
 
 	public static function all($columns = array('*'))

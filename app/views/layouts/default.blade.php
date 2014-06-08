@@ -69,7 +69,7 @@
 
 				@if (Auth::user()->is_superadmin)
 					<li>
-						<span class='label label-default'><strong>{{ Auth::user()->tenant->account_name }}</strong></span>
+						<span class='label label-important'><strong>{{ Auth::user()->tenant->account_name }}</strong></span>
 						<small>{{ HTML::linkRoute('superadmin.choose','Alterar?') }}</small>
 					</li>
 				@endif

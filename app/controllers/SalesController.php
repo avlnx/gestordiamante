@@ -117,7 +117,10 @@ class SalesController extends BaseController
 
 	public function getASIndex()
 	{
-		return View::make('sales.asindex');
+		$cds = Tenant::where('email','=',Auth::user()->email)->get();
+		$view =  View::make('sales.asindex');
+		$view->cds = $cds;
+		return $view;
 	}
 
 	public function getEditSale()
@@ -125,9 +128,14 @@ class SalesController extends BaseController
 
 	}
 
-	public function getASSales($date, $payment_type)
+	public function getASSales($date, $payment_type, $tenants_ids)
 	{
-		$sales = Sale::all();
+		if (Auth::user()->is_superadmin) {
+			$sales = Sale::getSuperAdminSales($tenants_ids);
+		} else {
+			// get current tenant's sales
+			$sales = Sale::all();
+		}
 
 		$this->comparing_date = $date;
 

@@ -11,6 +11,31 @@
 			<hr/>
 			<h4>Filtros</h4>
 
+			@if(Auth::user()->is_superadmin)
+			<p>
+				<i class='icon icon-globe'></i>
+				<a href="#" id='filter-cds-toggle'>Adicionar CDs</a>
+			</p>
+			<div class='btn-group' data-toggle='buttons-checkbox' id='cds-button-group'>
+				<ul class='inline'>
+				@foreach ($cds as $cd)
+					@if($cd->id == Auth::user()->tenant_id)
+					<li>
+		            <p>
+		               <span class='label label-important'>{{$cd->account_name}}</span>
+		            </p>
+		         </li><br/>
+					@else
+		         <li>
+		            <p>
+		               <a href="#" id='{{$cd->id}}' class='tenant-input btn btn-small pretty-button'>{{$cd->account_name}}</a>
+		            </p>
+		         </li><br/>
+		         @endif
+				@endforeach
+		      </ul>
+			</div>
+			@endif
 			<p>
 				<i class='icon icon-calendar'></i>
 				<a href="#" id='filter-date-toggle'>Data</a>
@@ -74,6 +99,15 @@
 			<!-- results -->
 			<h4 id='pedidos-count'></h4>
 
+			@if(Auth::user()->is_superadmin)
+			<p>
+				<i class='icon icon-globe'></i> 
+				<span class='label label-important' id='cds-filter-label'>{{Auth::user()->tenant->account_name}}</span>
+				@foreach($cds as $cd)
+					<span class='label label-warning' id='cd-label-{{$cd->id}}' style='display:none'>{{$cd->account_name}}</span>
+				@endforeach
+			</p>
+			@endif
 			<p>
 				<i class='icon icon-calendar'></i> <span class='label label-warning' id='date-filter-label'>Vendas mais recentes</span>
 			</p>
@@ -94,11 +128,15 @@
 
 	var deleted_sales_visible = false;
 	var payment_type = 'Todas';
+	current_tenant_id = "{{ Auth::user()->tenant_id}}";
+	var tenants_list = ["{{ Auth::user()->tenant_id}}"];
+	$('#'+current_tenant_id).addClass('active');
 	// clear date inputs
 	$('#specific-date-input').val("");
 	$('#specific-period-input-end').val("");
 	$('#specific-period-input-start').val("");
-
+	// set selected tenant
+	
 	function update_loader(status)
 	{
 		if(status == 'loading')
@@ -177,6 +215,8 @@
 
 	function get_active_filters()
 	{
+		console.log('in get_active_filters \n');
+		console.debug(tenants_list);
 		var date = 'latest';
 		//var payment_type = 'Todos';
 
@@ -214,13 +254,23 @@
 		// Get 'payment_type'
 		// get active button
 		//payment_type = $('#payment-button-group').find('a.active').attr('id');
-		console.log(payment_type);
+
 		payment_label.html(payment_type);
 
-		// Call ajax
-		console.log('payment: ' + payment_type + ' date: ' + date);
+		// get tenants (superadmin)
+		//tenants_list = '10,11,12,15,17';
 
-		get_from_server('sales/ajax.json/date/'+date+'/payment_type/'+payment_type, payment_type);
+		// get active buttons ids (remove tenant-)
+		//active_tenants = $('#cds-button-group').children('a.active').attr('id');
+		//active_tenants = $('.tenant-input.active');
+		//console.debug(active_tenants);
+		// if none is set then set current active tenant and get that
+
+
+		// Call ajax
+		//console.log('payment: ' + payment_type + ' date: ' + date);
+
+		get_from_server('sales/ajax.json/date/'+date+'/payment_type/'+payment_type+'/tenants/'+tenants_list, payment_type);
 	}
 
 	function toggle_deleted_items()
@@ -241,6 +291,31 @@
 
 	$('#Todas,#Dinheiro,#Debito,#Credito,#Deposito,#Bonus').bind('click', function(event){
 		payment_type = $(this).attr('id');
+		get_active_filters();
+		event.preventDefault();
+	});
+
+	$('.tenant-input').bind('click', function(event) {
+		
+		id_clicked = $(this).attr('id');
+		//console.debug(id_clicked);
+
+
+		if (jQuery.inArray(id_clicked,tenants_list) != -1) {
+			// if id clicked in list, remove it from list
+			console.log('removing item');
+			tenants_list.splice(jQuery.inArray(id_clicked, tenants_list), 1 );
+			// hide tenant_label
+			$('#cd-label-'+id_clicked).hide();
+		} else {
+			// if id clicked not in list, add it to the list
+			console.log('adding item');
+			tenants_list.push(id_clicked);
+			// show tenant_label
+			$('#cd-label-'+id_clicked).show();
+		}
+		tenants_list = jQuery.unique(tenants_list);
+
 		get_active_filters();
 		event.preventDefault();
 	});
@@ -298,6 +373,10 @@
 	$('#filter-payment-toggle').bind('click', function(event) {
 		event.preventDefault();
 		$('#payment-button-group').toggle('slow');
+	});
+	$('#filter-cds-toggle').bind('click', function(event) {
+		event.preventDefault();
+		$('#cds-button-group').toggle( 'slow');
 	});
 
 	get_active_filters();

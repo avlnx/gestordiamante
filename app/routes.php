@@ -79,7 +79,7 @@ Route::get('sales/edit/{id}', array('before' => 'auth|check_tenant:Sale', 'uses'
 Route::get('sales/delete/{id}', array('before' => 'auth|check_tenant:Sale', 'uses' => 'SalesController@getDeleteSale', 'as' => 'sales.delete'));
 Route::get('sales/{id}', array('before' => 'auth|check_tenant:Sale', 'uses' => 'SalesController@getFocus', 'as' => 'sales.focus'));
 // Assynchronous sales routes
-Route::get('sales/ajax.json/date/{date}/payment_type/{payment_type}', array('before' => 'auth', 'uses' => 'SalesController@getASSales', 'as' => 'sales.json'));
+Route::get('sales/ajax.json/date/{date}/payment_type/{payment_type}/tenants/{tenants_ids}', array('before' => 'auth', 'uses' => 'SalesController@getASSales', 'as' => 'sales.json'));
 
 // Superadmin routes
 Route::get('superadmin/choose', array('before' => 'auth|admins_only', 'uses' => 'SuperadminController@getChooseProfile', 'as' => 'superadmin.choose'));

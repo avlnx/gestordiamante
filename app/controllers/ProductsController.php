@@ -6,6 +6,7 @@ class ProductsController extends BaseController
 
 	public function getIndex()
 	{
+		/*
 		$tenant_id = Auth::user()->tenant_id;
 		$products = Product::all();
 		$categories = Category::all();
@@ -15,6 +16,9 @@ class ProductsController extends BaseController
 		$view->categories = $categories;
 
 		return $view;
+		*/
+
+		return Redirect::route('products.admin');
 	}
 
     public function getAdminProducts()
@@ -164,7 +168,7 @@ class ProductsController extends BaseController
 		$product = Product::find($id);
 		$product->is_alive = False;
 		$product->save();
-		return Redirect::route('products.index')
+		return Redirect::route('products.admin')
 				->with('notice', 'Produto deletado com sucesso');
 	}
 }
