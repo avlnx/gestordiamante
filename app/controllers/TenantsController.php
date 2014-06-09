@@ -66,9 +66,15 @@ class TenantsController extends BaseController
 						$ref = $model_tenant_product->ref;
 						$category_in_regular_tenant = Category::where('tenant_id','=',$regular_tenant->id)
 							->where('name','=',$model_tenant_product->category->name)->first();
-
-						$regular_product = Product::where('tenant_id','=',$regular_tenant->id)
+						if ($ref == '') {
+							$name = $model_tenant_product->name;
+							$regular_product = Product::where('tenant_id','=',$regular_tenant->id)
+							->where('name','=',$name)->first();
+						} else {
+							$regular_product = Product::where('tenant_id','=',$regular_tenant->id)
 							->where('ref','=',$ref)->first();
+						}
+						
 						if ($regular_product == NULL) {
 							// Product doesn't exist yet for this tenant, copy it
 							$new_regular_product = $model_tenant_product->replicate();
