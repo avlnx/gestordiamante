@@ -28,7 +28,8 @@ class SnapshotsController extends BaseController
 		$total_ambos_stock = 0;
 
 		foreach ($categories as $category) {
-			$cat_products = $category->products;
+			$cat_products = Product::where('category_id','=',$category->id)->where('is_alive','=',true)->get();
+			//$category->products;
 
 			foreach ($category->products as $product) {
 				$total_stock_value += max($product->quantity_in_stock,0) * $product->price;
