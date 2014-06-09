@@ -101,7 +101,7 @@ class Sale extends Eloquent
 	}
 	public function getPrettyCreatedAtAttribute()
 	{
-		return $this->created_at->format('d/m/Y à\s H:m');
+		return $this->created_at->format('d/m/Y à\s H:i:s');
 	}
 	public function getTotalValueAttribute()
 	{

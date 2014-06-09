@@ -41,7 +41,7 @@
 			</td>
 			<td>
 				{{ HTML::linkRoute('snapshots.focus', 'Visualizar detalhes', array($snapshot->id), array('class'=>'btn btn-mini pretty-button'))}}
-				{{ HTML::linkRoute('snapshots.delete', 'Deletar pedido', array($snapshot->id), array('class'=>'btn btn-danger pretty-button btn-mini'))}}
+				{{ HTML::linkRoute('snapshots.delete', 'Reverter pedido', array($snapshot->id), array('class'=>'btn btn-danger pretty-button btn-mini'))}}
 			</td>
 		</tr>
 

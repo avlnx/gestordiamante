@@ -15,7 +15,7 @@
 			<p class='pull-right'><em>{{ $snapshot->pretty_date }} por {{$snapshot->creator}}</em></p>
 		@endif
 		<p class='lead'><small>Valor total:</small> <span class='currency'>{{ $snapshot->total_value() }}</span></p>
-		<p>{{ HTML::linkRoute('snapshots.delete', 'Deletar pedido', array($snapshot->id), array('class'=>'btn btn-small btn-danger'))}}</p>
+		<p>{{ HTML::linkRoute('snapshots.delete', 'Deletar pedido', array($snapshot->id), array('class'=>'btn btn-small btn-danger pretty-button'))}}</p>
 		<hr/>
 		<table class='table table-hover table-condensed'>
 			<thead>
