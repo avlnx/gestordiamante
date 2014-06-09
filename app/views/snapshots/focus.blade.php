@@ -6,11 +6,11 @@
 		@include('includes.back-button', array('route' => URL::route('snapshots.index')))
 
 		@if ($snapshot->type == 'entry')
-			<h3>Pedido de Reposição de Estoque {{ $snapshot->virtual_real_or_ambos}}</h3>	
+			<h3>Pedido de Reposição de Estoque </h3>	
 			<p>Os produtos listados abaixo entraram no estoque {{ $snapshot->virtual_real_or_ambos}} do seu CD.</p>	
 			<p class='pull-right'><em>{{ $snapshot->pretty_date }} por {{$snapshot->creator}}</em></p>
 		@elseif($snapshot->type == 'baixa')
-			<h3>Baixa de Produtos {{ $snapshot->virtual_real_or_ambos}}</h3>	
+			<h3>Baixa de Produtos </h3>	
 			<p>Os produtos listados abaixo foram retirados do estoque {{ $snapshot->virtual_real_or_ambos}} do seu CD.</p>	
 			<p class='pull-right'><em>{{ $snapshot->pretty_date }} por {{$snapshot->creator}}</em></p>
 		@endif

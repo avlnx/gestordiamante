@@ -28,14 +28,16 @@
 			<td>
 				@if($snapshot->type == 'entry')
 					<span class='label label-success'>Pedido de Reposição</span>
+					{{ $snapshot->virtual_real_or_ambos}}
 				@elseif($snapshot->type == 'baixa')
 					<span class='label label-important'>Baixa de Estoque</span>
+					{{ $snapshot->virtual_real_or_ambos}}
 				@else
 					<span class='label'>Contagem do Estoque</span>
 				@endif
 			</td>
 			<td>
-				<p class='lead'>R$ {{ $snapshot->total_value() }}</p>
+				<p class='lead currency'>{{ $snapshot->total_value() }}</p>
 			</td>
 			<td>
 				{{ HTML::linkRoute('snapshots.focus', 'Visualizar detalhes', array($snapshot->id), array('class'=>'btn btn-mini pretty-button'))}}

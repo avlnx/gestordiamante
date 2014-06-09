@@ -80,7 +80,7 @@ class Snapshot extends Eloquent
       $html = '';
       if ($type != 'ambos') {
          $ctype = strtoupper($type);
-         $html = "<span class='label label-important'>$ctype</span>";
+         $html = "<span class='label label-warning'>$ctype</span>";
       }
       
       return $html;
