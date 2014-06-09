@@ -20,7 +20,7 @@
 					@foreach($products as $product)
 						@if($product->category == $category)
 							<?php $found = True ?>
-							<li id='prod-row-{{$product->id}}' class='shadow-container2' style='border: 1px solid #ccc; padding: 10px;margin: 0px 10px 10px 0'>
+							<li id='prod-row-{{$product->id}}' class='shadow-container2' style='border: 1px solid #ccc; padding: 5px;margin: 0px 10px 10px 0'>
 
 								<p>
 								<strong>{{ $product->name }}</strong><br/>
@@ -138,6 +138,11 @@
 				current_qtd_badge = parseInt($(id_badge).html());
 				new_qtd = qtd + current_qtd_badge;
 				$(id_badge).show().html(new_qtd);
+				// add container class
+				
+				//$(this).parents('li').addClass('selected-container');
+			} else {
+				//$(this).parents('li').removeClass('selected-container');
 			}
 			
 		});
@@ -146,6 +151,15 @@
 	
 
 	$('.qtdd').on('keyup', function(event) {
+		qtd = parseInt($(this).val());
+		if(qtd > 0) {
+			li = $(this).parents('li').css('background-color','#eed');
+			console.debug(li);
+		} else {
+		console.log('inside qtd < 0');
+			$(this).parents('li').css('background-color','#fff');
+		}
+		
 		global_update_qtd_badge()
 
 		run_calculations();
