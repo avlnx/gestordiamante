@@ -374,7 +374,7 @@ class SalesController extends BaseController
 			}
 			
 		}
-		if(!$sale) {
+		if(!isset($sale)) {
 			$sale = Sale::create(array(
 				'tenant_id'	=>  Auth::user()->tenant_id,
 				'user_id'	=>	Auth::user()->id,
