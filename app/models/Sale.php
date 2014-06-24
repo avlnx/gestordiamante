@@ -3,7 +3,7 @@
 class Sale extends Eloquent
 {
 	protected $guarded = array('id');
-	protected $appends = array('total_value', 'creator','pretty_date','pretty_created_at','pretty_order_number','meta','pretty_total_value','delete_link');
+	protected $appends = array('total_value','items', 'creator','pretty_date','pretty_created_at','pretty_order_number','meta','pretty_total_value','delete_link');
 	public static $clear_tenants;
 
 	public function tenant()
@@ -63,6 +63,11 @@ class Sale extends Eloquent
 			$link = "";
 		}
 		return $link;
+	}
+
+	public function getItemsAttribute()
+	{
+		return $this->items()->get();
 	}
 
 	public function getDeleteLinkAttribute()

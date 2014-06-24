@@ -119,7 +119,7 @@
 @section('scripts2')
 	<?php @parent ?>
 
-	$(".reset-input").val(0);
+	@if(!isset($sale))$(".reset-input").val(0);@endif
 
 	function global_update_qtd_badge()
 	{
@@ -140,9 +140,10 @@
 				new_qtd = qtd + current_qtd_badge;
 				$(id_badge).show().html(new_qtd);
 				// add container class
-				
+				li = $(this).parents('li').css('background-color','#eed');
 				//$(this).parents('li').addClass('selected-container');
 			} else {
+				$(this).parents('li').css('background-color','#fff');
 				//$(this).parents('li').removeClass('selected-container');
 			}
 			
@@ -152,16 +153,8 @@
 	
 
 	$('.qtdd').on('keyup', function(event) {
-		qtd = parseInt($(this).val());
-		if(qtd > 0) {
-			li = $(this).parents('li').css('background-color','#eed');
-			console.debug(li);
-		} else {
-		console.log('inside qtd < 0');
-			$(this).parents('li').css('background-color','#fff');
-		}
 		
-		global_update_qtd_badge()
+		global_update_qtd_badge();
 
 		run_calculations();
 	});

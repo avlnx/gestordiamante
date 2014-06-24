@@ -138,6 +138,7 @@ class SalesController extends BaseController
 
 		$categories = Category::all();
 		$products = Product::all();
+		$view->items = $sale->items()->get();
 
 		$view->sale = $sale;
 		$view->categories = $categories;
@@ -362,8 +363,8 @@ class SalesController extends BaseController
 		if ($validation->fails())
 		{
 			//return print_r($validation->errors);
-			if($sale) {
-				return Redirect::route('sales.new')
+			if($editing) {
+				return Redirect::route('sales.edit',[$sale->id])
 				->with('error', 'Utilize apenas números inteiros para as quantidades e números para as formas de pagamento.')
 				->with('sale', $sale)
 				->withInput();
@@ -374,7 +375,7 @@ class SalesController extends BaseController
 			}
 			
 		}
-		if(!isset($sale)) {
+		if(!($editing)) {
 			$sale = Sale::create(array(
 				'tenant_id'	=>  Auth::user()->tenant_id,
 				'user_id'	=>	Auth::user()->id,
@@ -400,34 +401,52 @@ class SalesController extends BaseController
 			list($id, $type) = explode('-', $id_type);
 
 			$product = Product::find($id);
-
-			if($type == 'box') {
-				$total_quantity = $quantity*$product->box;
-			} else {
-				$total_quantity = $quantity;
-			}
-
+			/*
+				if($type == 'box') {
+					$total_quantity = $quantity*$product->box;
+				} else {
+					$total_quantity = $quantity;
+				}
+			*/
+			$total_quantity = $quantity;
 			if($total_quantity != 0)
 			{
-				if(array_key_exists($product->id, $items))
-				{
-					// a part for this product already exists, sum the quantities
-					$items[$product->id]['quantity'] += $total_quantity;
-					$quantities_to_update[$product->id] += $total_quantity;
-
-				} else {
-					$items[$product->id] = array(
-						'tenant_id'		=>	Auth::user()->tenant_id,
-						'sale_id'		=>	$sale->id,
-						'product_id'	=>	$product->id,
-						'current_price'	=>	$product->price,
-						'quantity'		=>	$total_quantity,
-						'virtual_quantity' => $total_quantity,
-						'is_alive'		=>	True
-					);
-					$quantities_to_update[$product->id] = $total_quantity;
-				}
+				$items[$product->id] = array(
+					'tenant_id'		=>	Auth::user()->tenant_id,
+					'sale_id'		=>	$sale->id,
+					'product_id'	=>	$product->id,
+					'current_price'	=>	$product->price,
+					'quantity'		=>	$total_quantity,
+					'virtual_quantity' => $total_quantity,
+					'is_alive'		=>	True
+				);
+				$quantities_to_update[$product->id] = $total_quantity;
 			}
+			/*
+				OLD VERSION WITH BOXES
+				if($total_quantity != 0)
+				{
+					if(array_key_exists($product->id, $items))
+					{
+						// a part for this product already exists, sum the quantities
+						$items[$product->id]['quantity'] += $total_quantity;
+						$quantities_to_update[$product->id] += $total_quantity;
+
+					} else {
+						$items[$product->id] = array(
+							'tenant_id'		=>	Auth::user()->tenant_id,
+							'sale_id'		=>	$sale->id,
+							'product_id'	=>	$product->id,
+							'current_price'	=>	$product->price,
+							'quantity'		=>	$total_quantity,
+							'virtual_quantity' => $total_quantity,
+							'is_alive'		=>	True
+						);
+						$quantities_to_update[$product->id] = $total_quantity;
+					}
+				}
+			*/
+
 		}
 
 		// validate sum of payment methods
@@ -444,14 +463,8 @@ class SalesController extends BaseController
 				$sale->delete();
 			}
 			
-			// #DEBUG
-			//die($temp_sum != $sum_of_payments);
-			//die('temp_sum'. var_dump($temp_sum));
-			//die('sum_of_payments'. var_dump($sum_of_payments));
-			//die('temp_sum != $sum_of_payments: ' . ($temp_sum != $sum_of_payments) . "\ntemp_sum: $temp_sum" . "\nsum_of_payments: $sum_of_payments\n".var_dump($sum_of_payments).var_dump($temp_sum));
-
 			if($editing) {
-				return Redirect::route('sales.new')
+				return Redirect::route('sales.edit',[$sale->id])
 				->with('error', "Os valores das formas de pagamento não batem com o valor total do pedido! Cheque os valores e tente novamente.")
 				->with('sale', $sale)
 				->withInput();
@@ -462,16 +475,34 @@ class SalesController extends BaseController
 			}
 			
 		}
+		// ALL CLEAR
 
-		// Save sale and its items
+		// Update sale if editing
+		if($editing)
+		{
+			// add all quantities of old sale
+			$old_items = $sale->items()->get();
+			foreach ($old_items as $item) {
+				$product = Product::find($item->product_id);
+				$product->update_quantities($item->quantity,$item->quantity,'add');
+			}
+			// remove all old items of this sale
+			$sale->items()->delete();
+			// update formas de pagamento
+			$sale->cash = Input::get('cash');
+			$sale->credit = Input::get('credit');
+			$sale->debit = Input::get('debit');
+			$sale->deposit = Input::get('deposit');
+			$sale->bonus = Input::get('bonus');
+			$sale->save();
+		}
 
-		//$sale->items()->save($items);
 		foreach ($items as $item_array) {
 			$item = new Item($item_array);
 			$sale->items()->save($item);
 		}
 
-		// Update quantities, everything was succesfull, redirect
+		// Update (new) quantities, everything was succesfull, redirect
 		foreach ($quantities_to_update as $product_id => $quantity) {
 			$product = Product::find($product_id);
 			$product->update_quantities($item->quantity,$item->quantity,'subtract');
@@ -479,7 +510,11 @@ class SalesController extends BaseController
 			//$product->save();
 		}
 
-		return Redirect::route('sales.new')->with('notice', 'Venda gerada com sucesso.');
+		if($editing) {
+			return Redirect::route('sales.focus', [$sale->id])->with('notice', 'Venda atualizada com sucesso.');
+		} else {
+			return Redirect::route('sales.new')->with('notice', 'Venda gerada com sucesso.');
+		}
 		
 	}
 

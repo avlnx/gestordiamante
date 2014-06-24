@@ -5,12 +5,17 @@
 
 		<div class='span9'>
 
-			{{ Form::open(array('url' => 'sales/new')) }}
+			@if(!isset($sale))
+				{{ Form::open(array('url' => 'sales/new')) }}
+			@else
+				{{ Form::open(array('url' => 'sales/new/'.$sale->id)) }}
+			@endif
+
 			<h3>Informações Gerais</h3>
 			@if(isset($sale))
 			<div class="alert alert-info">
 				<h4>Editando pedido <em>#{{$sale->order_number}}</em></h4>
-				<p>Por favor, insira as informações do pedido novamente. A data não será alterada.</p>
+				<p>Por favor, insira as informações do pedido novamente. A data não pode ser alterada.</p>
 			</div>
 			@endif
 			<hr/>
@@ -22,9 +27,7 @@
 					</div>
 					<p>
 						<a href="#" id='add_notes'>Adicionar notas e informações ao pedido</a>
-						<textarea id='notes_textarea' name="notes" rows="8" style='display:none' placeholder="Notas e informações referentes ao pedido">
-							@if(isset($sale)) {{ $sale->notes }}@endif
-						</textarea>
+						<textarea id='notes_textarea' name="notes" rows="8" style='display:none' placeholder="Notas e informações referentes ao pedido">@if(isset($sale)){{ $sale->notes }}@endif</textarea>
 					</p>
 					
 				</div>
@@ -95,7 +98,13 @@
 					
 				</div>
 
-				<p>{{ Form::submit('Registrar venda', array('data-loading-text' => "Carregando...", 'class' => 'btn btn-primary btn-large pretty-button', 'id' => 'form-submit=btn'))}}</p>
+				<p><button class='btn btn-primary btn-large pretty-button' data-loading-text='Carregando...' id='form-submit'>
+					@if(!isset($sale))
+						<i class='icon-white icon-ok'></i> Registrar
+					@else 
+						<i class='icon-white icon-edit'></i> Atualizar
+					@endif
+				</button></p>
 				
 	   		{{ Form::close() }}
 	   		<p><a href='#' class='btn btn-small pretty-button' id='reset'>Reset pedido</a></p>
@@ -119,6 +128,54 @@
 	$(ativacao_id).attr('readonly', 'readonly');
 	var licenca_kit_free_id = '#qtd-unidades-'+$('#licenca-de-concessao').html();
 	$(licenca_kit_free_id).attr('readonly', 'readonly');
+
+	@if(isset($sale))
+		var items = {{$sale->items}};
+		// This is an edit
+		// Set quantities
+		$.each(items, function(i, item){
+			
+			id = item.product_id;
+			qtd = parseInt(item.quantity);
+			$('#qtd-unidades-'+id).val(qtd);
+			//console.log($('#qtd-unidades-'+id).val());
+			//console.log(item.product_id + ': ' + item.quantity +' '+ $('#qtd-unidades-'+item.product_id).val());
+		});
+		ativacoes = parseInt($(ativacao_id).val());
+		kit_free = parseInt($(licenca_kit_free_id).val());
+		// press button accordingly
+		$('#nenhuma-ativacao,#ativacao-up,#ativacao-top,#ativacao-premium,#ativacao-elite,#kit-free').removeClass('active');
+		switch(ativacoes)
+		{
+			case 0:
+			$('#nenhuma-ativacao').addClass('active');
+			break;
+			case 1:
+			$('#ativacao-up').addClass('active');
+			break;
+			case 2:
+			$('#ativacao-top').addClass('active');
+			break;
+			case 3:
+			$('#ativacao-premium').addClass('active');
+			break;
+			case 4:
+			$('#ativacao-elite').addClass('active');
+			break;
+		}
+		if(kit_free == 1) {
+			$('#kit-free').addClass('active');
+		}
+		// Set formas de pagamento
+		$('#cash').val(parseFloat({{$sale->cash}}));
+		$('#debit').val(parseFloat({{$sale->debit}}));
+		$('#deposit').val(parseFloat({{$sale->deposit}}));
+		$('#credit').val(parseFloat({{$sale->credit}}));
+		$('#bonus').val(parseFloat({{$sale->bonus}}));
+		// update
+		update_ativacoes();
+
+	@endif
 
 	function update_forms_total()
 	{
@@ -162,7 +219,7 @@
 		$('#ativacoes_input').val(ativacoes);
 		// update kit free
 		$(licenca_kit_free_id).val(kit_free);
-		console.log(licenca_kit_free_id);
+		//console.log(licenca_kit_free_id);
 		global_update_qtd_badge();
 		run_calculations();
 		update_forms_total();

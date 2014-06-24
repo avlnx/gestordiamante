@@ -53,7 +53,7 @@
 					<li><p><a href="#" id='Debito' class='btn btn-mini pretty-button'>Débito</a></p></li><br/>
 					<li><p><a href="#" id='Credito' class='btn btn-mini pretty-button'>Crédito</a></p></li><br/>
 					<li><p><a href="#" id='Deposito' class='btn btn-mini pretty-button'>Depósito</a></p></li><br/>
-					<li><p><a href="#" id='Bonus' class='btn btn-mini pretty-button'>Bônus e Crédito UP!</a></p></li>
+					<li><p><a href="#" id='Bonus' class='btn btn-mini pretty-button'>Bônus</a></p></li>
 				</ul>
 			</div>
 			<hr/>
@@ -231,7 +231,7 @@
 
 			$('#results-table tr').hover(function(event){
 				$(this).find('a.delete-link').toggleClass('btn-danger disabled');
-				//$(this).find('a.edit-link').toggleClass('disabled');
+				$(this).find('a.edit-link').toggleClass('disabled');
 			});
 			$('#results-table').find('span.deleted-item').closest('tr').hide();
 		}).done(function(){
