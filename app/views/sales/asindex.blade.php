@@ -166,9 +166,11 @@
 	{
 		if(status == 'loading')
 		{
-			$('.progress').show();
+			//$('.progress').show();
+			$('.loader').show();
 		} else {
-			$('.progress').hide();
+			//$('.progress').hide();
+			$('.loader').hide();
 		}
 	}
 

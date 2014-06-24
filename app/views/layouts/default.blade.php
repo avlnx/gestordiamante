@@ -12,7 +12,7 @@
 
 </head>
 <body >
-
+<div class="loader" style='display:none'></div>
 @if (Auth::check())
 <div class="navbar">
 	<div class="navbar-inner navbar-fixed-top">
