@@ -40,6 +40,7 @@
 
 									<div class='input-append'>
 										{{ Form::text($product->id.'-uni', 0, array('class'=>"input-small reset-input qtdd cat-id-$category->id $product->category_slug", 'id'=>"qtd-unidades-$product->id",'onClick'=>'this.select()')) }}
+										
 										<span class='add-on'>unidades</span>
 										<span class='cat-id' style='display:none'>{{$product->category->id}}</span>
 									</div>

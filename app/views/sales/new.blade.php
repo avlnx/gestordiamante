@@ -7,16 +7,24 @@
 
 			{{ Form::open(array('url' => 'sales/new')) }}
 			<h3>Informações Gerais</h3>
+			@if(isset($sale))
+			<div class="alert alert-info">
+				<h4>Editando pedido <em>#{{$sale->order_number}}</em></h4>
+				<p>Por favor, insira as informações do pedido novamente. A data não será alterada.</p>
+			</div>
+			@endif
 			<hr/>
 			<div class="row">
 				<div class="span4">
 					<div class="input-prepend">
 						<span class="add-on">Número do Pedido</span>
-						<input class="span2" id="order_number" type="text" name="order_number">
+						<input class="span2" id="order_number" type="text" name="order_number" @if(isset($sale)) value="{{ $sale->order_number }}"@endif />
 					</div>
 					<p>
 						<a href="#" id='add_notes'>Adicionar notas e informações ao pedido</a>
-						<textarea id='notes_textarea' name="notes" rows="8" style='display:none' placeholder="Notas e informações referentes ao pedido"></textarea>
+						<textarea id='notes_textarea' name="notes" rows="8" style='display:none' placeholder="Notas e informações referentes ao pedido">
+							@if(isset($sale)) {{ $sale->notes }}@endif
+						</textarea>
 					</p>
 					
 				</div>
@@ -236,6 +244,7 @@
 	$('#add_notes').click(function(event){
 		//console.log('add_notes clicked!');
 		$('#notes_textarea').toggle('slow');
+		event.preventDefault();
 	});
 
 	$('#nenhuma-ativacao').click(function(event){

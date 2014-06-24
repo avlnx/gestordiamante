@@ -91,32 +91,55 @@
 		</div>
 
 		<div class="span9">
+			<div class="row">
 
-			<div class="progress progress-striped active" style="display: none">
-			  <div class="bar" style="width: 100%;">Carregando, aguarde...</div>
+				<div class="span6">
+					<div class="progress progress-striped active" style="display: none">
+					  <div class="bar" style="width: 100%;">Carregando, aguarde...</div>
+					</div>
+
+					<!-- results -->
+					<h4 id='pedidos-count'></h4>
+
+					@if(Auth::user()->is_superadmin)
+					<p>
+						<i class='icon icon-globe'></i> 
+						<span class='label label-important' id='cds-filter-label'>{{Auth::user()->tenant->account_name}}</span>
+						@foreach($cds as $cd)
+							<span class='label label-warning' id='cd-label-{{$cd->id}}' style='display:none'>{{$cd->account_name}}</span>
+						@endforeach
+					</p>
+					@endif
+					<p>
+						<i class='icon icon-calendar'></i> <span class='label label-warning' id='date-filter-label'>Vendas mais recentes</span>
+					</p>
+					<p>
+						<i class='icon icon-briefcase'></i> <span class='label label-warning' id='payment-filter-label'>Todas</span>
+					</p>
+				</div>
+
+				<div class="span3">
+					<div class='well'>
+						<h4>Encontrar pedido <small>Insira o número do pedido e pressione buscar</small></h4>
+						<div class="input-append">
+							<input class="span2" id="buscar-pedido-input" type="text">
+						  	<button class="btn" type="button" id='buscar-pedido-btn'>Buscar</button>
+						</div>
+					</div>
+				</div>
+
 			</div>
 
-			<!-- results -->
-			<h4 id='pedidos-count'></h4>
 
-			@if(Auth::user()->is_superadmin)
-			<p>
-				<i class='icon icon-globe'></i> 
-				<span class='label label-important' id='cds-filter-label'>{{Auth::user()->tenant->account_name}}</span>
-				@foreach($cds as $cd)
-					<span class='label label-warning' id='cd-label-{{$cd->id}}' style='display:none'>{{$cd->account_name}}</span>
-				@endforeach
-			</p>
-			@endif
-			<p>
-				<i class='icon icon-calendar'></i> <span class='label label-warning' id='date-filter-label'>Vendas mais recentes</span>
-			</p>
-			<p>
-				<i class='icon icon-briefcase'></i> <span class='label label-warning' id='payment-filter-label'>Todos</span>
-			</p>
-
-			<table class='table table-hover table-condensed' id='results-table'>
-			</table>
+			
+			<div class="row">
+				<div class="span9">
+					<table class='table table-hover table-condensed' id='results-table'>
+					</table>
+				</div>
+				
+			</div>
+			
 		</div>
 
 	</div>
@@ -181,7 +204,7 @@
 				}
 
 				sales.push(
-					"<tr><td>" + sale.pretty_order_number + 
+					"<tr class='order order-number-" + sale.order_number + "'><td>" + sale.pretty_order_number + 
 					"</td><td><small>" + sale.meta + " há " + sale.pretty_date + " (" + sale.pretty_created_at + ")</small>" +
 					"</td><td><span class='currency'>R$ " + value+
 					"</span></td><td>" + sale.delete_link + 
@@ -206,6 +229,7 @@
 
 			$('#results-table tr').hover(function(event){
 				$(this).find('a.delete-link').toggleClass('btn-danger disabled');
+				//$(this).find('a.edit-link').toggleClass('disabled');
 			});
 			$('#results-table').find('span.deleted-item').closest('tr').hide();
 		}).done(function(){
@@ -377,6 +401,28 @@
 	$('#filter-cds-toggle').bind('click', function(event) {
 		event.preventDefault();
 		$('#cds-button-group').toggle( 'slow');
+	});
+
+	$('#buscar-pedido-btn').bind('click', function(ev) {
+		//console.log('key-up: ' + ev.key + '\n');
+		//console.log($(this).val());
+		search = $('#buscar-pedido-input').val();
+		if(search == '') {
+			search = '';
+		}
+		//console.log(search);
+		rows = $('tr.order:not(.order-number-'+search+')');
+		console.log(rows);
+		rows.hide();
+		ev.preventDefault();
+		rows = $('tr.order:visible').length;
+		console.log(rows);
+		if (search == '') {
+			search = 'vazio';
+		}
+		link_voltar = "<a href='' class='btn btn-small'><i class='icon icon-arrow-left'></i> Voltar</a>";
+		$('#pedidos-count').html(rows + " Pedidos com a busca <em class='text-info'>" + search + "</em> " + link_voltar);
+		$('tr.info').hide();
 	});
 
 	get_active_filters();

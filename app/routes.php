@@ -73,7 +73,7 @@ Route::get('stock/{filter?}', array('before' => 'auth|admins_only', 'uses' => 'S
 // Sales routes
 Route::get('sales', array('before' => 'auth', 'uses' => 'SalesController@getASIndex', 'as' => 'sales.asindex'));
 Route::any('sales/filter/{filter?}', array('before' => 'auth', 'uses' => 'SalesController@getIndex', 'as' => 'sales.index'));
-Route::post('sales/new', array('before' => 'auth', 'uses' => 'SalesController@postNew', 'as' => 'sales.postNew'));
+Route::post('sales/new/{id?}', array('before' => 'auth', 'uses' => 'SalesController@postNew', 'as' => 'sales.postNew'));
 Route::get('sales/new', array('before' => 'auth', 'uses' => 'SalesController@getNew', 'as' => 'sales.new'));
 Route::get('sales/edit/{id}', array('before' => 'auth|check_tenant:Sale', 'uses' => 'SalesController@getEditSale', 'as' => 'sales.edit'));
 Route::get('sales/delete/{id}', array('before' => 'auth|check_tenant:Sale', 'uses' => 'SalesController@getDeleteSale', 'as' => 'sales.delete'));

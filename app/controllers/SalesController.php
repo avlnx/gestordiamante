@@ -123,9 +123,26 @@ class SalesController extends BaseController
 		return $view;
 	}
 
-	public function getEditSale()
+	public function getEditSale($id)
 	{
+		$sale = Sale::find($id);
+		// Users can only edit their own sales
+		if(!Auth::user()->is_admin) {
+			if ($sale->user_id != Auth::user()->id) {
+				return Redirect::route('sales.asindex')->with('error', 'Você não pode editar uma venda criada por outro usuário.');
+			}
+		}
 
+		$view = View::make('sales.new');
+
+		$categories = Category::all();
+		$products = Product::all();
+
+		$view->sale = $sale;
+		$view->categories = $categories;
+		$view->products = $products;
+
+		return $view;
 	}
 
 	public function getASSales($date, $payment_type, $tenants_ids)
@@ -289,8 +306,16 @@ class SalesController extends BaseController
 		return $view;
 	}
 
-	public function postNew()
+	public function postNew($id=null)
 	{
+		$editing = false;
+		if($id) {
+			$sale = Sale::find($id);
+			$editing = true;
+			if($sale->tenant != Auth::user()->tenant) {
+				die('Erro de autenticação');
+			}
+		}
 		$rules = array();
 		$inputs = Input::all();
 		$products = array();
@@ -326,23 +351,32 @@ class SalesController extends BaseController
 		if ($validation->fails())
 		{
 			//return print_r($validation->errors);
-			return Redirect::route('sales.new')
-				->with('error', 'Utilize apenas números inteiros para as quantidades e números para as formas de pagamento. O número do pedido deve ser único.')
+			if($sale) {
+				return Redirect::route('sales.new')
+				->with('error', 'Utilize apenas números inteiros para as quantidades e números para as formas de pagamento.')
+				->with('sale', $sale)
 				->withInput();
+			} else {
+				return Redirect::route('sales.new')
+				->with('error', 'Utilize apenas números inteiros para as quantidades e números para as formas de pagamento.')
+				->withInput();
+			}
+			
 		}
-
-		$sale = Sale::create(array(
-			'tenant_id'	=>  Auth::user()->tenant_id,
-			'user_id'	=>	Auth::user()->id,
-			'is_alive'	=>	True,
-			'debit'		=>	Input::get('debit'),
-			'credit'		=>	Input::get('credit'),
-			'bonus'		=>	Input::get('bonus'),
-			'cash'		=>	Input::get('cash'),
-			'deposit'		=>	Input::get('deposit'),
-			'order_number'	=>	Input::get('order_number'),
-			'notes'	=> Input::get('notes')
-		));
+		if(!$sale) {
+			$sale = Sale::create(array(
+				'tenant_id'	=>  Auth::user()->tenant_id,
+				'user_id'	=>	Auth::user()->id,
+				'is_alive'	=>	True,
+				'debit'		=>	Input::get('debit'),
+				'credit'		=>	Input::get('credit'),
+				'bonus'		=>	Input::get('bonus'),
+				'cash'		=>	Input::get('cash'),
+				'deposit'		=>	Input::get('deposit'),
+				'order_number'	=>	Input::get('order_number'),
+				'notes'	=> Input::get('notes')
+			));
+		}
 
 		$items = array();
 
@@ -395,17 +429,27 @@ class SalesController extends BaseController
 		if($temp_sum != $sum_of_payments)
 		{
 			// error in calculation! blow up!
-			$sale->delete();
-
+			if(!$editing){
+				$sale->delete();
+			}
+			
 			// #DEBUG
 			//die($temp_sum != $sum_of_payments);
 			//die('temp_sum'. var_dump($temp_sum));
 			//die('sum_of_payments'. var_dump($sum_of_payments));
 			//die('temp_sum != $sum_of_payments: ' . ($temp_sum != $sum_of_payments) . "\ntemp_sum: $temp_sum" . "\nsum_of_payments: $sum_of_payments\n".var_dump($sum_of_payments).var_dump($temp_sum));
 
-			return Redirect::route('sales.new')
+			if($editing) {
+				return Redirect::route('sales.new')
+				->with('error', "Os valores das formas de pagamento não batem com o valor total do pedido! Cheque os valores e tente novamente.")
+				->with('sale', $sale)
+				->withInput();
+			} else {
+				return Redirect::route('sales.new')
 				->with('error', "Os valores das formas de pagamento não batem com o valor total do pedido! Cheque os valores e tente novamente.")
 				->withInput();
+			}
+			
 		}
 
 		// Save sale and its items

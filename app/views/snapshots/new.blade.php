@@ -27,6 +27,9 @@
             <li><input type='hidden' id='stock_option' value='ambos' name='stock_option' /></li>
          </ul>
       </div>
+
+      <p><textarea id='notes_textarea' name="notes" rows="4" placeholder="Insira aqui outras informações referentes ao pedido"></textarea></p>
+
 			
 
 			@include('includes.products_list')

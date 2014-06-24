@@ -136,7 +136,7 @@ class SnapshotsController extends BaseController
 		$inputs = Input::all();
 		foreach($inputs as $product => $quantity)
 		{
-			if ($product == '_token' || $product == 'stock_option') {
+			if ($product == '_token' || $product == 'stock_option' || $product == 'notes') {
 				continue;
 			} else {
 				$rules[$product] = 'integer';
@@ -171,7 +171,8 @@ class SnapshotsController extends BaseController
 			'tenant_id'	=>	Auth::user()->tenant_id,
 			'is_alive'	=>	True,
 			'type'		=> 	$snapshot_type,
-			'user_id'	=>	Auth::user()->id
+			'user_id'	=>	Auth::user()->id,
+			'notes'		=>	Input::get('notes')
 			//'entry'		=>	False
 		));
 
@@ -180,7 +181,7 @@ class SnapshotsController extends BaseController
 
 		foreach($inputs as $id_type => $quantity)
 		{
-			if ($id_type == '_token' || $id_type == 'stock_option') { continue; }
+			if ($id_type == '_token' || $id_type == 'stock_option' || $id_type == 'notes') { continue; }
 
 			$list = explode('-', $id_type);
 
