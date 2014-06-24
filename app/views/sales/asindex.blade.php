@@ -10,32 +10,6 @@
 			<p class="lead">Vendas realizadas pelo seu CD</p>
 			<hr/>
 			<h4>Filtros</h4>
-
-			@if(Auth::user()->is_superadmin)
-			<p>
-				<i class='icon icon-globe'></i>
-				<a href="#" id='filter-cds-toggle'>Adicionar CDs</a>
-			</p>
-			<div class='btn-group' data-toggle='buttons-checkbox' id='cds-button-group'>
-				<ul class='inline'>
-				@foreach ($cds as $cd)
-					@if($cd->id == Auth::user()->tenant_id)
-					<li>
-		            <p>
-		               <span class='label label-important'>{{$cd->account_name}}</span>
-		            </p>
-		         </li><br/>
-					@else
-		         <li>
-		            <p>
-		               <a href="#" id='{{$cd->id}}' class='tenant-input btn btn-small pretty-button'>{{$cd->account_name}}</a>
-		            </p>
-		         </li><br/>
-		         @endif
-				@endforeach
-		      </ul>
-			</div>
-			@endif
 			<p>
 				<i class='icon icon-calendar'></i>
 				<a href="#" id='filter-date-toggle'>Data</a>
@@ -83,6 +57,34 @@
 				</ul>
 			</div>
 			<hr/>
+
+			@if(Auth::user()->is_superadmin)
+			<p>
+				<i class='icon icon-globe'></i>
+				<a href="#" id='filter-cds-toggle'>Adicionar CDs</a>
+			</p>
+			<div class='btn-group' style='display:none' data-toggle='buttons-checkbox' id='cds-button-group'>
+				<ul class='inline'>
+				@foreach ($cds as $cd)
+					@if($cd->id == Auth::user()->tenant_id)
+					<li>
+		            <p>
+		               <span class='label label-important'>{{$cd->account_name}}</span>
+		            </p>
+		         </li><br/>
+					@else
+		         <li>
+		            <p>
+		               <a href="#" id='{{$cd->id}}' class='tenant-input btn btn-small pretty-button'>{{$cd->account_name}}</a>
+		            </p>
+		         </li><br/>
+		         @endif
+				@endforeach
+		      </ul>
+			</div>
+			<hr/>
+			@endif
+
 			<p>
 				<i class='icon icon-trash'></i>
 				<a href="#" id='show_deleted'  data-toggle="button" class='btn-ssmall'>Mostrar vendas deletadas</a>
@@ -268,7 +270,7 @@
 			$('#specific-period-label').addClass('label-warning');	
 		} else {
 			// latest
-			date_label.html('Vendas mais recentes');
+			date_label.html('Últimas 30 vendas');
 			date = 'latest';
 			$('#specific-date-label').removeClass('label-warning');
 			$('#specific-period-label').removeClass('label-warning');	

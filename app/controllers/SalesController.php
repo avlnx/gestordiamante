@@ -6,6 +6,7 @@ class SalesController extends BaseController
 	public $comparing_date = null;
 	public $date_start = null;
 	public $date_end = null;
+	public $max_sales = 30;
 
 	public function getIndex($filter)
 	{
@@ -156,10 +157,20 @@ class SalesController extends BaseController
 
 		$this->comparing_date = $date;
 
+		//TODO: if(!$show_deleted) {
+		if(true) {
+			$sales = $sales->filter(function($sale)
+		    {
+		        if ($sale->is_alive) {
+		            return true;
+		        }
+		    });
+		}
+
 		// filter by date
 		switch ($date) {
 			case 'latest':
-				$sales = $sales->take(10000);
+				$sales = $sales->take($this->max_sales);
 				break;
 			case 'today':
 				$sales = $sales->filter(function($sale){
