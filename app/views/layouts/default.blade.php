@@ -166,11 +166,13 @@
 				defaultValue:		0,
 				allowDecimals:		false
 			});
+
 			$('.qtdd,.int-field,.float-field').on('blur', function(e){
 				if($(this).val() == '') {
 					$(this).val(0);
 				}
 			});
+
 			$('.float-field').jStepper({
 				minValue:			0,
 				defaultValue:		0,
@@ -178,6 +180,12 @@
 				decimalSeparator: ',',
 				minDecimals: 		0,
 				maxDecimals: 		2
+			});
+
+			// 
+			$('.action-button').click(function(event){
+				$(this).text('Carregando...');
+				$(this).prop('disabled', true);
 			});
  		});
 

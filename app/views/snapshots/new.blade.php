@@ -40,9 +40,9 @@
     		<h1><small>Total: </small><span id='total'>0</span></h1>
     			<hr/>
     		@if(isset($entry_snapshot))
-					{{ Form::submit('Gravar Pedido de Reposição', array('class' => 'btn btn-primary pretty-button'))}}
+					{{ Form::submit('Gravar Pedido de Reposição', array('class' => 'btn btn-primary pretty-button action-button'))}}
 				@else
-					{{ Form::submit('Registrar Baixa do Estoque', array('class' => 'btn btn-primary pretty-button'))}}
+					{{ Form::submit('Registrar Baixa do Estoque', array('class' => 'btn btn-primary pretty-button action-button'))}}
 				@endif
 
 
