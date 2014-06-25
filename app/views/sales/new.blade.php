@@ -98,7 +98,7 @@
 					
 				</div>
 
-				<p><button class='btn btn-primary btn-large pretty-button action-button' data-loading-text='Carregando...' id='form-submit'>
+				<p><button class='btn btn-primary btn-large pretty-button action-button' id='form-submit'>
 					@if(!isset($sale))
 						<i class='icon-white icon-ok'></i> Registrar
 					@else 

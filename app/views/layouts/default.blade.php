@@ -182,11 +182,13 @@
 				maxDecimals: 		2
 			});
 
-			// 
+			//
+			/* 
 			$('.action-button').click(function(event){
 				$(this).text('Carregando...');
 				$(this).prop('disabled', true);
 			});
+			*/
  		});
 
 	</script>
