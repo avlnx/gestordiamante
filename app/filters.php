@@ -132,6 +132,16 @@ Route::filter('admins_only', function()
 
 });
 
+Route::filter('superadmins_only', function()
+{
+	if (!Auth::user()->is_superadmin)
+	{
+		return Redirect::route('home.index')
+		->with('error', 'Você não tem privilégios suficientes para visualizar essa página');
+	}
+
+});
+
 Route::filter('protected_item', function($route, $request, $value)
 {
 	// Get $id from URI
