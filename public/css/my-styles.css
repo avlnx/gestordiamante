@@ -1,6 +1,6 @@
 body {
-   padding: 60px 0;
-   background: #eee;
+   /*background: #eee;*/
+   background: #fff;
 }
 .loader {
    position: fixed;
@@ -16,6 +16,12 @@ body {
    background: url('../img/page-loader.gif') 50% 50% no-repeat #b9ede9; /* #c2e4e0 or b9ede9 */
 }
 .deleted {text-decoration: line-through;}
+
+.login-bar {
+   border-top: 1px solid #ddd;
+   border-bottom: 1px solid #ddd;
+   padding: 8px 0 0 0 ;
+}
 .shadow-container {
    -moz-box-shadow:    3px 3px 0px #ccc;
    -webkit-box-shadow: 3px 3px 0px #ccc;
@@ -31,7 +37,8 @@ body {
 }
 
 .main-container {
-   background: #fff;padding: 0 10px;
+   background: #fff;
+   padding: 0 0px;
 }
 
 .pretty-button {

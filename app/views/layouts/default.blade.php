@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<title>Gestor Diamante</title>
-	<link rel="shortcut icon" href="img/favicon.png" />
+	<link rel="shortcut icon" href="img/logo2.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	{{ HTML::style('css/bootstrap.min.css') }}
 	{{ HTML::style('css/bootstrap-responsive.min.css') }}
@@ -14,15 +14,18 @@
 <body >
 <div class="loader" style='display:none'></div>
 @if (Auth::check())
-<div class="navbar">
-	<div class="navbar-inner navbar-fixed-top">
+<div class="container">
+	<div class="navbar">
+	<div class="navbar-inner">
 		<div class="container">
 			<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+
 	      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </a>
+
 	      <ul class="nav">
 	      	<li>
 	      		<p class='navbar-text' style='padding-left: 0px;'>
@@ -75,7 +78,7 @@
 					</ul>
 			  	</li>
 
-			  	{{--@if (Auth::user()->is_root)--}}
+			  	@if (Auth::user()->is_root)
 			  	<li class='divider-vertical'></li>
 
 				<li class="dropdown">
@@ -86,7 +89,7 @@
 						<li><a href="{{ route('tenants.update_from_model')}}">Atualizar Modelos</a></
 					</ul>
 			  	</li>
-				{{--@endif--}}
+				@endif
 				
 				@endif
 
@@ -96,13 +99,13 @@
 		</div>
 	</div>
 </div>
+</div>
 @endif
 
-<?php if(isset($container_wrapper)){$container_wrapper = false;} else {$container_wrapper = true;} ?>
-<div class='container @if($container_wrapper)shadow-container main-container@endif'>
+<div class='container'>
 	@if (Auth::check())
 	<div class="row">
-		<div class="span12" style="background-color: white;height: 40px;padding-top: 10px;border-bottom: 1px solid #eee;">
+		<div class="span12 login-bar">
 			<ul class="inline">
 			  	<li>
 		  			<small>Olá <strong>{{ Auth::user()->email }}</strong>
@@ -157,12 +160,27 @@
 	{{ HTML::script('js/bootstrap-datepicker.js') }}
 	{{ HTML::script('js/jquery.currency.js') }}
 	{{ HTML::script('js/jquery.jstepper.js') }}
+	{{ HTML::script('js/fuse.min.js') }}
 	{{--HTML::script('js/jquery-ui.custom.min.js')--}}
 
 	<script type='text/javascript'>
+		function update_loader(status)
+		{
+			if(status == 'loading')
+			{
+				//$('.progress').show();
+				$('.loader').show();
+			} else {
+				//$('.progress').hide();
+				$('.loader').hide();
+			}
+		}
+
 		@yield('script_functions')
 
 		$(document).ready(function() {
+			update_loader('done');
+
 			$('.dropdown-toggle').dropdown();
 			$('.confirm').on('click', function(event){
 				if(!confirm('Tem certeza de que deseja *'+this.innerHTML+'* ?'))

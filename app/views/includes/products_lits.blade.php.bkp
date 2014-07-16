@@ -1,49 +1,68 @@
       <h3>Produtos</h3>
+      <hr/>
 
       <?php //print_r($products->toJson()) ?>
 
          <?php $found = False ?>
          @foreach($categories as $category)
-            <a class='no-format' href='#' id='table-toggler-{{ $category->id }}'><p class='lead'><i class='icon-chevron-right'></i>  {{ $category->name }}</p></a>
+
+
+
+            <a class='no-format' href='#' id='table-toggler-{{ $category->id }}'>
+               <p class='lead'>
+               <span class="badge badge-warning qtd-badge" id='qtd-badge-{{$category->id}}' style='display:none'>0</span> {{ $category->name }}
+               </p>
+            </a>
+
             <div id='table-wrapper-{{ $category->id }}' style='display: none'>
-               <table class='table table-condensed'>
+               <ul class="inline">
 
                @foreach($products as $product)
                   @if($product->category == $category)
                      <?php $found = True ?>
-                     <tr id='prod-row-{{$product->id}}'>
-                        <td>{{ $product->name }}</td>
-                        <td>
+                     <li id='prod-row-{{$product->id}}' class='shadow-container2' style='border: 1px solid #ccc; padding: 5px;margin: 0px 10px 10px 0'>
+
+                        <p>
+                        <strong>{{ $product->name }}</strong><br/>
+                        <small class='currency'>{{$product->price}}</small>
+                        </p>
+
+                        <p>
 
                            @if(False)
                            {{-- if($produtc->box) --}}
                            <div class='input-append'>
                               {{ Form::text($product->id.'-box', 0, array('class'=>'input-small reset-input qtdd','id'=>"qtd-caixas-$product->id",'onClick'=>'this.select()')) }}
                               <span class='add-on'>caixas</span>
+                              
                            </div>
                            @endif
 
                            <div class='input-append'>
-                              {{ Form::text($product->id.'-uni', 0, array('class'=>"input-small reset-input qtdd $product->category_slug", 'id'=>"qtd-unidades-$product->id",'onClick'=>'this.select()')) }}
+                              {{ Form::text($product->id.'-uni', 0, array('class'=>"input-small reset-input qtdd cat-id-$category->id $product->category_slug", 'id'=>"qtd-unidades-$product->id",'onClick'=>'this.select()')) }}
+                              
                               <span class='add-on'>unidades</span>
+                              <span class='cat-id' style='display:none'>{{$product->category->id}}</span>
                            </div>
 
-                        </td>
+                        </p>
+                        
                         <span id='preco-{{$product->id}}' style='display:none'>{{$product->price}}</span>
                         <span id='box-{{$product->id}}' style='display:none'>{{$product->box}}</span>
                         <span id='{{$product->slug}}' style='display:none'>{{$product->id}}</span>
-                     </tr>
+                     </li>
                   @endif
                @endforeach
                @if(count($products)==0)
-                  <p class='text-info'>Você ainda não cadastrou nenhum produto.</p>
+                  <li class='text-info'>Você ainda não cadastrou nenhum produto.</li>
                @endif
                @if(!$found)
-                  <p class='text-warning'>Nenhum produto nessa categoria</p>
+                  <li class='text-warning'>Nenhum produto nessa categoria</li>
                @else
                   <?php $found = False; ?>
                @endif
-               </table>
+
+               </ul>
             </div>
          @endforeach
          @if(count($categories)==0)
@@ -65,12 +84,14 @@
          id = product.id;
          preco = parseFloat($('#preco-'+id).html());
          // Caixas
+         /*
          var caixas = parseFloat($('#qtd-caixas-'+id).val());
          //var box = parseFloat($('#box-'+id).html());
          if(box)
          {
             total += parseFloat(box*caixas*preco);
          }
+         */
 
          // Unidades
          var unidades = parseFloat($('#qtd-unidades-'+id).val());
@@ -81,7 +102,7 @@
       //console.log(total);
 
     // clean total
-    //total = total.toFixed(2);
+    total = total.toFixed(2);
 
       $('#total-hidden').html(total);
       $('#total').html(total).currency({
@@ -89,53 +110,55 @@
             thousands: '.',
             decimal: ','
          });
-      update_forms_total();
+      
    }
-   function update_forms_total()
-   {
-      var debit = parseFloat($('#debit').val());
-      var credit = parseFloat($('#credit').val());
-      var deposit = parseFloat($('#deposit').val());
-      var bonus = parseFloat($('#bonus').val());
-      var cash = parseFloat($('#cash').val());
-
-      var total = debit + credit + deposit + bonus + cash;
-
-      //alert(total);
-
-      $('#forms-total').html(total).currency({
-            region:  'BRL',
-            thousands: '.',
-            decimal: ','
-         });;
-
-      var total_geral = parseFloat($('#total-hidden').html());
-      var forms_total = total;
-
-      if (total_geral != forms_total)
-      {
-         var difference = forms_total-total_geral;
-         $('#forms-label-success').hide();
-         $('#forms-label-fail').show();
-         $('#forms-label-fail').html(difference);
-
-      }
-      else
-      {
-         $('#forms-label-fail').hide();
-         $('#forms-label-success').show();
-      }
-   }
+   
 @stop
 
 
 @section('scripts2')
    <?php @parent ?>
 
-   $(".reset-input").val(0);
-   $('.qtdd').on('change', function(event) {
+   @if(!isset($sale))$(".reset-input").val(0);@endif
+
+   function global_update_qtd_badge()
+   {
+      // Zerar badges
+      $('.qtd-badge').html(0).hide();
+      
+      qtd_inputs = $('.qtdd');
+      $.each(qtd_inputs,function(index,value){
+         // get val
+         qtd = parseInt($(value).val());
+         // if > 0 show cat badge
+         if (qtd > 0) 
+         {
+            // get cat badge id
+            cat_id = $(value).siblings('span.cat-id').html();
+            id_badge = '#qtd-badge-'+cat_id;
+            current_qtd_badge = parseInt($(id_badge).html());
+            new_qtd = qtd + current_qtd_badge;
+            $(id_badge).show().html(new_qtd);
+            // add container class
+            li = $(this).parents('li').css('background-color','#eed');
+            //$(this).parents('li').addClass('selected-container');
+         } else {
+            $(this).parents('li').css('background-color','#fff');
+            //$(this).parents('li').removeClass('selected-container');
+         }
+         
+      });
+   }
+
+   
+
+   $('.qtdd').on('keyup', function(event) {
+      
+      global_update_qtd_badge();
+
       run_calculations();
    });
+
 
    @foreach($categories as $category)
 

@@ -11,14 +11,12 @@
 				{{ Form::open(array('url' => 'sales/new/'.$sale->id)) }}
 			@endif
 
-			<h3>Informações Gerais</h3>
 			@if(isset($sale))
 			<div class="alert alert-info">
 				<h4>Editando pedido <em>#{{$sale->order_number}}</em></h4>
 				<p>Por favor, insira as informações do pedido novamente. A data não pode ser alterada.</p>
 			</div>
 			@endif
-			<hr/>
 			<div class="row">
 				<div class="span4">
 					<div class="input-prepend">
@@ -223,12 +221,17 @@
 		// as ativacoes
 		$(ativacao_id).val(ativacoes);
 		$('#ativacoes_input').val(ativacoes);
+		
 		// update kit free
 		$(licenca_kit_free_id).val(kit_free);
-		//console.log(licenca_kit_free_id);
+		
 		global_update_qtd_badge();
 		run_calculations();
 		update_forms_total();
+
+		update_pedido($(ativacao_id));
+		update_pedido($(licenca_kit_free_id));
+		
 	}
 
 	function update_num_perfumes()
@@ -257,10 +260,6 @@
 
 	$('#debit,#credit,#deposit,#bonus,#cash').on('keyup', function(){update_forms_total()});
 	$('#debit,#credit,#deposit,#bonus,#cash').on('blur', function(){update_forms_total()});
-	/*$('#credit').on('change', function(){update_forms_total()});
-	$('#deposit').on('change', function(){update_forms_total()});
-	$('#bonus').on('change', function(){update_forms_total()});
-	$('#cash').on('change', function(){update_forms_total()});*/
 
 	function clean_money() {
 		var debit = parseFloat($('#debit').val().replace(',','.'));

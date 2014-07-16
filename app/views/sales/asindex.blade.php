@@ -162,18 +162,6 @@
 	$('#specific-period-input-start').val("");
 	// set selected tenant
 	
-	function update_loader(status)
-	{
-		if(status == 'loading')
-		{
-			//$('.progress').show();
-			$('.loader').show();
-		} else {
-			//$('.progress').hide();
-			$('.loader').hide();
-		}
-	}
-
 	function get_from_server(route, payment_type)
 	{
 		// Disable buttons/show loader
