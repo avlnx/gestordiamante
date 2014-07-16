@@ -186,6 +186,12 @@
 		var bonus = parseFloat($('#bonus').val().replace(',','.'));
 		var cash = parseFloat($('#cash').val().replace(',','.'));
 
+		if(isNaN(debit)) {debit = 0;}
+		if(isNaN(credit)) {credit = 0;}
+		if(isNaN(deposit)) {deposit = 0;}
+		if(isNaN(bonus)) {bonus = 0;}
+		if(isNaN(cash)) {cash = 0;}
+
 		var total = (debit + credit + deposit + bonus + cash).toFixed(2);
 
 		//alert(total);
@@ -249,11 +255,12 @@
 		return result;
 	}
 
-	$('#debit').on('change', function(){update_forms_total()});
-	$('#credit').on('change', function(){update_forms_total()});
+	$('#debit,#credit,#deposit,#bonus,#cash').on('keyup', function(){update_forms_total()});
+	$('#debit,#credit,#deposit,#bonus,#cash').on('blur', function(){update_forms_total()});
+	/*$('#credit').on('change', function(){update_forms_total()});
 	$('#deposit').on('change', function(){update_forms_total()});
 	$('#bonus').on('change', function(){update_forms_total()});
-	$('#cash').on('change', function(){update_forms_total()});
+	$('#cash').on('change', function(){update_forms_total()});*/
 
 	function clean_money() {
 		var debit = parseFloat($('#debit').val().replace(',','.'));

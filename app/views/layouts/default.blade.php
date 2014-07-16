@@ -34,17 +34,60 @@
 	      <div class="nav-collapse collapse">
 			<ul class="nav">
 
-				<li>
-					<a href="{{ route('sales.new') }}"><strong><i class='icon icon-shopping-cart'></i> Nova Venda</strong></a>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class='icon icon-shopping-cart'></i> Vendas <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="{{ route('sales.new') }}">Nova Venda</a></li>
+						<li>{{ HTML::linkRoute('sales.asindex','Últimas vendas') }}</li>
+					</ul>
+			  	</li>
 
-				</li>
-				<li>{{ HTML::linkRoute('sales.asindex','Últimas vendas') }}</li>
-				@if (Auth::user()->is_superadmin)
+
+				
+				
+				@if (Auth::user()->is_admin)
+
+
 				<li class='divider-vertical'></li>
-				<li>{{ HTML::linkRoute('snapshots.stock','Visualizar Estoque Atual') }}</li>
-				<li>{{ HTML::linkRoute('snapshots.index','Histórico do Estoque') }}</li>
-				<li class='divider-vertical'></li>
-				<li>{{ HTML::linkRoute('stats.index','Estatísticas e Relatórios') }}</li>
+
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class='icon icon-inbox'></i> Estoque <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li>{{ HTML::linkRoute('snapshots.stock','Visualizar Estoque Atual') }}</li>
+						<li>{{ HTML::linkRoute('snapshots.index','Histórico do Estoque') }}</li>
+						<li class='divider'></li>
+					   <li>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry')) }}</li>
+						<li>{{ HTML::linkRoute('snapshots.new','Registrar Baixa no Estoque', array('baixa')) }}</li>
+					</ul>
+			  	</li>
+
+			  	<li class='divider-vertical'></li>
+
+			  	<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class='icon icon-wrench'></i> Administração <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li>{{ HTML::linkRoute('stats.index','Visualizar Estatísticas e Relatórios') }}</li>
+						<li class='divider'></li>
+						<li>{{ HTML::linkRoute('products.admin','Administrar Produtos e Categorias') }}</li>
+					   
+					   <li class='divider'></li>
+					   <li>{{ HTML::linkRoute('users.index','Administrar Usuários', array(), array('role' => 'menuitem')) }}</li>
+					</ul>
+			  	</li>
+
+			  	{{--@if (Auth::user()->is_root)--}}
+			  	<li class='divider-vertical'></li>
+
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class='icon icon-star'></i> Root <b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li>{{ HTML::linkRoute('tenants.index','Visualizar Clientes') }}</li>
+						<li><a href="{{route('tenants.new')}}">Novo Cliente</a></li>
+						<li><a href="{{ route('tenants.update_from_model')}}">Atualizar Modelos</a></
+					</ul>
+			  	</li>
+				{{--@endif--}}
+				
 				@endif
 
 
@@ -74,30 +117,6 @@
 					</li>
 				@endif
 
-				@if (Auth::user()->is_admin)
-					<li>
-						<div class="btn-group">
-						  <a class="btn dropdown-toggle btn-small" data-toggle="dropdown" href="#">
-						    <i class="icon-wrench"></i>
-						    <span class="caret"></span>
-						  </a>
-						  <ul class="dropdown-menu">
-						    @if(Auth::check() && Auth::user()->is_admin)
-                              <li>{{ HTML::linkRoute('products.admin','Administrar Produtos e Categorias') }}</li>
-							    <li class='divider'></li>
-							    <li>{{ HTML::linkRoute('snapshots.new','Lançar Pedido de Reposição', array('entry')) }}</li>
-									<li>{{ HTML::linkRoute('snapshots.new','Registrar Baixa no Estoque', array('baixa')) }}</li>
-							    <li class='divider'></li>
-							    <li>{{ HTML::linkRoute('users.index','Administrar Usuários', array(), array('role' => 'menuitem')) }}</li>
-						    @endif
-						    @if (Auth::check() && Auth::user()->is_root)
-						    	<li class='divider'></li>
-						    	<li>{{ HTML::linkRoute('tenants.index','Clientes') }}</li>
-						    @endif
-						  </ul>
-						</div>
-					</li>
-				@endif
 			</ul>
 		</div>
 	</div>
@@ -161,18 +180,19 @@
 			});
 			$('.tooltip-trigger').tooltip({});
 
+			/*
 			$('.qtdd,.int-field').jStepper({
 				minValue:			0,
 				defaultValue:		0,
 				allowDecimals:		false
 			});
-
+			*/
 			$('.qtdd,.int-field,.float-field').on('blur', function(e){
 				if($(this).val() == '') {
 					$(this).val(0);
 				}
 			});
-
+			/*
 			$('.float-field').jStepper({
 				minValue:			0,
 				defaultValue:		0,
@@ -181,7 +201,7 @@
 				minDecimals: 		0,
 				maxDecimals: 		2
 			});
-
+			*/
 			//
 			/* 
 			$('.action-button').click(function(event){

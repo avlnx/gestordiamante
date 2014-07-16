@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-	<h1>Adicionando novo <em>Tenant</em></h1>
+	<h1>Adicionando novo <em>Cliente</em></h1>
 	<hr/>
 
 	{{ Form::open(array('url' => 'tenants/new')) }}
@@ -25,7 +25,15 @@
     <p>
     	{{ Form::label('password', 'Senha da nova conta SuperAdmin:') }}
     	{{ $errors->has('password') ? $errors->first('password', '<p class="text-error">:message</p>') : '' }}
-    	{{ Form::text('password') }}
+    	
+        <input type='password' name='password' id='password' />
+    </p>
+    <p>
+        {{ Form::label('password_confirm', 'Confirme a senha:') }}
+        <input type='password' name='password_confirm' id='password_confirm' />
+        <div class="alert" id='password-alert' style='display:none'>
+            <strong>Ops!</strong> As senhas não conferem. A senha e a confirmação devem ser iguais. Tente novamente.
+        </div>
     </p>
     <hr>
 
@@ -45,9 +53,33 @@
     <hr/>
 
     <p>
-    	{{ Form::submit('Cadastrar Tenant &rarr;', array('class' => 'btn btn-primary btn-large')) }}
+        <button type='submit' class='btn btn-primary pretty-button' id='cadastrar-submit'><i class='icon icon-white icon-ok'></i> Cadastrar Tenant</button>
     </p>
 	
 	{{ Form::close() }}
 
+@stop
+
+@section('scripts')
+    $('#password_confirm').on('keyup', function(e) {
+        pc = $(this).val();
+        p = $('#password').val();
+        if(p != pc) {
+            // passwords dont match
+            //$(this).val('');
+            $('#password-alert').show();
+            $('#password_confirm').focus();
+        } else {
+            // all good
+            $('#password-alert').hide();
+        }
+    });
+    $('#cadastrar-submit').on('click', function(e) {
+        if($('#password-alert').is(':visible')) {
+            alert('Por favor, corrija a senha.');
+            e.preventDefault();
+        } else {
+            $(this).addClass('disabled');
+        }
+    });
 @stop

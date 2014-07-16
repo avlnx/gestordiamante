@@ -2,14 +2,20 @@
 
 @section('content')
 
-	<h1>Olá Thyago <small>estes são nossos clientes:</small></h1>
+	<h1>Olá Thyago <small>como vai hoje?</small></h1>
 
-	<p>
-	{{ HTML::linkRoute('tenants.new', '+ Novo Cliente', [], array('class'  => 'btn btn-primary'))}}
-	{{ HTML::linkRoute('tenants.update_from_model', 'Atualizar Modelos',[], array('class' => 'btn confirm'))}}
-	</p>
+	<hr/>
 
-	<table class='table table-condensed table-hover'>
+	<ul class='inline'>
+		<li><a href="{{ route('tenants.new')}}" class='btn btn-primary pretty-button'><i class='icon icon-white icon-plus-sign'></i> Novo Cliente</a></li>
+		<li><a href="{{ route('tenants.update_from_model')}}" class='btn pretty-button'><i class='icon icon-refresh'></i> Atualizar Modelos</a></li>
+	</ul>
+
+	<hr/>
+
+	<p><a href="#" class='btn btn-mini pretty-button' id='tenants-table-switch'>Visualizar Clientes</a></p>
+	
+	<table class='table table-condensed table-hover' id='tenants-table' style='display:none'>
 		<thead>
 			<tr>
 				<th>Nome</th>
@@ -38,4 +44,19 @@
 		</tbody>
 	</table>
 
+@stop
+
+@section('scripts')
+	$('#tenants-table-switch').on('click', function(e) {
+		if($('#tenants-table').is(':visible')) {
+			// hide and text = Visualizar Clientes
+			$('#tenants-table').fadeOut();
+			$('#tenants-table-switch').text('Visualizar Clientes');
+		} else {
+			// show and text = Esconder Clientes
+			$('#tenants-table').fadeIn();
+			$('#tenants-table-switch').text('Esconder Clientes');
+		}
+		e.preventDefault();
+	});
 @stop
