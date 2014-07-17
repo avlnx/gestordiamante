@@ -386,6 +386,7 @@ class SalesController extends BaseController
 			$sale->debit = Input::get('debit');
 			$sale->deposit = Input::get('deposit');
 			$sale->bonus = Input::get('bonus');
+			$sale->order_number = Input::get('order_number');
 			$sale->save();
 		}
 

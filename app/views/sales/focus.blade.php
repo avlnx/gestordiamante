@@ -4,7 +4,14 @@
 
 	@include('includes.back-button', array('route' => URL::route('sales.asindex')))
 
-	<h2>Pedido {{ $sale->order_number }}</h2>
+	<h2>Pedido #{{ $sale->order_number }}</h2>
+	<ul class="inline">
+		<li>
+			<a href='{{route('sales.delete', $sale->id)}}' class='btn confirm btn-danger pretty-button'><i class='icon icon-white icon-trash'></i> Deletar</a>
+			<a href='{{route('sales.edit', $sale->id)}}' class='btn pretty-button'><i class='icon icon-edit'></i> Editar</a>
+		</li>
+	</ul>
+
 	<p class='pull-right'>
 		<em>Realizado há {{ $sale->pretty_date }} por {{ $sale->creator }}</em>
 	</p>
@@ -13,7 +20,7 @@
 	<table class='table table-condensed table-hover'>
 		<thead>
 			<tr>
-				<th class='table-title'>Formas de Pagamento</th>
+				<th><h6>Formas de Pagamento</h6></th>
 			</tr>
 			<tr>
 				@foreach($payments as $payment_type => $value)
@@ -33,7 +40,7 @@
 	<table class='table table-condensed table-hover'>
 		<thead>
 			<tr>
-			<th class='table-title'>Produtos</th>
+			<th><h6>Produtos</h6></th>
 			</tr>
 			<tr>
 				<th>Nome</th>

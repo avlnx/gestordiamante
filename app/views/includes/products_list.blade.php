@@ -162,7 +162,7 @@
 		} else {
 			pedido_table.html('');
 			$.each(pedido_table_list, function(i,object){
-				object_total = parseFloat(object.price) * parseInt(object.qtd);
+				object_total = (parseFloat(object.price) * parseFloat(object.qtd)).toFixed(2).replace('.',',');
 				pedido_table.append("<tr><td><strong>"+object.name+"</strong></td><td>R$"+object.price+" &times; <label class='label'>"+object.qtd+" unidades</label></td><td><strong>R$"+object_total+"</strong></td></tr>");
 			});
 		}

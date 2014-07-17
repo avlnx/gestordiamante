@@ -184,7 +184,7 @@
 
 			$('.dropdown-toggle').dropdown();
 			$('.confirm').on('click', function(event){
-				if(!confirm('Tem certeza de que deseja *'+this.innerHTML+'* ?'))
+				if(!confirm('Tem certeza?'))
 				{
 					event.preventDefault();
 				}
