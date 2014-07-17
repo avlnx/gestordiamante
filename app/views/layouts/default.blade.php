@@ -8,8 +8,8 @@
 	{{ HTML::style('css/bootstrap-responsive.min.css') }}
 	{{ HTML::style('css/datepicker.css') }}
 	{{ HTML::style('css/my-styles.css') }}
-	{{-- HTML::style('css/smoothness/jquery-ui.custom.min.css') --}}
-
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	{{ HTML::script('js/jquery.min.js') }}
 </head>
 <body >
 <div class="loader" style='display:none'></div>
@@ -155,12 +155,13 @@
 
 </div>
 	{{-- HTML::script('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js') --}}
-	{{ HTML::script('js/jquery.min.js') }}
+	
 	{{ HTML::script('js/bootstrap.min.js') }}
 	{{ HTML::script('js/bootstrap-datepicker.js') }}
 	{{ HTML::script('js/jquery.currency.js') }}
 	{{ HTML::script('js/jquery.jstepper.js') }}
 	{{ HTML::script('js/fuse.min.js') }}
+
 	{{--HTML::script('js/jquery-ui.custom.min.js')--}}
 
 	<script type='text/javascript'>

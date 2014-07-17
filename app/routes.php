@@ -16,7 +16,8 @@ Route::pattern('id', '[0-9]+');
 Route::get('/', array('before' => 'auth', 'uses' => 'HomeController@getIndex', 'as' => 'home.index'));
 
 // Stats routes
-Route::get('stats', array('before' => 'auth|superadmins_only', 'uses' => 'StatsController@getIndex', 'as' => 'stats.index'));
+Route::get('stats', array('before' => 'auth|admins_only', 'uses' => 'StatsController@getIndex', 'as' => 'stats.index'));
+Route::get('stats/ajax.json/sales', array('before' => 'auth|admins_only', 'uses' => 'StatsController@getSalesForPeriod', 'as' => 'stats.sales.json'));
 
 // Root routes
 Route::get('tenants', array('before' => 'auth|root_only', 'uses' => 'TenantsController@getIndex', 'as' => 'tenants.index'));

@@ -14,4 +14,13 @@ class StatsController extends BaseController
       return $view;
    }
 
+   public function getSalesForPeriod()
+   {
+      // Get all sale objects for the period in question
+      $sales = Sale::all();
+      
+      // grouped by date
+      return Response::json($sales); 
+   }
+
 }

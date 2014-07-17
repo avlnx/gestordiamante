@@ -4,6 +4,7 @@
 	<div class='row'>
 
 		<div class='span9'>
+			<h1>Nova Venda</h1>
 
 			@if(!isset($sale))
 				{{ Form::open(array('url' => 'sales/new')) }}

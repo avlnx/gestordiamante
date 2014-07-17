@@ -82,14 +82,14 @@
 				@endforeach
 		      </ul>
 			</div>
-			<hr/>
+			
 			@endif
-
+			{{--
 			<p>
 				<i class='icon icon-trash'></i>
 				<a href="#" id='show_deleted'  data-toggle="button" class='btn-ssmall'>Mostrar vendas deletadas</a>
 			</p>
-
+			--}}
 		</div>
 
 		<div class="span9">

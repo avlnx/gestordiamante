@@ -3,7 +3,7 @@
 class Sale extends Eloquent
 {
 	protected $guarded = array('id');
-	protected $appends = array('total_value','items', 'creator','pretty_date','pretty_created_at','pretty_order_number','meta','pretty_total_value','delete_link');
+	protected $appends = array('total_value','items', 'day','creator','pretty_date','pretty_created_at','pretty_order_number','meta','pretty_total_value','delete_link');
 	public static $clear_tenants;
 
 	public function tenant()
@@ -63,6 +63,13 @@ class Sale extends Eloquent
 			$link = "";
 		}
 		return $link;
+	}
+
+	public function getDayAttribute()
+	{
+		$full_date = $this->created_at;
+		list($day,$time) = explode(' ', $full_date);
+		return $day;
 	}
 
 	public function getItemsAttribute()
@@ -173,11 +180,7 @@ class Sale extends Eloquent
 	
 	public function total_value()
 	{
-		$items = $this->items()->get();
-		$total = 0;
-		foreach ($items as $item) {
-			$total += ($item->current_price * $item->quantity);
-		}
+		$total = $this->debit + $this->credit + $this->bonus + $this->cash + $this->deposit;
 		return $total;
 	}
 

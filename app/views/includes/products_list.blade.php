@@ -1,6 +1,6 @@
 
 
-<h3>Pedido Atual</h3>
+<h4>Pedido Atual</h4>
 
 <table class='table table-condensed' id='pedido-table'>
 	
@@ -8,7 +8,7 @@
 
 <hr/>
 <div class="input-prepend">
-	<span class="add-on" style='padding: 10px 0'><i class='icon icon-filter'></i> Comece a digitar para encontrar os produtos</span>
+	<span class="add-on" style='padding: 10px 0;font-weight:bold'><i class='icon icon-filter'></i> Comece a digitar para encontrar os produtos</span>
 	<input type='text' id='filter-products' style='padding: 10px; font-weight: bold;' />
 </div>
 <button class='btn btn-mini btn-warning pretty-button' id='show-all'>Mostrar todos</button>
