@@ -95,7 +95,7 @@ $.getJSON('stats/ajax.json/sales', function(data){
    $.each(clean_data, function(tenant_id,data_object) {
       var tuples = [];
       $.each(data_object, function(datenum, total) {
-         tuples.push([parseInt(datenum),total]);
+         tuples.push([parseInt(datenum),parseFloat(total.toFixed(2))]);
       });
       bucket.push(
          {
