@@ -3,7 +3,7 @@
 class Sale extends Eloquent
 {
 	protected $guarded = array('id');
-	protected $appends = array('total_value','items', 'day','creator','pretty_date','pretty_created_at','pretty_order_number','meta','pretty_total_value','delete_link');
+	protected $appends = array('total_value','items', 'exploded_date','creator','pretty_date','pretty_created_at','pretty_order_number','meta','pretty_total_value','delete_link');
 	public static $clear_tenants;
 
 	public function tenant()
@@ -65,11 +65,18 @@ class Sale extends Eloquent
 		return $link;
 	}
 
-	public function getDayAttribute()
+	public function getExplodedDateAttribute()
 	{
 		$full_date = $this->created_at;
-		list($day,$time) = explode(' ', $full_date);
-		return $day;
+		list($date,$time) = explode(' ', $full_date);
+		list($year,$month,$day) = explode('-', $date);
+		$exploded_date = array(
+			'day'		=>	$day+0,
+			'month'	=>	$month+0,
+			'utc_month'	=>	$month-1,
+			'year'	=>	$year+0,
+		);
+		return json_encode($exploded_date);
 	}
 
 	public function getItemsAttribute()
