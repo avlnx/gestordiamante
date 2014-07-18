@@ -16,6 +16,9 @@
 
 @section('scripts')
 
+// Disable buttons/show loader
+update_loader('loading');
+
 $.getJSON('stats/ajax.json/sales', function(data){
    clean_data = {};
    $.each(data, function(index,sale) {
@@ -77,29 +80,9 @@ $.getJSON('stats/ajax.json/sales', function(data){
          data:  final_data
       }]
    });
-   /*
-   var chart = new Highcharts.Chart({
-
-      chart: {
-        renderTo: 'container'
-      },
-      xAxis: {
-        type: 'datetime'
-      },
-      series: [{
-        data: [
-            [Date.UTC(2010, 0, 1), 29.9],
-            [Date.UTC(2010, 0, 2), 71.5],
-            [Date.UTC(2010, 0, 3), 106.4],
-            [Date.UTC(2010, 0, 6), 129.2],
-            [Date.UTC(2010, 0, 7), 144.0],
-            [Date.UTC(2010, 0, 8), 176.0]
-         ]
-      }]
-
-   });
-   */
-})
+}).done(function(){
+   update_loader('done');
+});
 
 
 @stop
