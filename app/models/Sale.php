@@ -3,7 +3,7 @@
 class Sale extends Eloquent
 {
 	protected $guarded = array('id');
-	protected $appends = array('total_value','items', 'exploded_date','creator','pretty_date','pretty_created_at','pretty_order_number','meta','pretty_total_value','delete_link');
+	protected $appends = array('total_value','items', 'exploded_date','tenant_name','creator','pretty_date','pretty_created_at','pretty_order_number','meta','pretty_total_value','delete_link');
 	public static $clear_tenants;
 
 	public function tenant()
@@ -19,6 +19,11 @@ class Sale extends Eloquent
 	public function items()
 	{
 		return $this->hasMany('Item');
+	}
+
+	public function getTenantNameAttribute()
+	{
+		return $this->tenant->account_name;
 	}
 
 	public static function getSuperAdminSales($tenants_ids)
