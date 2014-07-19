@@ -37,7 +37,7 @@ class StatsController extends BaseController
 
       $sales = DB::table('sales')
          //->select(DB::raw('MONTH(created_at) as m, YEAR(created_at) as y, SUM(debit,credit,cash,deposit,bonus) as t'))
-         ->select(DB::raw('tenant_id, DAY(created_at) as day, MONTH(created_at) as month, YEAR(created_at) as year, UNIX_TIMESTAMP(created_at)*1000 as timestamp, SUM(debit+credit+cash+deposit+bonus) as total'))
+         ->select(DB::raw('tenant_id, DAY(created_at) as day, MONTH(created_at) as month, YEAR(created_at) as year, UNIX_TIMESTAMP(created_at) as timestamp, SUM(debit+credit+cash+deposit+bonus) as total'))
          ->whereRaw('created_at > DATE_SUB(now(), INTERVAL 30 DAY)')
          ->whereRaw('is_alive = 1')
          ->whereIn('tenant_id', $tenants_list)
@@ -57,7 +57,7 @@ class StatsController extends BaseController
 
       foreach ($sales as $sale) {
          $tenant_id = $sale->tenant_id;
-         $timestamp = (int)$sale->timestamp;
+         $timestamp = (int)$sale->timestamp*1000;
          $total = (float)$sale->total;
          array_push($stats[$tenant_id]['data'], [$timestamp,$total]);
       }
