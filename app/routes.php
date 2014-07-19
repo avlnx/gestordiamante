@@ -17,7 +17,9 @@ Route::get('/', array('before' => 'auth', 'uses' => 'HomeController@getIndex', '
 
 // Stats routes
 Route::get('stats', array('before' => 'auth|admins_only', 'uses' => 'StatsController@getIndex', 'as' => 'stats.index'));
-Route::get('stats/ajax.json/sales', array('before' => 'auth|admins_only', 'uses' => 'StatsController@getSalesForPeriod', 'as' => 'stats.sales.json'));
+Route::get('stats/sales', array('before' => 'auth|admins_only', 'uses' => 'StatsController@getSales', 'as' => 'stats.sales'));
+//Route::get('stats/ajax.json/sales', array('before' => 'auth|admins_only', 'uses' => 'StatsController@getSalesForPeriod', 'as' => 'stats.sales.json'));
+Route::get('stats/ajax.json/sales-fast', array('before' => 'auth|admins_only', 'uses' => 'StatsController@getSalesJson', 'as' => 'stats.sales.json'));
 
 // Root routes
 Route::get('tenants', array('before' => 'auth|root_only', 'uses' => 'TenantsController@getIndex', 'as' => 'tenants.index'));

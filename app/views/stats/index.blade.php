@@ -19,22 +19,8 @@
 // Disable buttons/show loader
 update_loader('loading');
 
-$.getJSON('stats/ajax.json/sales', function(data){
+$.getJSON('stats/ajax.json/sales-fast', function(data){
    /*
-   tenants_data = {};
-   //console.log(data);
-   // Build tenants lists
-   $.each(data, function(index,sale) {
-      console.log(sale.tenant_id);
-      if(tenants_data[sale.tenant_id]) {
-         // tenant listed already, add new sale to it's list
-      } else {
-         // new tenant, 
-      }
-      tenant_id = $.parseJSON(sale.tenant_id);
-
-   });
-   */
    clean_data = {};
    $.each(data, function(index,sale) {
       exploded_date = $.parseJSON(sale.exploded_date);
@@ -55,35 +41,22 @@ $.getJSON('stats/ajax.json/sales', function(data){
          // date doesnt exist yet, create a new node
          clean_data[sale.tenant_name][date] = total_for_sale;
       }
-      //clean_data[sale.tenant_id]['tenant_name'] = sale.tenant_name;
 
    });
    //console.debug(clean_data);
-   /*
-   # clean_data structure:
-   Object { 
-      10 = {
-         12313213123 = 118.5, 
-         1324234234324 = 39.5
-      }, 
-      15 = {
-         43242342342 = 890.3, 
-         4324242434 = 100.4
-      } 
-   }
    */
    /*
    # wanted structure:
    [
       {
-         name:    10,
+         name:    'CD Joinville',
          data:    [
             [12313213123, 118.5],
             [1324234234324, 9.5]
          ]
       },
       {
-         name:    15,
+         name:    'CD Curitiba',
          data:    [
             [43242342342, 890.3],
             [4324242434, 100.4]
@@ -91,6 +64,7 @@ $.getJSON('stats/ajax.json/sales', function(data){
       }
    ]
    */
+   /*
    bucket = [];
    $.each(clean_data, function(tenant_id,data_object) {
       var tuples = [];
@@ -137,16 +111,39 @@ $.getJSON('stats/ajax.json/sales', function(data){
          xDateFormat: '%d/%m/%Y',
          pointFormat: '<b>R${point.y}</b>'
       },
-      /*
-      series: [{
-         name: 'Vendas',
-         //pointInterval: 24 * 3600 * 1000,
-         //pointStart: Date.UTC(2014, 6, 14),
-         //data: [['1',12313],['2',32323],['3',43424]]
-         data:  final_data    // [[4342432424234, 1434.34]]   Array of [Date.UTC, Float]
-      }]
-      */
       series:  bucket
+   });
+   */
+   console.debug(data);
+   Highcharts.setOptions({
+      lang: {
+         months: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+         weekdays: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
+         decimalPoint: ',',
+         loading: 'Carregando...',
+         noData: 'Sem dados...',
+         shortMonths: [ "Jan" , "Fev" , "Mar" , "Abr" , "Mai" , "Jun" , "Jul" , "Ago" , "Set" , "Out" , "Nov" , "Dez"],
+         thousandsSep: '.',
+      }
+   });
+   $('#vendas-stats').highcharts({
+      chart: {
+         type: 'line'
+      },
+      title: null,
+      xAxis: {
+         type: 'datetime'
+      },
+      yAxis: {
+         title: {
+             text: null
+         }
+      },
+      tooltip: {
+         xDateFormat: '%d/%m/%Y',
+         pointFormat: '<em>{series.name}</em><br/><b>R${point.y}</b>'
+      },
+      series:  data
    });
 }).done(function(){
    update_loader('done');
