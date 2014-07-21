@@ -118,8 +118,8 @@ class Sale extends Eloquent
 	{
 		if($this->is_alive) { $date = $this->created_at;} else { $date = $this->updated_at;}
 		$eng_date = $date->diffForHumans();
-		$eng = array("years", "year","months","month","days","day","hours","hour","minutes","minute","seconds","second","ago");
-		$pt = array("anos","ano","meses","mês","dias","dia","horas","hora","minutos","minuto","segundos","segundo","atrás");
+		$eng = array("years", "year","months","month","week","weeks","days","day","hours","hour","minutes","minute","seconds","second","ago");
+		$pt = array("anos","ano","meses","mês","semana","semanas","dias","dia","horas","hora","minutos","minuto","segundos","segundo","atrás");
 		$pt_date = str_replace($eng, $pt, $eng_date);
 		return $pt_date;
 	}
